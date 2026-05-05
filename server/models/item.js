@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const itemSchema = new mongoose.Schema({
-  name: String,
-  ref_price: Double,
-  quantity: Number,
-  location: String,
-  expiry: Date,
+  name: { type: String, required: true, lowercase: true },
+  ref_price: { type: Number, required: true },
+  quantity: { type: Number, required: true },
+  address: { type: String, required: true },
+  expiry: { type: Date, required: true },
 });
 
 module.exports = mongoose.model("Item", itemSchema);
