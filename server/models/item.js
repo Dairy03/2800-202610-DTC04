@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const itemSchema = new mongoose.Schema({
+const itemSchema = new Schema({
   name: { type: String, required: true, lowercase: true },
   ref_price: { type: Number, required: true },
   quantity: { type: Number, required: true },
@@ -8,4 +8,4 @@ const itemSchema = new mongoose.Schema({
   expiry: { type: Date, required: true },
 });
 
-module.exports = mongoose.model("Item", itemSchema);
+export default model("Item", itemSchema);

@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const businessSchema = new mongoose.Schema({
+const businessSchema = new Schema({
   address: {
     required: true,
     type: String,
@@ -36,4 +36,4 @@ const businessSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Business", businessSchema);
+export default model("Business", businessSchema);

@@ -1,6 +1,8 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
+import { hash, compare } from "bcrypt";
+const costFactor = 12;
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   first_name: {
     required: true,
     type: String,
@@ -31,4 +33,13 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("User", userSchema);
+UserSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  this.password = await hash(this.password, costFactor);
+});
+
+UserSchema.methods.comparePassword = async function (newPassword) {
+  return compare(newPassword, this.password);
+};
+
+export default model("User", UserSchema);
