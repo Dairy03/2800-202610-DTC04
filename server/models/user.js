@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import { hash, compare } from "bcrypt";
 const costFactor = 12;
 
-const userSchema = new Schema({
+const UserSchema = new Schema({
   first_name: {
     required: true,
     type: String,
