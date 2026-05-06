@@ -9,16 +9,34 @@
     <script type="module" src="/src/components/site-top-navbar.js"></script>
     <link rel="stylesheet" href="./src/style.css" />
   </head>
-  <body>
+  <body class="bg-[#FFFBF4]">
     <div id="app"></div>
     <!--NavBar-->
     <site-top-navbar></site-top-navbar>
+    <div id="discounter"></div>
 
-    <div class="min-h-screen bg-[#FFFBF4] flex items-center justify-center">
-    </div>
+    <!-- <div class="min-h-screen bg-[#FFFBF4] flex items-center justify-center">
+    </div> -->
 
     <!--Footer-->
     <site-navbar></site-navbar>
     <script type="module" src="/src/main.js"></script>
+    <script type="module">
+      import { DiscountList } from './src/components/item-card.js' ;
+
+      const items = [
+        {
+          name: 'Sourdough Bread',
+          img: './images/my-deals-sprite.png',
+          distance: '1.1km',
+          before: 12,
+          after: 7,
+          expires: '2026-05-08'
+        }
+        
+      ] ;
+
+      new DiscountList('#discounter', items).render();
+    </script>
   </body>
 </html>
