@@ -1,20 +1,25 @@
-import { Schema, model } from "mongoose";
-import { hash, compare } from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env" });
 
-const costFactor = 12;
+import express from "express";
+import { setServers } from "dns";
+import cors from "cors";
+import connectDB from "./config/db.js";
+import configureSession from "./config/session.js";
+import authRoutes from "./routes/auth.routes.js";
 
-const UserSchema = new Schema({
-  username: { type: String, required: true, index: { unique: true } },
-  password: { type: String, required: true },
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+setServers(["8.8.8.8", "8.8.4.4"]);
+
+app.use(cors({ origin: `http://localhost:5173`, credentials: true }));
+
+app.use(express.json());
+app.use(configureSession());
+app.use("/auth", authRoutes);
+app.get("/", (req, res) => res.send("Auth server running"));
+
+connectDB().then(() => {
+  app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 });
-
-UserSchema.pre("save", async () => {
-  if (!this.isModified("password")) return;
-  this.password = await hash(this.password, costFactor);
-});
-
-UserSchema.methods.comparePassword = async (newPassword) => {
-  return compare(newPassword, this.password);
-};
-
-export default model("User", UserSchema);

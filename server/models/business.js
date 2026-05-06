@@ -2,12 +2,12 @@ import { Schema, model } from "mongoose";
 
 const businessSchema = new Schema({
   address: {
-    required: true,
+    required: false, // TESTING
     type: String,
     trim: true,
   },
   email: {
-    required: true,
+    required: false, // TESTING
     type: String,
     unique: true,
     trim: true,
@@ -25,15 +25,16 @@ const businessSchema = new Schema({
     minlength: 6,
   },
   open: {
-    required: true,
+    required: false, // TESTING
     type: Number,
     trim: true,
   },
   close: {
-    required: true,
+    required: false, // TESTING
     type: Number,
     trim: true,
   },
+  role: { type: String, default: 'business' },
 });
 
 export default model("Business", businessSchema);

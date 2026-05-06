@@ -1,14 +1,22 @@
 import { Router } from "express";
-import { register, unregister, login, logout, me } from "../controllers/auth.controller.js";
+import {
+  unregister,
+  login,
+  logout,
+  me,
+} from "../controllers/auth.controller.js";
+import { registerCustomer } from "../controllers/customer.controller.js";
 import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
 
-router.post("/register", register);
+router.post("/register/customer", registerCustomer);
+// router.post("/register/business", register);
 router.post("/login", login);
+router.post("/logout", requireAuth, logout);
 
 router.delete("/unregister", requireAuth, unregister);
+
 router.get("/me", requireAuth, me);
-router.post("/logout", requireAuth, logout);
 
 export default router;
