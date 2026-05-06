@@ -5,12 +5,10 @@ async function login(req, res) {
     const { email, password, rememberMe } = req.body;
 
     if (!email || !password) {
-      return res
-        .status(400)
-        .send({
-          message: "Username and password are required",
-          success: false,
-        });
+      return res.status(400).send({
+        message: "Username and password are required",
+        success: false,
+      });
     }
 
     const user = await User.findOne({ email });
@@ -30,10 +28,11 @@ async function login(req, res) {
       } else {
         req.session.cookie.maxAge = null;
       }
+      const { password: _, ...userWithoutPassword } = user.toObject();
       res.status(201).send({
         success: true,
         message: "Nice!",
-        user: { ...user, password: null },
+        user: userWithoutPassword,
       });
     });
   } catch (err) {
