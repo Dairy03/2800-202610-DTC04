@@ -4,10 +4,29 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>my-vanilla-app</title>
+    <title>Still Fresh</title>
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <link rel="stylesheet" href="./src/style.css" />
   </head>
   <body>
-    <div id="app"></div>
+    <div id="discounter"></div>
+    <site-navbar></site-navbar>
+    <script type="module">
+      import { DiscountList } from './src/components/item-card.js' ;
+
+      const items = [
+        {
+          name: 'SOurdough',
+          
+          distance: '1.1km',
+          before: 12,
+          after: 7,
+          expires: '2026-05-08'
+        }
+      ] ;
+
+      new DiscountList('#discounter', items).render();
+    </script>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

@@ -3,12 +3,12 @@ import { hash, compare } from "bcrypt";
 const costFactor = 12;
 
 const UserSchema = new Schema({
-  first_name: {
+  fName: {
     required: true,
     type: String,
     trim: true,
   },
-  last_name: {
+  lName: {
     required: true,
     type: String,
     trim: true,
@@ -31,6 +31,7 @@ const UserSchema = new Schema({
     type: String,
     minlength: 6,
   },
+  role: { type: String, default: 'user' },
 });
 
 UserSchema.pre("save", async function () {
