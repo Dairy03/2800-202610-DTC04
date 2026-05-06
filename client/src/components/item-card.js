@@ -27,5 +27,12 @@ export class DiscountCard {
         const days = this.#daysUnitlExpiry();
         const badge = this.#expiryBadge(days);
         const saving = (before - after).toFixed(2);
+
+        const card = document.createElement('listing') ;
+        card.className = '' ;
+        card.innerHTML = `
+        
+        ` ;
+        return card;
     }
 }
