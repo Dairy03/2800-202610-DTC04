@@ -4,7 +4,9 @@ export class DiscountCard {
     }
 
     #daysUnitlExpiry() {
-
+        const now = new Date() ;
+        const expiry = new Date(this.item.expires) ;
+        return Math.round((expiry - now) / (1000 * 60 * 60 * 24)) ; //convert milliseconds into days and rounds to the nearest whole number
     }
 
     #expiryBadge(days) {
