@@ -4,4 +4,6 @@ import { acceptDeal } from "../controllers/deal.controller.js";
 
 const router = Router();
 
-router.get("/accept/:dealId", requireAuth, acceptDeal);
+router.get("/accept/:dealId", acceptDeal);
+
+export default router;

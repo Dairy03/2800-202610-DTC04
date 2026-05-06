@@ -1,8 +1,7 @@
 import Item from "../models/item.js";
 
 function acceptDeal(req, res) {
-  console.log("Deal accepted");
-  res.redirect("/");
+  res.send(`The deal ${req.params.dealId} has been accepted! :^)`);
 }
 
 export { acceptDeal };
