@@ -17,14 +17,14 @@ document
 
     try {
       await authStore.getState().login({
-        email: usesrEmail,
+        email: userEmail,
         password: userPassword,
         rememberMe: true,
       });
-
       console.log(authStore.getState().user);
       window.location.href = "/index.html";
     } catch (error) {
+      console.log(authStore.getState().error)
       console.log("Error sending POST to backend /login route: ", error);
     }
   });
