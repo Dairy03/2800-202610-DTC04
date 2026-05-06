@@ -1,8 +1,13 @@
-function requireAuth(req, res, next) {
-  if (req.session && req.session.userId) {
-    return next();
+import { connect } from "mongoose";
+
+async function connectDB() {
+  try {
+    await connect(process.env.MONGO_URL);
+    console.log("MongoDB connected");
+  } catch (err) {
+    console.error("MongoDB connection error:", err.message);
+    process.exit(1);
   }
-  return res.status(401).send("Unauthorized request");
 }
 
-export { requireAuth };
+export default connectDB;
