@@ -5,17 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center px-4">
+    <div class="relative z-10 w-full max-w-sm">
 
-    <!-- Logo/App Name -->
-    
-    <!-- Card -->
 
-    <!-- Form Start -->
-    <!-- Email -->
-    
-    <!-- Password -->
-    
-    <!-- Submit -->
+        <!-- Logo/App Name -->
+        <div class="text-center mb-10">
+            <h1>Still Fresh</h1>
+        </div>
+        <!-- Card -->
+        <div class="rounded-2xl p-8" style="border: 1px solid black">
+            <!-- Form Start -->
+            <form id="login-form" class="space-y-5">
+                
+                <!-- Email -->
+                <div>
+                    <label>Email</label>
+                    <input id="email" type="email" placeholder="youremail@example.com" required>
+                </div>
+                <!-- Password -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <label>Password</label>
+                        <input id="password" type="password" placeholder="********" required>
+                    </div>
+                </div>
+                <!-- Submit -->
+                
+                <!-- Form End -->
+            </form>
+            <!-- Card End -->
+        </div>
+
+
+    </div>
 </body>
 </html>
