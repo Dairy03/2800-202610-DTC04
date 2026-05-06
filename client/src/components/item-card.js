@@ -60,3 +60,20 @@ export class DiscountCard {
         return card;
     }
 }
+
+export class DiscountList {
+    constructor(selector, items =[]) {
+        this.container = typeof selector === 'string'
+        ? document.querySelector(selector)
+        : selector ;
+    this.items = items ;
+    }
+
+    render() {
+        this.container.innerHTML = '' ;
+        this.container.className = 'flex flex-col gap-3';
+        this.items.forEach( item => {
+            this.container.appendChild(new DiscountCard(item).render());
+        });
+    }
+}
