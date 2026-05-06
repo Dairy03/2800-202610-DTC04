@@ -5,22 +5,24 @@
 // password
 // login-btn
 
-import axios from "axios";
+import { authStore } from "./store/authStore";
 
 document
   .getElementById("login-form")
-  .addEventListener("submit", (submitEvent) => {
+  .addEventListener("submit", async (submitEvent) => {
     submitEvent.preventDefault();
 
     const userEmail = document.getElementById("email");
     const userPassword = document.getElementById("password");
 
     try {
-      const response = axios.post("/login", {
+      await authStore.getState().login({
         email: usesrEmail,
         password: userPassword,
+        rememberMe: true,
       });
 
+      console.log(authStore.getState().user);
       window.location.href = "/index.html";
     } catch (error) {
       console.log("Error sending POST to backend /login route: ", error);
