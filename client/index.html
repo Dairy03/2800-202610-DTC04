@@ -6,18 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Still Fresh</title>
     <script type="module" src="/src/components/site-navbar.js"></script>
+    <script type="module" src="/src/components/site-top-navbar.js"></script>
     <link rel="stylesheet" href="./src/style.css" />
   </head>
   <body>
-    <div id="discounter"></div>
+    <site-top-navbar></site-top-navbar>
     <site-navbar></site-navbar>
+    <div id="discounter"></div>
+    <script type="module" src="/src/main.js"></script>
     <script type="module">
       import { DiscountList } from "./src/components/item-card.js";
 
       const items = [
         {
-          name: "SOurdough",
-
+          name: "Sourdough Bread",
+          img: "./images/my-deals-sprite.png",
           distance: "1.1km",
           before: 12,
           after: 7,
@@ -27,6 +30,5 @@
 
       new DiscountList("#discounter", items).render();
     </script>
-    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
