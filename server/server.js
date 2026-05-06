@@ -1,20 +1,7 @@
-import { Schema, model } from "mongoose";
-import { hash, compare } from "bcrypt";
+import express from "express";
 
-const costFactor = 12;
+const app = express();
 
-const UserSchema = new Schema({
-  username: { type: String, required: true, index: { unique: true } },
-  password: { type: String, required: true },
+app.listen(3000, () => {
+  console.log("Live");
 });
-
-UserSchema.pre("save", async () => {
-  if (!this.isModified("password")) return;
-  this.password = await hash(this.password, costFactor);
-});
-
-UserSchema.methods.comparePassword = async (newPassword) => {
-  return compare(newPassword, this.password);
-};
-
-export default model("User", UserSchema);
