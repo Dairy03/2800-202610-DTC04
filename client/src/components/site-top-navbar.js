@@ -15,6 +15,7 @@ renderTopNavbar() {
         </a>
       </div>
     </nav>
+    <div class="mb-14"></div>
   `;
 }
 
