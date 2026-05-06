@@ -54,7 +54,6 @@ export class DiscountCard {
 
             <div class="flex flex-col items-end gap-2 shrink-0">
                 <span class="text-xs font-medium px-2.5 py-1 rounded-full ${badge.cls}">${badge.label}</span>
-                <span class="text-xs font-medium bg-gray-100 text-gray-700 rounded-lg px-2 py-1">-${pct}%</span>
             </div>
         ` ;
         return card;

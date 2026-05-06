@@ -5,15 +5,26 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Still Fresh</title>
-    <link rel="stylesheet" href="./dist/output.css">
+    <link rel="stylesheet" href="./src/style.css">
   </head>
   <body>
-    <div id="app"></div>
-    <div class="min-h-screen bg-pink-500 flex items-center justify-center">
-    <h1 class="text-4xl font-bold text-white drop-shadow-lg">
-        Tester
-    </h1>
-</div>
+    <div id="discounter"></div>
+    <script type="module">
+      import { DiscountList } from './src/components/item-card.js' ;
+
+      const items = [
+        {
+          name: 'SOurdough',
+          
+          distance: '1.1km',
+          before: 12,
+          after: 7,
+          expires: '2026-05-08'
+        }
+      ] ;
+
+      new DiscountList('#discounter', items).render();
+    </script>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
