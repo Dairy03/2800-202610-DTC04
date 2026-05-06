@@ -11,6 +11,53 @@ function logout(req, res) {
   });
 }
 
+async function login(req, res) {
+  try {
+    const { email, password, rememberMe } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).send({
+        message: "Username and password are required",
+        success: false,
+      });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user || !(await user.comparePassword(password))) {
+      return res
+        .status(401)
+        .send({ message: "Invalid username or password", success: false });
+    }
+
+    req.session.regenerate((err) => {
+      if (err) {
+        console.error("Session regenerate error:", err);
+        return res
+          .status(500)
+          .send({ message: "Server error during login", success: false });
+      }
+      req.session.userId = user._id;
+      req.session.userType = user.userType;
+      if (rememberMe) {
+        req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
+      } else {
+        req.session.cookie.maxAge = null;
+      }
+      const { password: _, ...userWithoutPassword } = user.toObject();
+      res.status(201).send({
+        success: true,
+        message: "Successful login!",
+        user: userWithoutPassword,
+      });
+    });
+  } catch (err) {
+    console.error("Login error:", err);
+    res
+      .status(500)
+      .send({ message: "Server error during login", success: false });
+  }
+}
+
 async function unregister(req, res) {
   try {
     const user = await User.findById(req.session.userId);
