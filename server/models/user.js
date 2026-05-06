@@ -29,9 +29,9 @@ const UserSchema = new Schema({
   password: {
     required: true,
     type: String,
-    minlength: 6,
+    minlength: 8,
   },
-  role: { type: String, default: 'user' },
+  role: { type: String, default: "user" },
 });
 
 UserSchema.pre("save", async function () {

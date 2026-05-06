@@ -2,13 +2,18 @@ import User from "../models/user.js";
 
 async function login(req, res) {
   try {
-    const { username, password } = req.body;
+    const { email, password, rememberMe } = req.body;
 
-    if (!username || !password) {
-      return res.status(400).send("Username and password are required");
+    if (!email || !password) {
+      return res
+        .status(400)
+        .send({
+          message: "Username and password are required",
+          success: false,
+        });
     }
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).send("Invalid username or password");
     }
@@ -20,7 +25,16 @@ async function login(req, res) {
       }
       req.session.userId = user._id;
       req.session.userType = user.userType;
-      res.send(`Logged in as ${user.username}`);
+      if (rememberMe) {
+        req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
+      } else {
+        req.session.cookie.maxAge = null;
+      }
+      res.status(201).send({
+        success: true,
+        message: "Nice!",
+        user: { ...user, password: null },
+      });
     });
   } catch (err) {
     console.error("Login error:", err);
