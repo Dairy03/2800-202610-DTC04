@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <script type="module" src="/src/components/site-top-navbar.js"></script>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body class="min-h-screen flex items-center justify-center px-4">
+    <site-top-navbar></site-top-navbar>
+    <a href="" class="btn absolute left-3 top-0 text-5xl z-100"> ←</a>
+    <div class="relative z-10 w-full max-w-sm">
+      <!-- Card -->
+      <div class="rounded-xl p-8 pt-0">
+        <!-- card Start -->
+        <div class="flex items-center justify-center">
+          <!-- item image -->
+          <img
+            class="rounded-xl h-50 w-50"
+            src="images/confirm_checkmark.png"
+          />
+        </div>
+        <div class="space-y-3">
+          <div class="text-center">
+            <h1 class="text-2xl font-bold">Deal Confirmed!</h1>
+            <div class="text-center p-2">
+              <p>
+                Your deal at
+                <span id="item-location">n/a</span> has been reserved.
+              </p>
+            </div>
+          </div>
+
+          <div class="rounded-xl p-2" style="border: 2px solid gray">
+            <div class="flex flex-nowrap justify-between items-center p-2">
+              <p>Item</p>
+              <p id="item-name" class="font-bold"></p>
+            </div>
+            <div class="flex flex-nowrap justify-between items-center p-2">
+              <p>Price</p>
+              <p class="font-bold">$<span id="item-price-after"></span></p>
+            </div>
+            <div class="flex flex-nowrap justify-between items-center p-2">
+              <p>You save</p>
+              <p class="font-bold">$<span id="item-money-saved"></span></p>
+            </div>
+            <div class="flex flex-nowrap justify-between items-center p-2">
+              <p>Redeem by</p>
+              <p id="redeem-by" class="font-bold"></p>
+            </div>
+          </div>
+
+          <!-- view qr code -->
+          <div>
+            <button
+              type="submit"
+              id="View-QR-code-btn"
+              class="w-full py-3 rounded-xl text-2xl mt-2 bg-[#2BA84A] text-white font-bold"
+            >
+              View QR code
+            </button>
+
+            <!-- cancel deal -->
+            <button
+              type="click"
+              id="cancel-deal-btn"
+              class="w-full py-3 rounded-xl text-lg mt-2 bg-white text-[#2BA84A] border-[#2BA84A] border font-bold"
+            >
+              Cancel Deal
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!--NavBar-->
+      <!--Footer-->
+
+      <!-- ignore these -->
+      <div class="hidden">
+        <div id="item-distance"></div>
+        <div id="item-price-before"></div>
+        <div id="item-discount"></div>
+        <div id="item-expiration"></div>
+      </div>
+    </div>
+    <script type="module" src="./src/item-page.js"></script>
+  </body>
+</html>

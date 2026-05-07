@@ -1,5 +1,16 @@
 import User from "../models/user.js";
 
+function logout(req, res) {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.status(500).send("Server error during logout");
+    }
+    res.clearCookie("connect.sid");
+    res.send("Logged out");
+  });
+}
+
 async function login(req, res) {
   try {
     const { email, password, rememberMe } = req.body;
@@ -45,17 +56,6 @@ async function login(req, res) {
       .status(500)
       .send({ message: "Server error during login", success: false });
   }
-}
-
-function logout(req, res) {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error("Logout error:", err);
-      return res.status(500).send("Server error during logout");
-    }
-    res.clearCookie("connect.sid");
-    res.send("Logged out");
-  });
 }
 
 async function unregister(req, res) {
