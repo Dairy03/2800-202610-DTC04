@@ -25,9 +25,9 @@
         <div class="space-y-3">
           <div class="text-center">
             <h1 class="text-2xl font-bold">Deal Confirmed!</h1>
-            <div class="flex flex-nowrap justify-between items-center p-2">
+            <div class="text-center p-2">
               <p>
-                Your <span id="item-name">n/a</span> deal at
+                Your deal at
                 <span id="item-location">n/a</span> has been reserved.
               </p>
             </div>
@@ -35,18 +35,20 @@
 
           <div class="rounded-xl p-2" style="border: 2px solid gray">
             <div class="flex flex-nowrap justify-between items-center p-2">
-              <p>Expires</p>
-              <p class="font-bold">
-                in <span id="item-expiration">0</span> day(s)
-              </p>
+              <p>Item</p>
+              <p id="item-name" class="font-bold"></p>
             </div>
             <div class="flex flex-nowrap justify-between items-center p-2">
-              <p>Quantity left</p>
-              <p class="font-bold">x available</p>
+              <p>Price</p>
+              <p class="font-bold">$<span id="item-price-after"></span></p>
             </div>
             <div class="flex flex-nowrap justify-between items-center p-2">
-              <p>Carbon Saved</p>
-              <p class="font-bold">0.0 kg CO2</p>
+              <p>You save</p>
+              <p class="font-bold">$<span id="item-money-saved"></span></p>
+            </div>
+            <div class="flex flex-nowrap justify-between items-center p-2">
+              <p>Redeem by</p>
+              <p id="redeem-by" class="font-bold"></p>
             </div>
           </div>
 
@@ -82,6 +84,7 @@
         <div id="item-price-after"></div>
         <div id="item-price-before"></div>
         <div id="item-discount"></div>
+        <div id="item-expiration"></div>
       </div>
     </div>
     <script type="module" src="./src/item-page.js"></script>

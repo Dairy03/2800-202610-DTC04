@@ -2,7 +2,9 @@ const item_name = document.getElementById('item-name')
 const item_distance = document.getElementById('item-distance')
 const item_price_after = document.getElementById('item-price-after')
 const item_price_before = document.getElementById('item-price-before')
+const item_money_saved = document.getElementById('item-money-saved')
 const item_expiration = document.getElementById('item-expiration')
+const redeem_by = document.getElementById('redeem-by')
 const item_discount = document.getElementById('item-discount')
 const item_location= document.getElementById('item-location')
 
@@ -31,12 +33,14 @@ function calc_discount(data) {
     return Math.round((1-(new_price/old_price))*100)
 }
 
-
+const money_saved = parseFloat(items[0].before) - parseFloat(items[0].after)
 
 item_name.innerHTML = `${items[0].name}`
 item_distance.innerHTML = `${items[0].distance}`
 item_price_after.innerHTML = `${items[0].after}`
 item_price_before.innerHTML = `${items[0].before}`
+item_money_saved.innerHTML = `${money_saved}`
 item_expiration.innerHTML = `${calc_expiration(items)}`
+redeem_by.innerHTML = `${items[0].expires}`
 item_discount.innerHTML = `${calc_discount(items)}`
 item_location.innerHTML = `${items[0].location}`
