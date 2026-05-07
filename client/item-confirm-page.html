@@ -10,38 +10,30 @@
   </head>
   <body class="min-h-screen flex items-center justify-center px-4">
     <site-top-navbar></site-top-navbar>
-    <a href="login-page.html" class="btn absolute left-3 top-0 text-5xl z-100">
-      ←</a
-    >
+    <a href="" class="btn absolute left-3 top-0 text-5xl z-100"> ←</a>
     <div class="relative z-10 w-full max-w-sm">
       <!-- Card -->
-      <div class="rounded-xl p-8" style="border: 1px solid black">
+      <div class="rounded-xl p-8 pt-0">
         <!-- card Start -->
         <div class="flex items-center justify-center">
           <!-- item image -->
-          <img class="rounded-xl h-50 w-80" />
+          <img
+            class="rounded-xl h-50 w-50"
+            src="images/confirm_checkmark.png"
+          />
         </div>
         <div class="space-y-3">
-          <div class="border-b">
-            <h1 id="item-name" class="text-2xl font-bold">Item Name</h1>
+          <div class="text-center">
+            <h1 class="text-2xl font-bold">Deal Confirmed!</h1>
             <div class="flex flex-nowrap justify-between items-center p-2">
-              <p id="item-location">location</p>
-              <p><span id="item-distance">0.0</span> away</p>
-            </div>
-            <div class="flex flex-nowrap justify-between items-center p-2">
-              <p class="text-2xl font-bold text-green-700">
-                $<span id="item-price-after">0.00</span>
+              <p>
+                Your <span id="item-name">n/a</span> deal at
+                <span id="item-location">n/a</span> has been reserved.
               </p>
-              <p class="text-2xl text-gray-400 line-through">
-                $<span id="item-price-before">0.00</span>
-              </p>
-              <div class="px-2 rounded-xl bg-[#248232] text-[#FFFBF4]">
-                -<span id="item-discount">0</span>%
-              </div>
             </div>
           </div>
 
-          <div>
+          <div class="rounded-xl p-2" style="border: 2px solid gray">
             <div class="flex flex-nowrap justify-between items-center p-2">
               <p>Expires</p>
               <p class="font-bold">
@@ -58,32 +50,40 @@
             </div>
           </div>
 
-          <!-- claim-deal -->
+          <!-- view qr code -->
           <div>
             <button
               type="submit"
-              id="claim-deal-btn"
+              id="View-QR-code-btn"
               class="w-full py-3 rounded-xl text-2xl mt-2 bg-[#2BA84A] text-white font-bold"
             >
-              Claim Deal
+              View QR code
             </button>
 
-            <!-- view recipes -->
+            <!-- cancel deal -->
             <button
               type="click"
-              id="view-recipes-btn"
+              id="cancel-deal-btn"
               class="w-full py-3 rounded-xl text-lg mt-2 bg-white text-[#2BA84A] border-[#2BA84A] border font-bold"
             >
-              View Recipes
+              Cancel Deal
             </button>
           </div>
         </div>
       </div>
-    </div>
-    <!--NavBar-->
-    <!--Footer-->
 
-    <site-navbar></site-navbar>
+      <!--NavBar-->
+      <!--Footer-->
+      <site-navbar></site-navbar>
+
+      <!-- ignore these -->
+      <div class="hidden">
+        <div id="item-distance"></div>
+        <div id="item-price-after"></div>
+        <div id="item-price-before"></div>
+        <div id="item-discount"></div>
+      </div>
+    </div>
     <script type="module" src="./src/item-page.js"></script>
   </body>
 </html>

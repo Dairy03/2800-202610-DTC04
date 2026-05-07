@@ -4,6 +4,7 @@ const item_price_after = document.getElementById('item-price-after')
 const item_price_before = document.getElementById('item-price-before')
 const item_expiration = document.getElementById('item-expiration')
 const item_discount = document.getElementById('item-discount')
+const item_location= document.getElementById('item-location')
 
 const items = [
   {
@@ -13,6 +14,7 @@ const items = [
     before: 12,
     after: 7,
     expires: "2026-05-08",
+    location: "Arby's"
   },
 ];
 
@@ -37,3 +39,4 @@ item_price_after.innerHTML = `${items[0].after}`
 item_price_before.innerHTML = `${items[0].before}`
 item_expiration.innerHTML = `${calc_expiration(items)}`
 item_discount.innerHTML = `${calc_discount(items)}`
+item_location.innerHTML = `${items[0].location}`
