@@ -13,7 +13,7 @@ function logout(req, res) {
 
 async function login(req, res) {
   try {
-    const { email, password, rememberMe } = req.body;
+    const { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).send({

@@ -31,7 +31,8 @@ const UserSchema = new Schema({
     type: String,
     minlength: 6,
   },
-  role: { type: String, default: 'user' },
+  role: { type: String, default: "user" },
+  tutorial_toggle: Boolean,
 });
 
 UserSchema.pre("save", async function () {
