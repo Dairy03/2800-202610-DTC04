@@ -29,5 +29,26 @@
         <!--Footer-->
         <site-navbar></site-navbar>
         <script type="module" src="/src/main.js"></script>
+        <script>
+            //stat config per role
+            const STAT_CONFIGS = {
+                consumer: [
+                    {label: 'All time saved', key: 'totalSaved', format: v => ``},
+                    {label: 'Deals claimed', key: 'dealsClaimed', format: v => },
+                    {label: 'Pending deals', key: 'pendingDeals', format: v => },
+                    {label: 'Total waste prevented', key: 'wastePrevented', format: v => },
+                    {label: 'Join date', key: 'createdAt', format: v => },
+                    {label: 'ID', key: '_id', format: v => },
+                ],
+                business: [
+                    {label: 'Deals posted', key: 'dealsPosted', format: v => },
+                    {label: 'Active listings', key: 'activeListings', format: v => },
+                    {label: 'Total claimed', key: 'totalClaimed', format: v => },
+                    {label: 'Waste prevented', key: 'wastePrevented', format: v => },
+                    {label: 'Member since', key: 'createdAt', format: v => },
+                    {label: 'ID', key: '_id', format: v => },
+                ]
+            }
+        </script>    
     </body>
 </html>
