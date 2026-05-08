@@ -8,7 +8,7 @@ renderNavbar() {
   this.innerHTML = `
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-[#EEEEEE]" id="bottom-nav">
       <div class="flex flex-nowrap justify-around items-center p-2">
-        <a href="" class="inline-block">
+        <a href="home.html" class="inline-block">
           <img src="./images/home-sprite.png" class="h-9" alt="Home" />
         </a>
         <a href="" class="inline-block">
