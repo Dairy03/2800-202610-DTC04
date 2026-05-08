@@ -2,12 +2,12 @@ import { authStore } from "./store/authStore";
 
 async function loginRequest(submitEvent) {
   submitEvent.preventDefault();
-  const { username, password } = Object.fromEntries(
+  const { email, password } = Object.fromEntries(
     new FormData(submitEvent.target),
   );
 
   try {
-    await authStore.getState().login(username, password);
+    await authStore.getState().login(email, password);
   } catch (error) {
     console.log(error);
     console.log(authStore.getState().error);

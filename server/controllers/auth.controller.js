@@ -38,11 +38,11 @@ async function login(req, res) {
       }
       req.session.userId = user._id;
       req.session.userType = user.userType;
-      if (rememberMe) {
-        req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
-      } else {
-        req.session.cookie.maxAge = null;
-      }
+      // if (rememberMe) {
+      //   req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
+      // } else {
+      //   req.session.cookie.maxAge = null;
+      // }
       const { password: _, ...userWithoutPassword } = user.toObject();
       res.status(201).send({
         success: true,

@@ -38,11 +38,11 @@ export const authStore = createStore((set) => ({
     }
   },
 
-  login: async (username, password) => {
+  login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${URL}/auth/login`, {
-        username,
+        email,
         password,
       });
       set({
