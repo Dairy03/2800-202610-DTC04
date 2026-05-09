@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Still Fresh</title>
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <script type="module" src="/src/components/site-top-navbar.js"></script>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body class="bg-[#FFFBF4]">
+    <div id="app"></div>
+    <!--NavBar-->
+    <site-top-navbar
+      data-tutorial-step="0"
+      data-tutorial-title="Profile"
+      data-tutorial-tip="This is where you edit your profile!"
+      data-tutorial-child="0,0,2"
+    ></site-top-navbar>
+
+    <!-- <button
+      id="start-tutorial-btn"
+      class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-600 transition"
+      data-tutorial-step="0"
+      data-tutorial-title="Start Here"
+      data-tutorial-tip="This button launches the tutorial. You can restart it anytime."
+    >
+      Start Tutorial
+    </button> -->
+
+    <div
+      id="discounter"
+      data-tutorial-step="1"
+      data-tutorial-title="Discounts"
+      data-tutorial-tip="This is where you find fresh deals!"
+      data-tutorial-child="1"
+    ></div>
+
+    <!-- <div class="min-h-screen bg-[#FFFBF4] flex items-center justify-center">
+    </div> -->
+
+    <!--Footer-->
+    <site-navbar
+      data-tutorial-step="2"
+      data-tutorial-title="Navbar"
+      data-tutorial-tip="This is where you navigate the page!"
+      data-tutorial-child="0"
+    ></site-navbar>
+    <script type="module">
+      import { DiscountList } from "./src/components/item-card.js";
+
+      const items = [
+        {
+          name: "Sourdough Bread",
+          img: "./images/my-deals-sprite.png",
+          distance: "1.1km",
+          before: 12,
+          after: 7,
+          expires: "2026-05-08",
+        },
+        {
+          name: "Sourdough Bread",
+          img: "./images/my-deals-sprite.png",
+          distance: "1.1km",
+          before: 12,
+          after: 7,
+          expires: "2026-05-08",
+        },
+        {
+          name: "Sourdough Bread",
+          img: "./images/my-deals-sprite.png",
+          distance: "1.1km",
+          before: 12,
+          after: 7,
+          expires: "2026-05-08",
+        },
+        {
+          name: "Sourdough Bread",
+          img: "./images/my-deals-sprite.png",
+          distance: "1.1km",
+          before: 12,
+          after: 7,
+          expires: "2026-05-08",
+        },
+        {
+          name: "Sourdough Bread",
+          img: "./images/my-deals-sprite.png",
+          distance: "1.1km",
+          before: 12,
+          after: 7,
+          expires: "2026-05-08",
+        },
+        {
+          name: "Sourdough Bread",
+          img: "./images/my-deals-sprite.png",
+          distance: "1.1km",
+          before: 12,
+          after: 7,
+          expires: "2026-05-08",
+        },
+        {
+          name: "Sourdough Bread",
+          img: "./images/my-deals-sprite.png",
+          distance: "1.1km",
+          before: 12,
+          after: 7,
+          expires: "2026-05-08",
+        },
+      ];
+
+      new DiscountList("#discounter", items).render();
+    </script>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

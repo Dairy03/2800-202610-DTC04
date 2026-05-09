@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body class="min-h-screen flex items-center justify-center px-4">
+    <a href="login-page.html" class="btn absolute left-5 top-5 text-3xl pt-1 z-20">❮</a>
+
+    <div class="relative z-10 w-full max-w-sm">
+      <!-- Logo/App Name -->
+      <div class="text-center text-4xl mb-10 font-extrabold">
+        <h1>Still</h1>
+        <h1>Fresh</h1>
+      </div>
+      <!-- Card -->
+      <div class="rounded-xl p-8" style="border: 1px solid black">
+        <!-- Form Start -->
+        <form id="signup-form" class="space-y-5">
+          <!-- Name -->
+          <div>
+            <label class="flex items-center justify-between mb-2"
+              >First Name:
+            </label>
+            <input
+              id="first-name"
+              name="fName"
+              type="text"
+              placeholder="Susan Smith"
+              required
+              class="w-full rounded-xl px-4 py-3 pr-11"
+              style="border: 1px solid grey"
+            />
+          </div>
+          <div>
+            <label class="flex items-center justify-between mb-2"
+              >Last Name:
+            </label>
+            <input
+              id="last-name"
+              name="lName"
+              type="text"
+              placeholder="Susan Smith"
+              required
+              class="w-full rounded-xl px-4 py-3 pr-11"
+              style="border: 1px solid grey"
+            />
+          </div>
+          <div>
+            <label class="flex items-center justify-between mb-2"
+              >Display Name:
+            </label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              placeholder="Susan Smith"
+              required
+              class="w-full rounded-xl px-4 py-3 pr-11"
+              style="border: 1px solid grey"
+            />
+          </div>
+          <!-- Email -->
+          <div>
+            <label class="flex items-center justify-between mb-2"
+              >Email:
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="youremail@example.com"
+              required
+              class="w-full rounded-xl px-4 py-3 pr-11"
+              style="border: 1px solid grey"
+            />
+          </div>
+          <!-- Password -->
+          <div>
+            <div>
+              <label class="flex items-center justify-between mb-2"
+                >Password:</label
+              >
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="********"
+                required
+                class="w-full rounded-xl px-4 py-3 pr-11"
+                style="border: 1px solid grey"
+              />
+            </div>
+          </div>
+          <!-- Confirm Password -->
+          <div>
+            <div>
+              <label class="flex items-center justify-between mb-2"
+                >Confirm Password:</label
+              >
+              <input
+                id="password-confirm"
+                name="password_confirm"
+                type="password"
+                placeholder="********"
+                required
+                class="w-full rounded-xl px-4 py-3 pr-11"
+                style="border: 1px solid grey"
+              />
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            id="create-account-btn"
+            class="w-full py-3 rounded-xl text-sm mt-2 bg-[#2BA84A] text-white"
+          >
+            Create Account
+          </button>
+
+          <!-- Form End -->
+        </form>
+        <!-- Card End -->
+      </div>
+    </div>
+    <!--NavBar-->
+    <!--Footer-->
+    <script type="module" src="./src/signup-page.js"></script>
+  </body>
+</html>
