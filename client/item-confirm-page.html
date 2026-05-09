@@ -10,7 +10,7 @@
   </head>
   <body class="min-h-screen flex items-center justify-center px-4">
     <site-top-navbar></site-top-navbar>
-    <a href="home.html" class="btn absolute left-3 top-0 text-5xl z-100"> ←</a>
+    <a href="home.html" class="btn absolute left-3 top-0 text-3xl z-100 pt-1">❮</a>
     <div class="relative z-10 w-full max-w-sm">
       <!-- Card -->
       <div class="rounded-xl p-8 pt-0">
@@ -18,7 +18,7 @@
         <div class="flex items-center justify-center">
           <!-- item image -->
           <img
-            class="rounded-xl h-50 w-50"
+            class="rounded-xl h-50 w-50 pb-3"
             src="images/confirm_checkmark.png"
           />
         </div>
@@ -33,22 +33,22 @@
             </div>
           </div>
 
-          <div class="rounded-xl p-2" style="border: 2px solid gray">
+          <div class="rounded-xl p-2 text-[#979797] font-bold" style="border: 2px solid gray">
             <div class="flex flex-nowrap justify-between items-center p-2">
               <p>Item</p>
-              <p id="item-name" class="font-bold"></p>
+              <p id="item-name" class="text-[#2D3A3A]"></p>
             </div>
             <div class="flex flex-nowrap justify-between items-center p-2">
               <p>Price</p>
-              <p class="font-bold">$<span id="item-price-after"></span></p>
+              <p class="text-[#2D3A3A]">$<span id="item-price-after"></span></p>
             </div>
             <div class="flex flex-nowrap justify-between items-center p-2">
               <p>You save</p>
-              <p class="font-bold">$<span id="item-money-saved"></span></p>
+              <p class="text-[#2D3A3A]">$<span id="item-money-saved"></span></p>
             </div>
             <div class="flex flex-nowrap justify-between items-center p-2">
               <p>Redeem by</p>
-              <p id="redeem-by" class="font-bold"></p>
+              <p id="redeem-by" class="text-[#2D3A3A]"></p>
             </div>
           </div>
 
@@ -69,7 +69,7 @@
             <button
               type="click"
               id="cancel-deal-btn"
-              class="w-full py-3 rounded-xl text-lg mt-2 bg-white text-[#2BA84A] border-[#2BA84A] border font-bold"
+              class="w-full py-3 rounded-xl text-lg mt-2 bg-white text-[#2BA84A] border-[#2BA84A] border-2 font-bold"
             >
               Cancel Deal
             </button>
