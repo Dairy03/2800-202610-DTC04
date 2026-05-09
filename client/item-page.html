@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <script type="module" src="/src/components/site-top-navbar.js"></script>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body class="min-h-screen flex items-center justify-center px-4">
+    <site-top-navbar></site-top-navbar>
+    <a href="home.html" class="btn absolute left-3 top-0 text-3xl z-100 pt-1">❮</a>
+
+    <div class="relative z-10 w-full max-w-sm">
+      <!-- Card -->
+      <div class="rounded-xl p-8" style="border: 1px solid black">
+        <!-- card Start -->
+        <div class="flex items-center justify-center">
+          <!-- item image -->
+          <img class="rounded-xl h-50 w-80" />
+        </div>
+        <div class="space-y-3">
+          <div class="border-b">
+            <h1 id="item-name" class="text-2xl font-bold">Item Name</h1>
+            <div class="flex flex-nowrap justify-between items-center p-2">
+              <p id="item-location">location</p>
+              <p><span id="item-distance">0.0</span> away</p>
+            </div>
+            <div class="flex flex-nowrap justify-between items-center p-2">
+              <p class="text-3xl font-bold text-green-700">
+                $<span id="item-price-after">0.00</span>
+              </p>
+              <p class="text-2xl text-gray-400 line-through">
+                $<span id="item-price-before">0.00</span>
+              </p>
+              <div class="px-2 rounded-xl font-bold bg-[#248232] text-[#FFFBF4]">
+                -<span id="item-discount">0</span>%
+              </div>
+            </div>
+          </div>
+
+          <div class="font-bold text-[#979797]">
+            <div class="flex flex-nowrap justify-between items-center p-2">
+              <p>Expires</p>
+              <p class="text-[#2D3A3A]">
+                in <span id="item-expiration">0</span> day(s)
+              </p>
+            </div>
+            <div class="flex flex-nowrap justify-between items-center p-2">
+              <p>Quantity left</p>
+              <p class="text-[#2D3A3A]">x available</p>
+            </div>
+            <div class="flex flex-nowrap justify-between items-center p-2">
+              <p>Carbon Saved</p>
+              <p class="text-[#2D3A3A]">0.0 kg CO2</p>
+            </div>
+          </div>
+
+          <!-- claim-deal -->
+          <div>
+            <a href="item-confirm-page.html">
+              <button
+                type="submit"
+                id="claim-deal-btn"
+                class="w-full py-3 rounded-xl text-2xl mt-2 bg-[#2BA84A] text-white font-bold"
+              >
+                Claim Deal
+              </button>
+            </a>
+
+            <!-- view recipes -->
+            <a href="">
+              <button
+                type="click"
+                id="view-recipes-btn"
+                class="w-full py-3 rounded-xl text-lg mt-2 bg-white text-[#2BA84A] border-[#2BA84A] border-2 font-bold"
+              >
+                View Recipes
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--NavBar-->
+    <!--Footer-->
+
+    <!-- ignore these -->
+    <div class="hidden">
+      <div id="item-money-saved"></div>
+      <div id="redeem-by"></div>
+    </div>
+    <script type="module" src="./src/item-page.js"></script>
+  </body>
+</html>

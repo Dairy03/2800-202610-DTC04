@@ -1,0 +1,21 @@
+{
+  "name": "still-fresh-app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --open /login-page",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.0.10"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.2.4",
+    "axios": "^1.16.0",
+    "tailwindcss": "^4.2.4",
+    "zustand": "^5.0.13",
+    "@tailwindcss/vite": "^4.2.4"
+  }
+}
