@@ -61,7 +61,23 @@
                 return new Date(iso).toLocaleDateString('en-GB', {
                     day: '2-digit', month: '2-digit', year: 'numeric'
                 }).replace(/\//g, ' ');
-    }
+            }
+
+            function renderStats(user) {
+                const role = user.role === 'business' ? 'business' : 'consumer' ;
+                const configs = STAT_CONFIGS[role] ;
+                const container = document.getElementById('stats-container') ;
+
+                container.innerHTML = '' ;
+                configs.forEach(({ label, key, format, mono }) => {
+                    const row = document.createElement('div') ;
+                    row.className = '';
+                    row.innerHTML = `
+                    
+                    `;
+                    container.appendChild(row);
+                });
+            }
         </script>    
     </body>
 </html>
