@@ -13,7 +13,7 @@ function logout(req, res) {
 
 async function login(req, res) {
   try {
-    const { email, password, rememberMe } = req.body;
+    const { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).send({
@@ -38,11 +38,12 @@ async function login(req, res) {
       }
       req.session.userId = user._id;
       req.session.userType = user.userType;
-      if (rememberMe) {
-        req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
-      } else {
-        req.session.cookie.maxAge = null;
-      }
+      // if (rememberMe) {
+      //   req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
+      // } else {
+      //   req.session.cookie.maxAge = null;
+      // }
+      req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
       const { password: _, ...userWithoutPassword } = user.toObject();
       res.status(201).send({
         success: true,
@@ -81,13 +82,41 @@ async function me(req, res) {
   try {
     const user = await User.findById(req.session.userId);
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.status(404).send({ status: false, message: "User not found" });
     }
-    res.send(`Authenticated as ${user.username} (id: ${user._id})`);
+    res.send({
+      status: true,
+      message: `Authenticated as ${user.username} (id: ${user._id})`,
+      user,
+    });
   } catch (err) {
     console.error("Me error:", err);
-    res.status(500).send("Server error during me");
+    res.status(500).send({ status: false, message: "Server error during me" });
   }
 }
 
-export { unregister, login, logout, me };
+async function updateUser(req, res) {
+  try {
+    const allowedFields = ["name", "email", "tutorial_toggle"];
+    const updates = {};
+    for (const key of allowedFields) {
+      if (req.body[key] !== undefined) {
+        updates[key] = req.body[key];
+      }
+    }
+    const user = await User.findByIdAndUpdate(
+      req.session.userId,
+      { $set: updates },
+      { new: true, runValidators: true },
+    );
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    res.json(user);
+  } catch (err) {
+    console.error("Update error:", err);
+    res.status(500).send("Server error");
+  }
+}
+
+export { unregister, login, logout, me, updateUser };

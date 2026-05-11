@@ -38,13 +38,12 @@ export const authStore = createStore((set) => ({
     }
   },
 
-  login: async (email, password, rememberMe) => {
+  login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${URL}/auth/login`, {
         email,
         password,
-        rememberMe,
       });
       set({
         user: response.data.user,
@@ -72,6 +71,18 @@ export const authStore = createStore((set) => ({
       });
     } catch {
       set({ isCheckingAuth: false, isAuthenticated: false });
+    }
+  },
+
+  updateUser: async (updates) => {
+    try {
+      const res = await axios.patch(`${URL}/auth/user`, updates);
+      set({
+        user: res.data.user,
+        isAuthenticated: true,
+      });
+    } catch {
+      set({ isAuthenticated: false });
     }
   },
 
