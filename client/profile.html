@@ -80,7 +80,23 @@
             }
 
             async function loadProfile() {
-                
+                try{
+                    const res = await fetch('/api/me');
+                    if (!res.ok) { window.location.href = '/'; return; }
+                    const { user } = await res.json();
+
+                    document.getElementById('profile-name').textContent = user.name || 'User';
+
+                    const role    = user.role === 'business' ? 'business' : 'consumer' ;
+                    const profileBadge = document.getElementById('role-badge') ;
+                    profileBadge.textContent = ROLE_BADGE[role].label ;
+                    profileBadge.className = `` ;
+
+                    renderStats(user);
+                    
+                } catch(err) {
+                    console.error("Failed to load Profile.")
+                }
             }
         </script>    
     </body>
