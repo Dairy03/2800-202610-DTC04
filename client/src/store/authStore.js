@@ -74,5 +74,17 @@ export const authStore = createStore((set) => ({
     }
   },
 
+  updateUser: async (updates) => {
+    try {
+      const res = await axios.patch(`${URL}/auth/user`, updates);
+      set({
+        user: res.data.user,
+        isAuthenticated: true,
+      });
+    } catch {
+      set({ isAuthenticated: false });
+    }
+  },
+
   clearError: async () => set({ error: null }),
 }));

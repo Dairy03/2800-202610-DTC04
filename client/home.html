@@ -13,13 +13,13 @@
     <div id="app"></div>
     <!--NavBar-->
     <site-top-navbar
-      data-tutorial-step="1"
+      data-tutorial-step="0"
       data-tutorial-title="Profile"
       data-tutorial-tip="This is where you edit your profile!"
       data-tutorial-child="0,0,2"
     ></site-top-navbar>
 
-    <button
+    <!-- <button
       id="start-tutorial-btn"
       class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-600 transition"
       data-tutorial-step="0"
@@ -27,11 +27,11 @@
       data-tutorial-tip="This button launches the tutorial. You can restart it anytime."
     >
       Start Tutorial
-    </button>
+    </button> -->
 
     <div
       id="discounter"
-      data-tutorial-step="2"
+      data-tutorial-step="1"
       data-tutorial-title="Discounts"
       data-tutorial-tip="This is where you find fresh deals!"
       data-tutorial-child="1"
@@ -42,11 +42,11 @@
 
     <!--Footer-->
     <site-navbar
-      data-tutorial-step="3"
+      data-tutorial-step="2"
       data-tutorial-title="Navbar"
       data-tutorial-tip="This is where you navigate the page!"
+      data-tutorial-child="0"
     ></site-navbar>
-    <script type="module" src="/src/main.js"></script>
     <script type="module">
       import { DiscountList } from "./src/components/item-card.js";
 
@@ -111,6 +111,6 @@
 
       new DiscountList("#discounter", items).render();
     </script>
-    <script type="module" src="./src/components/tutorial.js"></script>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
