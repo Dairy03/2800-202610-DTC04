@@ -32,7 +32,7 @@
         <script>
             //stat config per role
             const STAT_CONFIGS = {
-                consumer: [
+                shopper: [
                     {label: 'All time saved', key: 'totalSaved', format: v => `$${(v || 0).toFixed(2)}`},
                     {label: 'Deals claimed', key: 'dealsClaimed', format: v => v ?? 0},
                     {label: 'Pending deals', key: 'pendingDeals', format: v => v ?? 0},
@@ -51,10 +51,10 @@
             }
 
             const ROLE_BADGE = {
-                consumer: 
-                    {label: 'Shopper', cls: ''},
+                shopper: 
+                    {label: 'Shopper', cls: 'bg-green-100 text-green-800'},
                 business:
-                    {label: 'Business', cls: ''},
+                    {label: 'Business', cls: 'bg-red-100 text-red-800'},
             }
 
             function formatDate(iso) {
@@ -64,16 +64,17 @@
             }
 
             function renderStats(user) {
-                const role = user.role === 'business' ? 'business' : 'consumer' ;
+                const role = user.role === 'business' ? 'business' : 'shopper' ;
                 const configs = STAT_CONFIGS[role] ;
                 const container = document.getElementById('stats-container') ;
 
                 container.innerHTML = '' ;
                 configs.forEach(({ label, key, format, mono }) => {
                     const row = document.createElement('div') ;
-                    row.className = '';
+                    row.className = 'flex items-center';
                     row.innerHTML = `
-                    
+                        <span class="text-base text-gray-700">${label}</span>
+                        <span>${format(user[key])}</span>
                     `;
                     container.appendChild(row);
                 });
@@ -81,16 +82,34 @@
 
             async function loadProfile() {
                 try{
-                    const res = await fetch('/api/me');
+const res = {
+                        ok: true,
+                        json: async () => ({ user: {
+                            _id:                '123456789',
+                            name:               'Jane Smith',
+                            email:              'jane@example.com',
+                            role:               'shopper',   // swap to 'business/shopper' to test that view
+                            totalSaved:         47.50,
+                            dealsClaimed:       12,
+                            pendingDeals:       3,
+                            wastePrevented:     9,
+                            dealsPosted:        0,
+                            activeListings:     0,
+                            totalClaimed:       0,
+                            createdAt:          '2026-01-01T00:00:00.000Z',
+                        }})
+                    };
+
+                    // const res = await fetch('/api/me');
                     if (!res.ok) { window.location.href = '/'; return; }
                     const { user } = await res.json();
 
                     document.getElementById('profile-name').textContent = user.name || 'User';
 
-                    const role    = user.role === 'business' ? 'business' : 'consumer' ;
+                    const role    = user.role === 'business' ? 'business' : 'shopper' ;
                     const profileBadge = document.getElementById('role-badge') ;
                     profileBadge.textContent = ROLE_BADGE[role].label ;
-                    profileBadge.className = `` ;
+                    profileBadge.className = `text-xs font-medium px-3 py-1 rounded-full mb-8 ${ROLE_BADGE[role].cls}` ;
 
                     renderStats(user);
                     
