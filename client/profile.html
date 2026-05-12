@@ -71,10 +71,10 @@
                 container.innerHTML = '' ;
                 configs.forEach(({ label, key, format, mono }) => {
                     const row = document.createElement('div') ;
-                    row.className = 'flex items-center';
+                    row.className = 'flex items-center justify-between py-4';
                     row.innerHTML = `
                         <span class="text-base text-gray-700">${label}</span>
-                        <span>${format(user[key])}</span>
+                        <span class="${mono ? 'text-sm text-gray-400 font-mono' : 'text-base font-semibold text-gray-900'}">${format(user[key])}</span>
                     `;
                     container.appendChild(row);
                 });
@@ -83,7 +83,7 @@
             async function loadProfile() {
                 try{
 const res = {
-                        ok: true,
+                        ok: true, //mimic the response for fetch return
                         json: async () => ({ user: {
                             _id:                '123456789',
                             name:               'Jane Smith',
