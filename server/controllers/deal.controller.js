@@ -34,7 +34,7 @@ async function updateCart(req, res) {
 
     //Remove Item from cart if 0 quantity
     if (newQuantity < 1) {
-      await User.findOneAndUpdate(userId, {
+      await User.findByIdAndUpdate(userId, {
         $pull: { cart: { itemId: itemId } },
       });
       return res.status(200).json({
@@ -62,15 +62,20 @@ async function updateCart(req, res) {
   }
 }
 
-// async function removeDeal(req, res) {
-//   const { itemId, quantity } = req.params.itemId;
-//   const userId = req.session.userId;
+async function removeDeal(req, res) {
+  const itemId = req.params.itemId;
+  const userId = req.session.userId;
 
-//   try {
-//     res.send("A-OK!");
-//   } catch (error) {
-//     console.log(error);
-//     res.status(404).send(`Could not delete deal ID: ${dealId}.`);
-//   }
-// }
-export { acceptDeal, updateCart };
+  try {
+    await User.findByIdAndUpdate(userId, {
+      $pull: { cart: { itemId: itemId } },
+    });
+    res
+      .status(200)
+      .json({ success: true, message: `Removed ${itemId} from cart.` });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(`Could not delete deal ID: ${itemId} from cart.`);
+  }
+}
+export { acceptDeal, updateCart, removeDeal };
