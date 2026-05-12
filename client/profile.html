@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Still Fresh</title>
+        <script type="module" src="/src/components/site-navbar.js"></script>
+        <script type="module" src="/src/components/site-top-navbar.js"></script>
+        <link rel="stylesheet" href="./src/style.css" />
+    </head>
+    <body>
+        <main>
+            <!--Name-->
+            <h2 class="text-2xl font-bold text-gray-900 mb-1 my-8" id="profile-name">Loading</h2>
+            <span id="role-badge"></span>
+
+            <!--Stats-->
+            <div class="" id="stats-container"></div>
+            <!--Sign Out-->
+            <button
+                onclick="signOut()"
+                class="">
+                Sign Out
+            </button>
+        </main>
+        <!--NavBar-->
+        <site-top-navbar></site-top-navbar>
+        <!--Footer-->
+        <site-navbar></site-navbar>
+        <script type="module" src="/src/main.js"></script>
+        <script>
+            //stat config per role
+            const STAT_CONFIGS = {
+                shopper: [
+                    {label: 'All time saved', key: 'totalSaved', format: v => `$${(v || 0).toFixed(2)}`},
+                    {label: 'Deals claimed', key: 'dealsClaimed', format: v => v ?? 0},
+                    {label: 'Pending deals', key: 'pendingDeals', format: v => v ?? 0},
+                    {label: 'Total waste prevented', key: 'wastePrevented', format: v => v ?? 0},
+                    {label: 'Join date', key: 'createdAt', format: v => formatDate(v)},
+                    {label: 'ID', key: '_id', format: v => v, mono: true},
+                ],
+                business: [
+                    {label: 'Deals posted', key: 'dealsPosted', format: v => v ?? 0},
+                    {label: 'Active listings', key: 'activeListings', format: v => v ?? 0},
+                    {label: 'Total claimed', key: 'totalClaimed', format: v => v ?? 0},
+                    {label: 'Waste prevented', key: 'wastePrevented', format: v => v ?? 0},
+                    {label: 'Member since', key: 'createdAt', format: v => formatDate(v)},
+                    {label: 'ID', key: '_id', format: v => v, mono: true},
+                ]
+            }
+
+            const ROLE_BADGE = {
+                shopper: 
+                    {label: 'Shopper', cls: 'bg-green-100 text-green-800'},
+                business:
+                    {label: 'Business', cls: 'bg-red-100 text-red-800'},
+            }
+
+            function formatDate(iso) {
+                return new Date(iso).toLocaleDateString('en-GB', {
+                    day: '2-digit', month: '2-digit', year: 'numeric'
+                }).replace(/\//g, ' ');
+            }
+
+            function renderStats(user) {
+                const role = user.role === 'business' ? 'business' : 'shopper' ;
+                const configs = STAT_CONFIGS[role] ;
+                const container = document.getElementById('stats-container') ;
+
+                container.innerHTML = '' ;
+                configs.forEach(({ label, key, format, mono }) => {
+                    const row = document.createElement('div') ;
+                    row.className = 'flex items-center justify-between py-4';
+                    row.innerHTML = `
+                        <span class="text-base text-gray-700">${label}</span>
+                        <span class="${mono ? 'text-sm text-gray-400 font-mono' : 'text-base font-semibold text-gray-900'}">${format(user[key])}</span>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+
+            async function loadProfile() {
+                try{
+                    const res = {
+                        ok: true, //mimic the response for fetch return
+                        json: async () => ({ user: {
+                            _id:                '123456789',
+                            name:               'Jane Smith',
+                            email:              'jane@example.com',
+                            role:               'business',   // swap to 'business/shopper' to test that view
+                            totalSaved:         47.50,
+                            dealsClaimed:       12,
+                            pendingDeals:       3,
+                            wastePrevented:     9,
+                            dealsPosted:        0,
+                            activeListings:     0,
+                            totalClaimed:       0,
+                            createdAt:          '2026-01-01T00:00:00.000Z',
+                        }})
+                    };
+
+                    // const res = await fetch('/api/me');
+                    if (!res.ok) { window.location.href = '/'; return; }
+                    const { user } = await res.json();
+
+                    document.getElementById('profile-name').textContent = user.name || 'User';
+
+                    const role    = user.role === 'business' ? 'business' : 'shopper' ;
+                    const profileBadge = document.getElementById('role-badge') ;
+                    profileBadge.textContent = ROLE_BADGE[role].label ;
+                    profileBadge.className = `text-xs font-medium px-3 py-1 rounded-full mb-8 ${ROLE_BADGE[role].cls}` ;
+
+                    renderStats(user);
+                    
+                } catch(err) {
+                    console.error("Failed to load Profile.")
+                }
+            }
+
+            async function signOut() {
+                await fetch('/api/auth/logout', { method: 'POST' });
+                window.location.href = './login-page.html';
+            }
+
+            loadProfile();
+        </script>    
+    </body>
+</html>
