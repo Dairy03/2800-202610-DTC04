@@ -1,6 +1,9 @@
 import Item from "../models/item.js";
 
-function acceptDeal(req, res) {}
+function acceptDeal(req, res) {
+  const itemId = req.params.itemId;
+  console.log(itemId);
+}
 
 // async function removeDeal(req, res) {
 //   dealId = req.params.dealId;
