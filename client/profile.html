@@ -12,7 +12,7 @@
     <body>
         <main>
             <!--Name-->
-            <h2 class="" id="profile-name">Loading</h2>
+            <h2 class="text-2xl font-bold text-gray-900 mb-1 my-8" id="profile-name">Loading</h2>
             <span id="role-badge"></span>
 
             <!--Stats-->
@@ -45,7 +45,7 @@
                     {label: 'Active listings', key: 'activeListings', format: v => v ?? 0},
                     {label: 'Total claimed', key: 'totalClaimed', format: v => v ?? 0},
                     {label: 'Waste prevented', key: 'wastePrevented', format: v => v ?? 0},
-                    {label: 'Member since', key: 'createdAt', format: v => v ?? 0},
+                    {label: 'Member since', key: 'createdAt', format: v => formatDate(v)},
                     {label: 'ID', key: '_id', format: v => v, mono: true},
                 ]
             }
@@ -88,7 +88,7 @@
                             _id:                '123456789',
                             name:               'Jane Smith',
                             email:              'jane@example.com',
-                            role:               'shopper',   // swap to 'business/shopper' to test that view
+                            role:               'business',   // swap to 'business/shopper' to test that view
                             totalSaved:         47.50,
                             dealsClaimed:       12,
                             pendingDeals:       3,
