@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { hash, compare } from "bcrypt";
+
 const costFactor = 12;
 
 const UserSchema = new Schema({
@@ -33,6 +34,12 @@ const UserSchema = new Schema({
   },
   role: { type: String, default: "user" },
   tutorial_toggle: { type: Boolean, default: true },
+  cart: [
+    {
+      itemId: { type: Schema.Types.ObjectId, ref: "Item" },
+      quantity: { type: Number, required: true, default: 1 },
+    },
+  ],
 });
 
 UserSchema.pre("save", async function () {

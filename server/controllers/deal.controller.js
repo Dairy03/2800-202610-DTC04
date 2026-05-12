@@ -1,7 +1,15 @@
 import Item from "../models/item.js";
 
-function acceptDeal(req, res) {
-  res.send(`The deal ${req.params.dealId} has been accepted! :^)`);
-}
+function acceptDeal(req, res) {}
 
-export { acceptDeal };
+// async function removeDeal(req, res) {
+//   dealId = req.params.dealId;
+//   try {
+//     await
+//   } catch (error) {
+//     console.log(error);
+//     res.status(404).send(`Could not delete deal ID: ${dealId}.`);
+//   }
+// }
+
+export { acceptDeal, removeDeal };
