@@ -9,18 +9,18 @@
         <script type="module" src="/src/components/site-top-navbar.js"></script>
         <link rel="stylesheet" href="./src/style.css" />
     </head>
-    <body>
-        <main>
+    <body class="min-h-screen bg-[#FFFBF4] flex flex-col max-w-sm mx-auto">
+        <main class="flex-1 flex flex-col">
             <!--Name-->
             <h2 class="text-2xl font-bold text-gray-900 mb-1 my-8" id="profile-name">Loading</h2>
             <span id="role-badge"></span>
 
             <!--Stats-->
-            <div class="" id="stats-container"></div>
+            <div class="w-full divide-y divide-[#248232] border-t border-[#248232]" id="stats-container"></div>
             <!--Sign Out-->
             <button
                 onclick="signOut()"
-                class="">
+                class="mt-3 py-3 rounded-2xl border-2 bg-[#2BA84A] text-white hover:bg-[#FFFBF4] hover:text-green-600 transition-colors">
                 Sign Out
             </button>
         </main>
@@ -52,9 +52,9 @@
 
             const ROLE_BADGE = {
                 shopper: 
-                    {label: 'Shopper', cls: 'bg-green-100 text-green-800'},
+                    {label: 'Shopper', cls: 'bg-green-100 text-green-800 max-w-18'},
                 business:
-                    {label: 'Business', cls: 'bg-red-100 text-red-800'},
+                    {label: 'Business', cls: 'bg-red-100 text-red-800 max-w-18'},
             }
 
             function formatDate(iso) {
@@ -88,7 +88,7 @@
                             _id:                '123456789',
                             name:               'Jane Smith',
                             email:              'jane@example.com',
-                            role:               'business',   // swap to 'business/shopper' to test that view
+                            role:               'shopper',   // swap to 'business/shopper' to test that view
                             totalSaved:         47.50,
                             dealsClaimed:       12,
                             pendingDeals:       3,
