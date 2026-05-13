@@ -7,6 +7,7 @@ class SiteNavbar extends HTMLElement {
 renderNavbar() {
   this.innerHTML = `
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-[#EEEEEE]" id="bottom-nav">
+<<<<<<< Updated upstream
       <div class="flex flex-nowrap justify-around items-center p-2 text-[#248232]">
         <a href="home.html" class="inline-block text-center">
           <img src="./images/home-sprite.png" class="h-6 mx-auto" alt="Home" />
@@ -23,6 +24,20 @@ renderNavbar() {
         <a href="" class="inline-block">
           <img src="./images/my-deals-sprite.png" class="h-6 mx-auto" alt="My Deals" />
           <p class="text-sm">My Deals</p>
+=======
+      <div class="flex flex-nowrap justify-around items-center p-2">
+        <a href="" class="inline-block">
+          <img src="./images/home-sprite.png" class="h-9" alt="Home" />
+        </a>
+        <a href="" class="inline-block">
+          <img src="./images/map-sprite.png" class="h-9" alt="Map" />
+        </a>
+        <a href="" class="inline-block">
+          <img src="./images/recipes-sprite.png" class="h-9" alt="Recipes" />
+        </a>
+        <a href="" class="inline-block">
+          <img src="./images/my-deals-sprite.png" class="h-9" alt="My Deals" />
+>>>>>>> Stashed changes
         </a>
       </div>
     </nav>

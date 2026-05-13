@@ -38,11 +38,19 @@ export const authStore = createStore((set) => ({
     }
   },
 
+<<<<<<< Updated upstream
   login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${URL}/auth/login`, {
         email,
+=======
+  login: async (username, password) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${URL}/auth/login`, {
+        username,
+>>>>>>> Stashed changes
         password,
       });
       set({
@@ -74,6 +82,7 @@ export const authStore = createStore((set) => ({
     }
   },
 
+<<<<<<< Updated upstream
   updateUser: async (updates) => {
     try {
       const res = await axios.patch(`${URL}/auth/user`, updates);
@@ -86,5 +95,7 @@ export const authStore = createStore((set) => ({
     }
   },
 
+=======
+>>>>>>> Stashed changes
   clearError: async () => set({ error: null }),
 }));

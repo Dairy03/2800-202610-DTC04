@@ -37,9 +37,15 @@ const money_saved = parseFloat(items[0].before) - parseFloat(items[0].after)
 
 item_name.innerHTML = `${items[0].name}`
 item_distance.innerHTML = `${items[0].distance}`
+<<<<<<< Updated upstream
 item_price_after.innerHTML = `${items[0].after.toFixed(2)}`
 item_price_before.innerHTML = `${items[0].before.toFixed(2)}`
 item_money_saved.innerHTML = `${money_saved.toFixed(2)}`
+=======
+item_price_after.innerHTML = `${items[0].after}`
+item_price_before.innerHTML = `${items[0].before}`
+item_money_saved.innerHTML = `${money_saved}`
+>>>>>>> Stashed changes
 item_expiration.innerHTML = `${calc_expiration(items)}`
 redeem_by.innerHTML = `${items[0].expires}`
 item_discount.innerHTML = `${calc_discount(items)}`

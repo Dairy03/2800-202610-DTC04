@@ -4,7 +4,10 @@ import {
   login,
   logout,
   me,
+<<<<<<< Updated upstream
   updateUser,
+=======
+>>>>>>> Stashed changes
 } from "../controllers/auth.controller.js";
 import { registerCustomer } from "../controllers/customer.controller.js";
 import { requireAuth } from "../middleware/auth.js";
@@ -20,6 +23,9 @@ router.delete("/unregister", requireAuth, unregister);
 
 router.get("/me", requireAuth, me);
 
+<<<<<<< Updated upstream
 router.patch("/user", requireAuth, updateUser);
 
+=======
+>>>>>>> Stashed changes
 export default router;

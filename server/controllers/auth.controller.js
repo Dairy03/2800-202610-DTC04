@@ -38,12 +38,20 @@ async function login(req, res) {
       }
       req.session.userId = user._id;
       req.session.userType = user.userType;
+<<<<<<< Updated upstream
       // if (rememberMe) {
       //   req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
       // } else {
       //   req.session.cookie.maxAge = null;
       // }
       req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
+=======
+      if (rememberMe) {
+        req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
+      } else {
+        req.session.cookie.maxAge = null;
+      }
+>>>>>>> Stashed changes
       const { password: _, ...userWithoutPassword } = user.toObject();
       res.status(201).send({
         success: true,
@@ -82,6 +90,7 @@ async function me(req, res) {
   try {
     const user = await User.findById(req.session.userId);
     if (!user) {
+<<<<<<< Updated upstream
       return res.status(404).send({ status: false, message: "User not found" });
     }
     res.send({
@@ -120,3 +129,15 @@ async function updateUser(req, res) {
 }
 
 export { unregister, login, logout, me, updateUser };
+=======
+      return res.status(404).send("User not found");
+    }
+    res.send(`Authenticated as ${user.username} (id: ${user._id})`);
+  } catch (err) {
+    console.error("Me error:", err);
+    res.status(500).send("Server error during me");
+  }
+}
+
+export { unregister, login, logout, me };
+>>>>>>> Stashed changes

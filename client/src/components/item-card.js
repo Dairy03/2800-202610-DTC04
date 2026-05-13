@@ -60,11 +60,15 @@ export class DiscountCard {
                 <span class="absolute top-3 right-3 text-xs font-medium px-2.5 py-1 rounded-full ${badge.cls}">${badge.label}</span>
             </div>
         ` ;
+<<<<<<< Updated upstream
         
         const acard = document.createElement('a') ;
         acard.href = "item-page.html"
         acard.append(card)
         return acard;
+=======
+        return card;
+>>>>>>> Stashed changes
     }
 }
 
