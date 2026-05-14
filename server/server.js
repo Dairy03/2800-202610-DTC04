@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 import configureSession from "./config/session.js";
 import authRoutes from "./routes/auth.routes.js";
 import dealRoutes from "./routes/deal.routes.js";
+import businessRoutes from "./routes/business.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(configureSession());
 app.use("/auth", authRoutes);
 app.use("/deal", dealRoutes);
+app.use("/business", businessRoutes);
 app.get("/", (req, res) => res.send("Auth server running"));
 
 connectDB().then(() => {
