@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,15 +8,29 @@
     <script type="module" src="/src/components/site-navbar.js"></script>
     <script type="module" src="/src/components/site-top-navbar.js"></script>
     <link rel="stylesheet" href="./src/style.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
   </head>
   <body class="bg-[#FFFBF4]">
     <div id="app"></div>
     <!--NavBar-->
     <site-top-navbar></site-top-navbar>
+    <div id="map"></div>
 
-    
     <!--Footer-->
     <site-navbar></site-navbar>
     <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/map.js"></script>
   </body>
 </html>
