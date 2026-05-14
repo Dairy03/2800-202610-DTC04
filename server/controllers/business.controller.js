@@ -1,5 +1,6 @@
 import Business from "../models/business.js";
 import Stock from "../models/stock.js";
+import Item from "../models/item.js";
 
 async function registerBusiness(req, res) {
   try {
@@ -36,13 +37,31 @@ async function addStock(req, res) {
 
   try {
     const business = await Business.findById(businessId);
-    console.log(business);
-    for (const item of itemBatch) {
-      console.log(`This item is: ${item.name}`);
+
+    let stock = await Stock.findOne({ business: businessId });
+
+    //If no stock document is found for the business one is created
+    if (!stock) {
+      stock = await Stock.create({ business: businessId, items: {} });
     }
+
+    //Create new entries in Item model tied to this business for every item
+    for (const item of itemBatch) {
+      const newItem = await Item.create({
+        ...item,
+        business: businessId,
+        address: business.address,
+      });
+
+      //Add the items to the business stock document "items" map
+      await Stock.findByIdAndUpdate(stock._id, {
+        $set: { [`items.${newItem.name}`]: newItem._id },
+      });
+    }
+
     res.status(200).json({
       success: true,
-      message: `Stock updated successfully for ${business.address}`,
+      message: `Stock updated successfully for ${business.username} ${business.address}`,
     });
   } catch (error) {
     console.log(error);
