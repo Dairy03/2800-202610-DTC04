@@ -71,4 +71,18 @@ async function addStock(req, res) {
   }
 }
 
-export { registerBusiness, addStock };
+async function removeStock(req, res) {
+  const { itemId, itemName, quantity } = req.body;
+  const businessId = req.session.userId;
+
+  try {
+    const stock = await Stock.findOne({ business: businessId });
+    console.log(stock._id);
+  } catch (error) {
+    console.log(error);
+  }
+
+  res.status(204).json({ success: true });
+}
+
+export { registerBusiness, addStock, removeStock };

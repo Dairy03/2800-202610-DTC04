@@ -10,7 +10,6 @@ const businessSchema = new Schema({
   email: {
     required: false, // TESTING
     type: String,
-    unique: true,
     trim: true,
     lowercase: true,
   },
