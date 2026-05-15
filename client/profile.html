@@ -32,7 +32,7 @@
         <script>
             //stat config per role
             const STAT_CONFIGS = {
-                shopper: [
+                user: [
                     {label: 'All time saved', key: 'totalSaved', format: v => `$${(v || 0).toFixed(2)}`},
                     {label: 'Deals claimed', key: 'dealsClaimed', format: v => v ?? 0},
                     {label: 'Pending deals', key: 'pendingDeals', format: v => v ?? 0},
@@ -51,8 +51,8 @@
             }
 
             const ROLE_BADGE = {
-                shopper: 
-                    {label: 'Shopper', cls: 'bg-green-100 text-green-800 max-w-18'},
+                user: 
+                    {label: 'user', cls: 'bg-green-100 text-green-800 max-w-18'},
                 business:
                     {label: 'Business', cls: 'bg-red-100 text-red-800 max-w-18'},
             }
@@ -64,7 +64,7 @@
             }
 
             function renderStats(user) {
-                const role = user.role === 'business' ? 'business' : 'shopper' ;
+                const role = user.role === 'business' ? 'business' : 'user' ;
                 const configs = STAT_CONFIGS[role] ;
                 const container = document.getElementById('stats-container') ;
 
@@ -88,7 +88,7 @@
                             _id:                '123456789',
                             name:               'Jane Smith',
                             email:              'jane@example.com',
-                            role:               'shopper',   // swap to 'business/shopper' to test that view
+                            role:               'user',   // swap to 'business/user' to test that view
                             totalSaved:         47.50,
                             dealsClaimed:       12,
                             pendingDeals:       3,
@@ -106,7 +106,7 @@
 
                     document.getElementById('profile-name').textContent = user.name || 'User';
 
-                    const role    = user.role === 'business' ? 'business' : 'shopper' ;
+                    const role    = user.role === 'business' ? 'business' : 'user' ;
                     const profileBadge = document.getElementById('role-badge') ;
                     profileBadge.textContent = ROLE_BADGE[role].label ;
                     profileBadge.className = `text-xs font-medium px-3 py-1 rounded-full mb-8 ${ROLE_BADGE[role].cls}` ;
