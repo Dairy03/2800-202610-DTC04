@@ -17,6 +17,28 @@
 
             <!--Stats-->
             <div class="w-full divide-y divide-[#248232] border-t border-[#248232]" id="stats-container"></div>
+
+            <div>
+                <div class="flex items-center justify-between py-4">
+                    <div>
+                        <p class="text-base text-gray-700">App tutorials</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input
+                            type="checkbox"
+                            id="tutorial-toggle"
+                            class="sr-only peer"
+                            onchange="onTutorialToggle(this.checked)"
+                        />
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer
+                                    peer-checked:bg-[#2BA84A]
+                                    after:content-[''] after:absolute after:top-0.5 after:left-0.5
+                                    after:bg-white after:rounded-full after:h-5 after:w-5
+                                    after:transition-all peer-checked:after:translate-x-5">
+                        </div>
+                    </label>
+                </div>
+            </div>
             <!--Sign Out-->
             <button
                 onclick="signOut()"
@@ -30,6 +52,9 @@
         <site-navbar></site-navbar>
         <script type="module" src="/src/main.js"></script>
         <script>
+
+            const API = 'http://localhost:3000';
+
             //stat config per role
             const STAT_CONFIGS = {
                 user: [
@@ -82,29 +107,13 @@
 
             async function loadProfile() {
                 try{
-                    const res = {
-                        ok: true, //mimic the response for fetch return
-                        json: async () => ({ user: {
-                            _id:                '123456789',
-                            name:               'Jane Smith',
-                            email:              'jane@example.com',
-                            role:               'user',   // swap to 'business/user' to test that view
-                            totalSaved:         47.50,
-                            dealsClaimed:       12,
-                            pendingDeals:       3,
-                            wastePrevented:     9,
-                            dealsPosted:        0,
-                            activeListings:     0,
-                            totalClaimed:       0,
-                            createdAt:          '2026-01-01T00:00:00.000Z',
-                        }})
-                    };
-
-                    // const res = await fetch('/api/me');
+                    const res = await fetch(`${API}/auth/me`, {
+                        credentials: 'include', // sends session cookie so server knows who you are
+                    });
                     if (!res.ok) { window.location.href = '/'; return; }
                     const { user } = await res.json();
 
-                    document.getElementById('profile-name').textContent = user.name || 'User';
+                    document.getElementById('profile-name').textContent = `${user.fName || ''} ${user.lName || ''}`.trim() || 'User';
 
                     const role    = user.role === 'business' ? 'business' : 'user' ;
                     const profileBadge = document.getElementById('role-badge') ;
@@ -116,6 +125,15 @@
                 } catch(err) {
                     console.error("Failed to load Profile.")
                 }
+            }
+
+            async function onTutorialToggle(enabled) {
+                await fetch(`${API}/auth/tutorial-toggle`, {
+                method:      'PATCH',
+                credentials: 'include',
+                headers:     { 'Content-Type': 'application/json' },
+                body:        JSON.stringify({ tutorial_toggle: enabled }),
+                });
             }
 
             async function signOut() {
