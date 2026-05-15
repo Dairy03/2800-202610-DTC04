@@ -38,4 +38,9 @@ const businessSchema = new Schema({
   role: { type: String, default: "business" },
 });
 
+businessSchema.pre("save", async function () {
+  if (!this.isModified("address")) return;
+  //this.address = async getLatLongFromAddressFunctionStub() 
+});
+
 export default model("Business", businessSchema);
