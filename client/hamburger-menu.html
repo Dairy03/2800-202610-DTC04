@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Burger Menu</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+    }
+
+    .logo { font-size: 16px; font-weight: 600; color: #111; }
+
+    .hm-wrapper { position: relative; display: inline-block; }
+
+    .hm-btn {
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      background: #fff;
+      cursor: pointer;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 5px;
+    }
+    .hm-btn:hover { background: #f5f5f5; }
+
+    .bar {
+      width: 16px; height: 1.5px;
+      background: #111; border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+      display: block;
+    }
+    .hm-btn.open .bar:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hm-btn.open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hm-btn.open .bar:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .hm-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 220px;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transform-origin: top right;
+      display: none;
+      z-index: 100;
+    }
+    .hm-dropdown.entering { display: block; animation: dropIn 0.22s cubic-bezier(0.22,1,0.36,1) forwards; }
+    .hm-dropdown.leaving  { display: block; animation: dropOut 0.18s ease-in forwards; }
+
+    @keyframes dropIn {
+      from { opacity: 0; transform: scale(0.93) translateY(-8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes dropOut {
+      from { opacity: 1; transform: scale(1) translateY(0); }
+      to   { opacity: 0; transform: scale(0.93) translateY(-8px); }
+    }
+
+    .hm-profile {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      opacity: 0;
+    }
+    .hm-dropdown.entering .hm-profile { animation: fadeUp 0.2s 0.05s ease forwards; }
+
+    .hm-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: #e8f0fe;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 500; color: #1a56db; flex-shrink: 0;
+    }
+    .hm-name  { font-size: 13px; font-weight: 500; color: #111; }
+    .hm-email { font-size: 11px; color: #888; margin-top: 2px; }
+
+    .hm-items { padding: 4px 0; }
+
+    .hm-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 16px; cursor: pointer;
+      border: none; width: 100%; background: none;
+      text-align: left; font-size: 13px; color: #111;
+      opacity: 0; text-decoration: none;
+    }
+    .hm-item:hover { background: #f5f5f5; }
+    .hm-item.danger { color: #d93025; }
+
+    .hm-dropdown.entering .hm-item:nth-child(1) { animation: fadeUp 0.2s 0.09s ease forwards; }
+    .hm-dropdown.entering .hm-item:nth-child(2) { animation: fadeUp 0.2s 0.13s ease forwards; }
+    .hm-dropdown.entering .hm-item:nth-child(4) { animation: fadeUp 0.2s 0.17s ease forwards; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hm-divider { height: 1px; background: #f0f0f0; margin: 4px 0; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Still Fresh</div>
+  <div class="hm-wrapper">
+    <button class="hm-btn" id="btn" aria-label="Open menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <div class="hm-dropdown" id="dropdown">
+      <div class="hm-profile">
+        <div class="hm-avatar">JS</div>
+        <div>
+          <div class="hm-name">Edward Kim</div>
+          <div class="hm-email">edward@example.com</div>
+        </div>
+      </div>
+      <div class="hm-items">
+        <a href="./profile.html" class="hm-item">Profile</a>
+        <a href="./settings.html" class="hm-item">Settings</a>
+        <div class="hm-divider"></div>
+        <button class="hm-item danger" id="logout-btn">Log out</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById("btn");
+  const dropdown = document.getElementById("dropdown");
+  let isOpen = false;
+
+  function open() {
+    isOpen = true;
+    btn.classList.add("open");
+    dropdown.classList.remove("leaving");
+    dropdown.classList.add("entering");
+  }
+
+  function close() {
+    isOpen = false;
+    btn.classList.remove("open");
+    dropdown.classList.remove("entering");
+    dropdown.classList.add("leaving");
+    dropdown.addEventListener("animationend", () => {
+      if (!isOpen) dropdown.classList.remove("leaving");
+    }, { once: true });
+  }
+
+  btn.addEventListener("click", e => { e.stopPropagation(); isOpen ? close() : open(); });
+  document.addEventListener("click", () => { if (isOpen) close(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && isOpen) close(); });
+  document.getElementById("logout-btn").addEventListener("click", () => {
+    // wire up your logout logic here
+  });
+</script>
+
+</body>
+</html>
