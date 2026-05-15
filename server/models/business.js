@@ -7,6 +7,10 @@ const businessSchema = new Schema({
     trim: true,
     unique: true,
   },
+  coords: {
+    required: false,
+    type: [Number],
+  },
   email: {
     required: false, // TESTING
     type: String,
