@@ -71,4 +71,60 @@ async function addStock(req, res) {
   }
 }
 
-export { registerBusiness, addStock };
+async function getStoreItems(req, res) {
+  const { storeId } = req.params;
+
+  try {
+    const items = await Item.find({ business: storeId });
+
+    if (!items || items.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No items found for this store", success: false });
+    }
+
+    res.status(200).json({ success: true, items });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Error fetching store items", success: false });
+  }
+}
+
+async function getAllBusinesses(req, res) {
+  try {
+    const businesses = await Business.find({});
+    res.status(200).json({ success: true, businesses });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Error fetching businesses", success: false });
+  }
+}
+
+async function getBusinessById(req, res) {
+  try {
+    const business = await Business.findById(req.params.businessId);
+    if (!business) {
+      return res
+        .status(404)
+        .json({ message: "Business not found", success: false });
+    }
+    res.status(200).json({ success: true, business });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Error fetching business", success: false });
+  }
+}
+
+export {
+  registerBusiness,
+  addStock,
+  getStoreItems,
+  getAllBusinesses,
+  getBusinessById,
+};

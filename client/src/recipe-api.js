@@ -41,11 +41,11 @@
 import { MOCK_ITEMS, getItemById } from "./mock-data.js";
 
 // Configure this for your environment.
-const URL = ""; // e.g. "https://api.stillfresh.example.com"
+const URL = "http://localhost:3000"; // e.g. "https://api.stillfresh.example.com"
 const ENDPOINT = `${URL}/recipe/`;
 
 // Set to true to bypass the network and use mock recipes for local dev.
-const USE_MOCK = true;
+const USE_MOCK = false;
 
 // ---------- Cache ----------
 // Session-scoped, 1 hour TTL.
@@ -144,7 +144,12 @@ function recordRefresh() {
  * @param {Array} opts.items     items conforming to itemSchema (must include _id)
  * @param {boolean} [opts.forceRefresh]
  */
-export async function fetchRecipes({ source, storeId, items, forceRefresh = false }) {
+export async function fetchRecipes({
+  source,
+  storeId,
+  items,
+  forceRefresh = false,
+}) {
   if (!items || items.length === 0) {
     return { recipes: [], cached: false };
   }
@@ -192,7 +197,9 @@ export async function fetchRecipes({ source, storeId, items, forceRefresh = fals
     });
     if (!res.ok) {
       if (res.status === 429) {
-        const err = new Error("Server rate limit reached. Please try again later.");
+        const err = new Error(
+          "Server rate limit reached. Please try again later.",
+        );
         err.code = "RATE_LIMITED";
         throw err;
       }
@@ -239,16 +246,46 @@ async function mockRecipes(body) {
       serves: 2,
       requires: ["tomato", "basil", "mozzarella", "ciabatta"],
       steps: [
-        { title: "Slice", description: "Slice the tomato and mozzarella into thin rounds." },
-        { title: "Assemble", description: "Layer tomato, mozzarella, and fresh basil on ciabatta." },
-        { title: "Finish", description: "Drizzle with olive oil, season with salt and pepper, and serve." },
+        {
+          title: "Slice",
+          description: "Slice the tomato and mozzarella into thin rounds.",
+        },
+        {
+          title: "Assemble",
+          description: "Layer tomato, mozzarella, and fresh basil on ciabatta.",
+        },
+        {
+          title: "Finish",
+          description:
+            "Drizzle with olive oil, season with salt and pepper, and serve.",
+        },
       ],
       ingredients: [
-        { name: "tomato", item_id: findItemId(body.items, "tomato"), quantity: "2 medium" },
-        { name: "fresh basil", item_id: findItemId(body.items, "basil"), quantity: "8 leaves" },
-        { name: "mozzarella", item_id: findItemId(body.items, "mozzarella"), quantity: "150 g" },
-        { name: "ciabatta loaf", item_id: findItemId(body.items, "ciabatta"), quantity: "1 small loaf" },
-        { name: "olive oil", item_id: findItemId(body.items, "olive oil"), quantity: "1 tbsp" },
+        {
+          name: "tomato",
+          item_id: findItemId(body.items, "tomato"),
+          quantity: "2 medium",
+        },
+        {
+          name: "fresh basil",
+          item_id: findItemId(body.items, "basil"),
+          quantity: "8 leaves",
+        },
+        {
+          name: "mozzarella",
+          item_id: findItemId(body.items, "mozzarella"),
+          quantity: "150 g",
+        },
+        {
+          name: "ciabatta loaf",
+          item_id: findItemId(body.items, "ciabatta"),
+          quantity: "1 small loaf",
+        },
+        {
+          name: "olive oil",
+          item_id: findItemId(body.items, "olive oil"),
+          quantity: "1 tbsp",
+        },
         { name: "salt & pepper", item_id: null, quantity: "to taste" },
       ],
     },
@@ -260,19 +297,63 @@ async function mockRecipes(body) {
       serves: 4,
       requires: ["spaghetti", "beef", "tomato", "onion", "garlic"],
       steps: [
-        { title: "Sauté aromatics", description: "Dice the onion and mince the garlic. Sauté in olive oil until soft, about 5 minutes." },
-        { title: "Brown the beef", description: "Add ground beef and cook, breaking it up, until browned." },
-        { title: "Add tomatoes", description: "Stir in chopped tomatoes, season with salt, pepper, and herbs. Simmer 20 minutes." },
-        { title: "Cook pasta", description: "Boil spaghetti until al dente. Drain, reserving a little pasta water." },
-        { title: "Combine and serve", description: "Toss pasta with the sauce, adding pasta water as needed. Serve hot." },
+        {
+          title: "Sauté aromatics",
+          description:
+            "Dice the onion and mince the garlic. Sauté in olive oil until soft, about 5 minutes.",
+        },
+        {
+          title: "Brown the beef",
+          description:
+            "Add ground beef and cook, breaking it up, until browned.",
+        },
+        {
+          title: "Add tomatoes",
+          description:
+            "Stir in chopped tomatoes, season with salt, pepper, and herbs. Simmer 20 minutes.",
+        },
+        {
+          title: "Cook pasta",
+          description:
+            "Boil spaghetti until al dente. Drain, reserving a little pasta water.",
+        },
+        {
+          title: "Combine and serve",
+          description:
+            "Toss pasta with the sauce, adding pasta water as needed. Serve hot.",
+        },
       ],
       ingredients: [
-        { name: "spaghetti", item_id: findItemId(body.items, "spaghetti"), quantity: "400 g" },
-        { name: "ground beef", item_id: findItemId(body.items, "ground beef"), quantity: "500 g" },
-        { name: "tomato", item_id: findItemId(body.items, "tomato"), quantity: "4 medium, chopped" },
-        { name: "yellow onion", item_id: findItemId(body.items, "onion"), quantity: "1 large, diced" },
-        { name: "garlic", item_id: findItemId(body.items, "garlic"), quantity: "3 cloves, minced" },
-        { name: "olive oil", item_id: findItemId(body.items, "olive oil"), quantity: "2 tbsp" },
+        {
+          name: "spaghetti",
+          item_id: findItemId(body.items, "spaghetti"),
+          quantity: "400 g",
+        },
+        {
+          name: "ground beef",
+          item_id: findItemId(body.items, "ground beef"),
+          quantity: "500 g",
+        },
+        {
+          name: "tomato",
+          item_id: findItemId(body.items, "tomato"),
+          quantity: "4 medium, chopped",
+        },
+        {
+          name: "yellow onion",
+          item_id: findItemId(body.items, "onion"),
+          quantity: "1 large, diced",
+        },
+        {
+          name: "garlic",
+          item_id: findItemId(body.items, "garlic"),
+          quantity: "3 cloves, minced",
+        },
+        {
+          name: "olive oil",
+          item_id: findItemId(body.items, "olive oil"),
+          quantity: "2 tbsp",
+        },
         { name: "salt & pepper", item_id: null, quantity: "to taste" },
       ],
     },
@@ -284,16 +365,48 @@ async function mockRecipes(body) {
       serves: 2,
       requires: ["chicken", "lemon", "garlic"],
       steps: [
-        { title: "Season", description: "Pat chicken breast dry and season with salt and pepper." },
-        { title: "Sear", description: "Heat olive oil in a pan over medium-high heat. Sear chicken 4-5 minutes each side until golden." },
-        { title: "Make pan sauce", description: "Lower heat, add minced garlic and lemon juice. Spoon over chicken." },
-        { title: "Rest and serve", description: "Let rest 3 minutes, then slice and serve with pan sauce." },
+        {
+          title: "Season",
+          description:
+            "Pat chicken breast dry and season with salt and pepper.",
+        },
+        {
+          title: "Sear",
+          description:
+            "Heat olive oil in a pan over medium-high heat. Sear chicken 4-5 minutes each side until golden.",
+        },
+        {
+          title: "Make pan sauce",
+          description:
+            "Lower heat, add minced garlic and lemon juice. Spoon over chicken.",
+        },
+        {
+          title: "Rest and serve",
+          description:
+            "Let rest 3 minutes, then slice and serve with pan sauce.",
+        },
       ],
       ingredients: [
-        { name: "chicken breast", item_id: findItemId(body.items, "chicken"), quantity: "2 pieces" },
-        { name: "lemon", item_id: findItemId(body.items, "lemon"), quantity: "1 large" },
-        { name: "garlic", item_id: findItemId(body.items, "garlic"), quantity: "4 cloves, minced" },
-        { name: "olive oil", item_id: findItemId(body.items, "olive oil"), quantity: "2 tbsp" },
+        {
+          name: "chicken breast",
+          item_id: findItemId(body.items, "chicken"),
+          quantity: "2 pieces",
+        },
+        {
+          name: "lemon",
+          item_id: findItemId(body.items, "lemon"),
+          quantity: "1 large",
+        },
+        {
+          name: "garlic",
+          item_id: findItemId(body.items, "garlic"),
+          quantity: "4 cloves, minced",
+        },
+        {
+          name: "olive oil",
+          item_id: findItemId(body.items, "olive oil"),
+          quantity: "2 tbsp",
+        },
         { name: "salt & pepper", item_id: null, quantity: "to taste" },
       ],
     },
@@ -305,17 +418,52 @@ async function mockRecipes(body) {
       serves: 4,
       requires: ["bell pepper", "beef", "onion", "garlic", "tomato"],
       steps: [
-        { title: "Prep peppers", description: "Cut tops off bell peppers and remove seeds. Set aside." },
-        { title: "Make filling", description: "Sauté onion and garlic, then brown the ground beef. Stir in chopped tomato." },
-        { title: "Stuff", description: "Fill each pepper with the beef mixture. Place upright in a baking dish." },
-        { title: "Bake", description: "Bake at 190°C / 375°F for 30 minutes until peppers are tender." },
+        {
+          title: "Prep peppers",
+          description: "Cut tops off bell peppers and remove seeds. Set aside.",
+        },
+        {
+          title: "Make filling",
+          description:
+            "Sauté onion and garlic, then brown the ground beef. Stir in chopped tomato.",
+        },
+        {
+          title: "Stuff",
+          description:
+            "Fill each pepper with the beef mixture. Place upright in a baking dish.",
+        },
+        {
+          title: "Bake",
+          description:
+            "Bake at 190°C / 375°F for 30 minutes until peppers are tender.",
+        },
       ],
       ingredients: [
-        { name: "bell pepper", item_id: findItemId(body.items, "bell pepper"), quantity: "4 large" },
-        { name: "ground beef", item_id: findItemId(body.items, "ground beef"), quantity: "400 g" },
-        { name: "yellow onion", item_id: findItemId(body.items, "onion"), quantity: "1, diced" },
-        { name: "garlic", item_id: findItemId(body.items, "garlic"), quantity: "2 cloves" },
-        { name: "tomato", item_id: findItemId(body.items, "tomato"), quantity: "2, chopped" },
+        {
+          name: "bell pepper",
+          item_id: findItemId(body.items, "bell pepper"),
+          quantity: "4 large",
+        },
+        {
+          name: "ground beef",
+          item_id: findItemId(body.items, "ground beef"),
+          quantity: "400 g",
+        },
+        {
+          name: "yellow onion",
+          item_id: findItemId(body.items, "onion"),
+          quantity: "1, diced",
+        },
+        {
+          name: "garlic",
+          item_id: findItemId(body.items, "garlic"),
+          quantity: "2 cloves",
+        },
+        {
+          name: "tomato",
+          item_id: findItemId(body.items, "tomato"),
+          quantity: "2, chopped",
+        },
         { name: "salt & pepper", item_id: null, quantity: "to taste" },
       ],
     },

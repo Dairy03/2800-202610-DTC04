@@ -1,5 +1,4 @@
 import { findCachedRecipe } from "./recipe-api.js";
-import { getItemById, MOCK_STORES } from "./mock-data.js";
 import { DiscountList } from "./components/discount-card.js";
 
 const params = new URLSearchParams(window.location.search);
@@ -20,33 +19,11 @@ const els = {
   backLink: document.getElementById("back-link"),
 };
 
-function show(el) { el.classList.remove("hidden"); }
-function hide(el) { el.classList.add("hidden"); }
-
-// Discount math is mocked here. In production this comes from the
-// item's actual sale price; ref_price is the regular price.
-// We assume "after" = ref_price * (1 - discount) based on expiry proximity.
-function toDiscountCardShape(item, quantityLabel) {
-  const expiry = new Date(item.expiry);
-  const days = Math.max(0, Math.round((expiry - new Date()) / (1000 * 60 * 60 * 24)));
-  // Bigger discount the closer to expiry.
-  const discount = days <= 1 ? 0.5 : days <= 2 ? 0.35 : days <= 4 ? 0.2 : 0.1;
-  const before = item.ref_price;
-  const after = +(before * (1 - discount)).toFixed(2);
-
-  const store = MOCK_STORES.find((s) => s._id === item.business);
-
-  return {
-    _id: item._id,
-    name: capitalize(item.name),
-    img: `https://placehold.co/72x72/2BA84A/ffffff?text=${encodeURIComponent(item.name[0].toUpperCase())}`,
-    distance: store ? `${store.distance} km` : "—",
-    before,
-    after,
-    expires: item.expiry,
-    storeName: store?.name,
-    needed: quantityLabel,
-  };
+function show(el) {
+  el.classList.remove("hidden");
+}
+function hide(el) {
+  el.classList.add("hidden");
 }
 
 function capitalize(s) {
@@ -62,37 +39,91 @@ function escapeHtml(s) {
     .replaceAll("'", "&#39;");
 }
 
-function computeCost(recipe) {
-  let total = 0;
-  for (const ing of recipe.ingredients || []) {
-    if (!ing.item_id) continue;
-    const item = getItemById(ing.item_id);
-    if (item) total += item.ref_price;
-  }
-  return total.toFixed(2);
+// Calculate discount based on days until expiry
+function getDiscount(expiryDate) {
+  const days = Math.max(
+    0,
+    Math.round((new Date(expiryDate) - new Date()) / (1000 * 60 * 60 * 24)),
+  );
+  return days <= 1 ? 0.5 : days <= 2 ? 0.35 : days <= 4 ? 0.2 : 0.1;
 }
 
-function render(recipe) {
+// Fetch real item data from backend by ID
+async function fetchItemById(itemId) {
+  try {
+    const response = await fetch(`http://localhost:3000/items/${itemId}`, {
+      credentials: "include",
+    });
+    const data = await response.json();
+    return data.item || null;
+  } catch (error) {
+    console.error("Error fetching item:", error);
+    return null;
+  }
+}
+
+// Fetch business/store data by ID
+async function fetchBusinessById(businessId) {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/business/${businessId}`,
+      {
+        credentials: "include",
+      },
+    );
+    const data = await response.json();
+    return data.business || null;
+  } catch (error) {
+    console.error("Error fetching business:", error);
+    return null;
+  }
+}
+
+function toDiscountCardShape(item, store, quantityLabel) {
+  const discount = getDiscount(item.expiry);
+  const before = item.ref_price;
+  const after = +(before * (1 - discount)).toFixed(2);
+
+  return {
+    _id: item._id,
+    name: capitalize(item.name),
+    img: `https://placehold.co/72x72/2BA84A/ffffff?text=${encodeURIComponent(item.name[0].toUpperCase())}`,
+    distance: store ? store.address : "—",
+    before,
+    after,
+    expires: item.expiry,
+    storeName: store?.username,
+    needed: quantityLabel,
+  };
+}
+
+// Cost is sum of discounted prices for matched items
+function computeCost(available) {
+  return available.reduce((total, card) => total + card.after, 0).toFixed(2);
+}
+
+async function render(recipe) {
   els.name.textContent = recipe.name;
   els.serves.textContent = `Serves ${recipe.serves}`;
-  els.cost.textContent = computeCost(recipe);
   els.backLink.href = `recipe.html?id=${encodeURIComponent(recipe.id)}`;
   els.startLink.href = `instructions.html?id=${encodeURIComponent(recipe.id)}`;
 
-  // Split ingredients into "available discounted items" vs "pantry/staples"
   const available = [];
   const pantry = [];
 
   for (const ing of recipe.ingredients || []) {
     if (ing.item_id) {
-      const item = getItemById(ing.item_id);
+      const item = await fetchItemById(ing.item_id);
       if (item) {
-        available.push(toDiscountCardShape(item, ing.quantity));
+        const store = await fetchBusinessById(item.business);
+        available.push(toDiscountCardShape(item, store, ing.quantity));
         continue;
       }
     }
     pantry.push(ing);
   }
+
+  els.cost.textContent = computeCost(available);
 
   if (available.length === 0) {
     show(els.noAvailable);
@@ -110,7 +141,7 @@ function render(recipe) {
             <span class="text-[#2D3A3A]">${escapeHtml(capitalize(ing.name))}</span>
             <span class="text-sm text-gray-500">${escapeHtml(ing.quantity)}</span>
           </li>
-        `
+        `,
       )
       .join("");
   }
@@ -119,7 +150,7 @@ function render(recipe) {
   show(els.content);
 }
 
-function init() {
+async function init() {
   if (!recipeId) {
     hide(els.loading);
     show(els.error);
@@ -131,7 +162,7 @@ function init() {
     show(els.error);
     return;
   }
-  render(recipe);
+  await render(recipe);
 }
 
 init();
