@@ -82,36 +82,41 @@
                     {label: 'Business', cls: 'bg-red-100 text-red-800 max-w-18'},
             }
 
+            
             function formatDate(iso) {
                 return new Date(iso).toLocaleDateString('en-GB', {
                     day: '2-digit', month: '2-digit', year: 'numeric'
                 }).replace(/\//g, ' ');
             }
-
+            
             function renderStats(user) {
                 const role = user.role === 'business' ? 'business' : 'user' ;
                 const configs = STAT_CONFIGS[role] ;
                 const container = document.getElementById('stats-container') ;
-
+                
                 container.innerHTML = '' ;
                 configs.forEach(({ label, key, format, mono }) => {
                     const row = document.createElement('div') ;
                     row.className = 'flex items-center justify-between py-4';
                     row.innerHTML = `
-                        <span class="text-base text-gray-700">${label}</span>
-                        <span class="${mono ? 'text-sm text-gray-400 font-mono' : 'text-base font-semibold text-gray-900'}">${format(user[key])}</span>
+                    <span class="text-base text-gray-700">${label}</span>
+                    <span class="${mono ? 'text-sm text-gray-400 font-mono' : 'text-base font-semibold text-gray-900'}">${format(user[key])}</span>
                     `;
                     container.appendChild(row);
                 });
             }
-
+            
             async function loadProfile() {
                 try{
                     const res = await fetch(`${API}/auth/me`, {
                         credentials: 'include', // sends session cookie so server knows who you are
                     });
+
                     if (!res.ok) { window.location.href = '/'; return; }
                     const { user } = await res.json();
+
+                    const toggle = document.getElementById('tutorial-toggle');
+                    toggle.checked = !!user.tutorial_toggle;
 
                     document.getElementById('profile-name').textContent = `${user.fName || ''} ${user.lName || ''}`.trim() || 'User';
 
@@ -121,14 +126,14 @@
                     profileBadge.className = `text-xs font-medium px-3 py-1 rounded-full mb-8 ${ROLE_BADGE[role].cls}` ;
 
                     renderStats(user);
-                    
+
                 } catch(err) {
                     console.error("Failed to load Profile.")
                 }
             }
 
             async function onTutorialToggle(enabled) {
-                await fetch(`${API}/auth/tutorial-toggle`, {
+                await fetch(`${API}/auth/user`, {
                 method:      'PATCH',
                 credentials: 'include',
                 headers:     { 'Content-Type': 'application/json' },
@@ -137,7 +142,7 @@
             }
 
             async function signOut() {
-                await fetch('/api/auth/logout', { method: 'POST' });
+                await fetch(`${API}/auth/logout`, { method: 'POST' });
                 window.location.href = './login-page.html';
             }
 
