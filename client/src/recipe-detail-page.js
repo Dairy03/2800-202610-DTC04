@@ -1,5 +1,4 @@
 import { findCachedRecipe } from "./recipe-api.js";
-import { getItemById } from "./mock-data.js";
 
 const params = new URLSearchParams(window.location.search);
 const recipeId = params.get("id");
@@ -20,17 +19,19 @@ const els = {
   imageFallback: document.getElementById("recipe-image-fallback"),
 };
 
-function show(el) { el.classList.remove("hidden"); }
-function hide(el) { el.classList.add("hidden"); }
+function show(el) {
+  el.classList.remove("hidden");
+}
+function hide(el) {
+  el.classList.add("hidden");
+}
 
 function computeCost(recipe) {
-  // Cost comes from front end data, per requirements.
-  // Sum ref_price for items we can resolve; pantry items (item_id: null) are skipped.
   let total = 0;
   for (const ing of recipe.ingredients || []) {
     if (!ing.item_id) continue;
-    const item = getItemById(ing.item_id);
-    if (item) total += item.ref_price;
+    // ref_price is included in the ingredient data from the AI response
+    if (ing.ref_price) total += ing.ref_price;
   }
   return total.toFixed(2);
 }

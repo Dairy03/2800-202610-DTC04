@@ -8,6 +8,8 @@ import configureSession from "./config/session.js";
 import authRoutes from "./routes/auth.routes.js";
 import dealRoutes from "./routes/deal.routes.js";
 import businessRoutes from "./routes/business.routes.js";
+import recipeRouter from "./routes/recipe.routes.js";
+import itemRouter from "./routes/item.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +23,8 @@ app.use(configureSession());
 app.use("/auth", authRoutes);
 app.use("/deal", dealRoutes);
 app.use("/business", businessRoutes);
+app.use("/recipe", recipeRouter);
+app.use("/items", itemRouter);
 app.get("/", (req, res) => res.send("Auth server running"));
 
 connectDB().then(() => {

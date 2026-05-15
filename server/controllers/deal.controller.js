@@ -78,4 +78,32 @@ async function removeDeal(req, res) {
     res.status(500).send(`Could not delete deal ID: ${itemId} from cart.`);
   }
 }
-export { acceptDeal, updateCart, removeDeal };
+
+async function getCart(req, res) {
+  const userId = req.session.userId;
+
+  try {
+    const user = await User.findById(userId).populate("cart.itemId");
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User not found", success: false });
+    }
+
+    // Format cart to match itemSchema shape expected by recipe-api.js
+    const cart = user.cart.map((entry) => ({
+      _id: entry.itemId._id,
+      name: entry.itemId.name,
+      ref_price: entry.itemId.ref_price,
+      quantity: entry.quantity,
+      expiry: entry.itemId.expiry,
+    }));
+
+    res.status(200).json({ success: true, cart });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching cart", success: false });
+  }
+}
+export { acceptDeal, updateCart, removeDeal, getCart };
