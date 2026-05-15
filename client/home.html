@@ -48,7 +48,16 @@
       data-tutorial-child="0"
     ></site-navbar>
     <script type="module">
+
       import { DiscountList } from "./src/components/item-card.js";
+      import { tutorialStore } from './src/store/tutorialStore.js';
+
+      const res = await fetch('http://localhost:3000/auth/me', { credentials: 'include' });
+      const { user } = await res.json();
+
+      if (user.tutorial_toggle) {
+        tutorialStore.getState().start();
+      }
 
       const items = [
         {

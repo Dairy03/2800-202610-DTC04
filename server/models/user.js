@@ -40,7 +40,7 @@ const UserSchema = new Schema({
       quantity: { type: Number, required: true, default: 1 },
     },
   ],
-  totalSaved: {required: true, type: Float, default: 0},
+  totalSaved: {required: true, type: Number, default: 0},
   dealsClaimed: {required: true, type: Number, default: 0},
   totalClaimed: {required: true, type: Number, default: 0},
   pendingDeals: {required: true, type: Number, default: 0},
