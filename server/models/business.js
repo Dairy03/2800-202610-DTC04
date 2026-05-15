@@ -7,6 +7,10 @@ const businessSchema = new Schema({
     trim: true,
     unique: true,
   },
+  coords: {
+    required: false,
+    type: [Number],
+  },
   email: {
     required: false, // TESTING
     type: String,
@@ -36,6 +40,11 @@ const businessSchema = new Schema({
     trim: true,
   },
   role: { type: String, default: "business" },
+});
+
+businessSchema.pre("save", async function () {
+  if (!this.isModified("address")) return;
+  //this.address = async getLatLongFromAddressFunctionStub() 
 });
 
 export default model("Business", businessSchema);
