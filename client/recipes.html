@@ -10,6 +10,13 @@
   </head>
   <body class="min-h-screen flex items-start justify-center px-4 pb-24">
     <site-top-navbar></site-top-navbar>
+    <!--Footer-->
+    <site-navbar
+      data-tutorial-step="2"
+      data-tutorial-title="Navbar"
+      data-tutorial-tip="This is where you navigate the page!"
+      data-tutorial-child="0"
+    ></site-navbar>
 
     <div class="relative z-10 w-full max-w-sm pt-4">
       <!-- Header -->
@@ -20,7 +27,16 @@
           class="flex items-center gap-1 text-[#2BA84A] font-semibold text-sm px-3 py-1.5 rounded-lg border-2 border-[#2BA84A] hover:bg-[#2BA84A] hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           aria-label="Refresh recipes"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M21 12a9 9 0 1 1-3-6.7L21 8" />
             <path d="M21 3v5h-5" />
           </svg>
@@ -40,18 +56,31 @@
       <!-- Store-based recipes section -->
       <section id="store-section">
         <div class="flex items-baseline justify-between mb-2 px-1">
-          <h2 class="text-lg font-semibold text-[#2D3A3A]">From nearby stores</h2>
+          <h2 class="text-lg font-semibold text-[#2D3A3A]">
+            From nearby stores
+          </h2>
         </div>
 
         <!-- Store selector -->
         <div class="mb-3 px-1">
-          <label for="store-select" class="block text-xs text-gray-500 mb-1">Store</label>
+          <label for="store-select" class="block text-xs text-gray-500 mb-1"
+            >Store</label
+          >
           <div class="relative">
             <select
               id="store-select"
               class="w-full appearance-none bg-white border-2 border-gray-200 rounded-xl px-3 py-2 pr-8 text-sm font-medium text-[#2D3A3A] focus:outline-none focus:border-[#2BA84A]"
             ></select>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
@@ -61,8 +90,13 @@
       </section>
 
       <!-- Loading state -->
-      <div id="loading-state" class="hidden flex flex-col items-center justify-center py-12">
-        <div class="w-10 h-10 border-4 border-gray-200 border-t-[#2BA84A] rounded-full animate-spin"></div>
+      <div
+        id="loading-state"
+        class="hidden flex flex-col items-center justify-center py-12"
+      >
+        <div
+          class="w-10 h-10 border-4 border-gray-200 border-t-[#2BA84A] rounded-full animate-spin"
+        ></div>
         <p class="text-sm text-gray-500 mt-3">Finding tasty recipes...</p>
       </div>
 
