@@ -10,13 +10,17 @@ const item_location= document.getElementById('item-location')
 
 const items = [
   {
+    id: "123",
     name: "SOurdough",
-
     distance: "1.1km",
     before: 12,
     after: 7,
     expires: "2026-05-08",
-    location: "Arby's"
+    location: "Arby's",
+    address: "123 street",
+    ref_price: 5.99,
+    quantity: 12,
+    expiry: ""
   },
 ];
 

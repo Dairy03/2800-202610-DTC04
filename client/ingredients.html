@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Still Fresh - Ingredients</title>
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <script type="module" src="/src/components/site-top-navbar.js"></script>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body class="min-h-screen flex items-start justify-center px-4 pb-24">
+    <site-top-navbar></site-top-navbar>
+    <site-navbar
+      data-tutorial-step="2"
+      data-tutorial-title="Navbar"
+      data-tutorial-tip="This is where you navigate the page!"
+      data-tutorial-child="0"
+    ></site-navbar>
+    <a
+      id="back-link"
+      href="recipe.html"
+      class="btn absolute left-3 top-0 text-3xl z-100 pt-1"
+      >❮</a
+    >
+
+    <div class="relative z-10 w-full max-w-sm pt-4 mt-20">
+      <!-- Loading state -->
+      <div
+        id="loading-state"
+        class="flex flex-col items-center justify-center py-20"
+      >
+        <div
+          class="w-10 h-10 border-4 border-gray-200 border-t-[#2BA84A] rounded-full animate-spin"
+        ></div>
+        <p class="text-sm text-gray-500 mt-3">Loading ingredients...</p>
+      </div>
+
+      <!-- Content -->
+      <div id="ingredients-content" class="hidden">
+        <h1 class="text-2xl font-bold text-[#2D3A3A] mb-2 px-1">
+          Ingredients for <span id="recipe-name">&lt;recipe&gt;</span>
+        </h1>
+        <p class="text-sm text-gray-500 mb-5 px-1">
+          <span id="recipe-serves">—</span> · Total: $<span id="recipe-cost"
+            >—</span
+          >
+        </p>
+
+        <!-- Available discounted items -->
+        <section class="mb-6">
+          <h2 class="text-lg font-semibold text-[#2D3A3A] mb-3 px-1">
+            Available near you
+          </h2>
+          <div id="available-list"></div>
+          <p
+            id="no-available"
+            class="hidden text-sm text-gray-500 text-center py-4"
+          >
+            No discounted items match this recipe right now.
+          </p>
+        </section>
+
+        <!-- Pantry / not discounted -->
+        <section id="pantry-section" class="hidden">
+          <h2 class="text-lg font-semibold text-[#2D3A3A] mb-3 px-1">
+            You'll also need
+          </h2>
+          <ul id="pantry-list" class="space-y-2 px-1"></ul>
+        </section>
+
+        <a id="start-recipe-link" href="#" class="block mt-6">
+          <button
+            class="w-full py-3 rounded-xl text-2xl bg-[#2BA84A] text-white font-bold"
+          >
+            Start recipe
+          </button>
+        </a>
+      </div>
+
+      <!-- Error state -->
+      <div id="error-state" class="hidden text-center py-20">
+        <p class="text-red-700 mb-2">Recipe not found</p>
+        <a href="recipes.html" class="text-[#2BA84A] font-semibold"
+          >Back to recipes</a
+        >
+      </div>
+    </div>
+
+    <script type="module" src="./src/ingredients-page.js"></script>
+  </body>
+</html>

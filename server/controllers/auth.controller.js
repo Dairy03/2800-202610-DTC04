@@ -15,6 +15,9 @@ async function login(req, res) {
   try {
     const { email, password } = req.body;
 
+    console.log("Email from request:", JSON.stringify(email));
+    console.log("Password from request:", JSON.stringify(password));
+
     if (!email || !password) {
       return res.status(400).send({
         message: "Username and password are required",
@@ -97,7 +100,17 @@ async function me(req, res) {
 
 async function updateUser(req, res) {
   try {
-    const allowedFields = ["name", "email", "tutorial_toggle"];
+    const allowedFields = [
+      "fName",
+      "lName",
+      "email",
+      "tutorial_toggle",
+      "totalSaved",
+      "dealsClaimed",
+      "totalClaimed",
+      "pendingDeals",
+      "wastePrevented",
+    ];
     const updates = {};
     for (const key of allowedFields) {
       if (req.body[key] !== undefined) {
