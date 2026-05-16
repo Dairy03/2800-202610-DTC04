@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Still Fresh - Home</title>
+    <title>Still Fresh - My Deals</title>
     <script type="module" src="/src/components/site-navbar.js"></script>
     <script type="module" src="/src/components/site-top-navbar.js"></script>
     <link rel="stylesheet" href="./src/style.css" />
@@ -12,52 +12,15 @@
   <body class="bg-[#FFFBF4]">
     <div id="app"></div>
     <!--NavBar-->
-    <site-top-navbar
-      data-tutorial-step="0"
-      data-tutorial-title="Profile"
-      data-tutorial-tip="This is where you edit your profile!"
-      data-tutorial-child="0,0,2"
-    ></site-top-navbar>
+    <site-top-navbar></site-top-navbar>
 
-    <!-- <button
-      id="start-tutorial-btn"
-      class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-600 transition"
-      data-tutorial-step="0"
-      data-tutorial-title="Start Here"
-      data-tutorial-tip="This button launches the tutorial. You can restart it anytime."
-    >
-      Start Tutorial
-    </button> -->
-
-    <div
-      id="discounter"
-      data-tutorial-step="1"
-      data-tutorial-title="Discounts"
-      data-tutorial-tip="This is where you find fresh deals!"
-      data-tutorial-child="1"
-    ></div>
-
-    <!-- <div class="min-h-screen bg-[#FFFBF4] flex items-center justify-center">
-    </div> -->
+    <div id="discounter"></div>
 
     <!--Footer-->
-    <site-navbar
-      data-tutorial-step="2"
-      data-tutorial-title="Navbar"
-      data-tutorial-tip="This is where you navigate the page!"
-      data-tutorial-child="0"
-    ></site-navbar>
+    <site-navbar></site-navbar>
+    <script type="module" src="/src/main.js"></script>
     <script type="module">
-
       import { DiscountList } from "./src/components/item-card.js";
-      import { tutorialStore } from './src/store/tutorialStore.js';
-
-      const res = await fetch('http://localhost:3000/auth/me', { credentials: 'include' });
-      const { user } = await res.json();
-
-      if (user.tutorial_toggle) {
-        tutorialStore.getState().start();
-      }
 
       const items = [
         {
@@ -120,6 +83,5 @@
 
       new DiscountList("#discounter", items).render();
     </script>
-    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

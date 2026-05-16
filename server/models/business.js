@@ -2,9 +2,14 @@ import { Schema, model } from "mongoose";
 
 const businessSchema = new Schema({
   address: {
-    required: false, // TESTING
+    required: true, // TESTING
     type: String,
     trim: true,
+    unique: true,
+  },
+  coords: {
+    required: false,
+    type: [Number],
   },
   email: {
     required: false, // TESTING
@@ -22,7 +27,7 @@ const businessSchema = new Schema({
   password: {
     required: true,
     type: String,
-    minlength: 6,
+    minlength: 8,
   },
   open: {
     required: false, // TESTING
@@ -34,7 +39,12 @@ const businessSchema = new Schema({
     type: Number,
     trim: true,
   },
-  role: { type: String, default: 'business' },
+  role: { type: String, default: "business" },
+});
+
+businessSchema.pre("save", async function () {
+  if (!this.isModified("address")) return;
+  //this.address = async getLatLongFromAddressFunctionStub() 
 });
 
 export default model("Business", businessSchema);
