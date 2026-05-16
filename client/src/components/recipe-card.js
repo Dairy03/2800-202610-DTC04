@@ -40,7 +40,7 @@ export class RecipeCard {
           <span class="text-xs text-gray-400 ml-2">${step_count} steps</span>
         </div>
       </div>
-      <div class="absolute top-3 right-3">${this.#difficultyBadge()}</div>
+      <div class="absolute bottom-3 right-3">${this.#difficultyBadge()}</div>
     `;
 
     const link = document.createElement("a");
@@ -54,7 +54,9 @@ export class RecipeCard {
 export class RecipeList {
   constructor(selector, recipes = []) {
     this.container =
-      typeof selector === "string" ? document.querySelector(selector) : selector;
+      typeof selector === "string"
+        ? document.querySelector(selector)
+        : selector;
     this.recipes = recipes;
   }
 
