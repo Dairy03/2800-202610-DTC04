@@ -4,9 +4,9 @@ import Item from "../models/item.js";
 
 async function registerBusiness(req, res) {
   try {
-    const { username, password, address } = req.body;
+    const { username, password, address, email, coords} = req.body;
 
-    if (!username || !password || !address) {
+    if (!username || !password || !address || !email) {
       return res
         .status(400)
         .send("Username, password and address are required");
@@ -20,7 +20,7 @@ async function registerBusiness(req, res) {
       return res.status(409).send("Username already registered");
     }
 
-    const user = await Business.create({ username, password, address });
+    const user = await Business.create({ username, password, address, email, coords });
     req.session.userId = user._id;
     req.session.userType = user.role;
 
