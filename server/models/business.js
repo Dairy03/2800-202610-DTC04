@@ -1,4 +1,5 @@
-import { Schema, model } from "mongoose";
+import { Schema, get, model } from "mongoose";
+import { getLatLongFromAddress } from "../controllers/geocode.controller.js";
 
 const businessSchema = new Schema({
   address: {
@@ -44,7 +45,7 @@ const businessSchema = new Schema({
 
 businessSchema.pre("save", async function () {
   if (!this.isModified("address")) return;
-  //this.address = async getLatLongFromAddressFunctionStub() 
+  this.coords = await getLatLongFromAddress(this.address) 
 });
 
 export default model("Business", businessSchema);
