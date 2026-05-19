@@ -81,7 +81,7 @@ async function addStock(req, res) {
 async function removeStock(req, res) {
   const { itemId, itemName, quantity } = req.body;
   const businessId = req.session.userId;
-
+  console.log(itemId);
   //Find stock document and item document tied to the current business for the item being removed
   try {
     const stock = await Stock.findOne({ business: businessId });
@@ -96,27 +96,48 @@ async function removeStock(req, res) {
 
     const newQuantity = item.quantity - quantity;
 
-    const postRemovalItemState = await Item.findByIdAndUpdate(
-      itemId,
-      {
-        $set: { quantity: newQuantity },
-      },
-      { new: true },
-    );
+    if (newQuantity < 1) {
+      // Remove the item from the parent business's Item document
+      const itemDocumentPromise = await Item.findByIdAndDelete({ _id: itemId });
+      // Remove the item from the parent business's Stock document
+      const stockDocumentPromise = await Stock.findByIdAndUpdate(
+        { _id: stock._id },
+        {
+          $unset: { [`items.${itemName}`]: "" },
+        },
+      );
 
-    // if (newQuantity < 1) {
-    //   const removeFromStock = await Stock.findByIdAndDelete(stock_.id);
-    // }
+      //Use synchronous promise calling for efficiency
+      const updateMongo = await Promise.all([
+        itemDocumentPromise,
+        stockDocumentPromise,
+      ]);
 
-    console.log(postRemovalItemState);
+      res.status(200).json({
+        success: true,
+        message: `${itemName} has been removed due to 0 stock.`,
+      });
+    } else {
+      //Update the item's specific Item model document for quantity change
+      const updatedItemState = await Item.findByIdAndUpdate(
+        itemId,
+        {
+          $set: { quantity: newQuantity },
+        },
+        { new: true },
+      );
+
+      res.status(204).json({
+        success: true,
+        message: `Updated ${itemName} quantity to ${newQuantity}`,
+      });
+    }
   } catch (error) {
     console.log(error);
     res
       .status(500)
       .json({ success: false, message: `Internal server error: ${error}` });
   }
-
-  res.status(204).json({ success: true });
 }
 
 async function getStoreItems(req, res) {
