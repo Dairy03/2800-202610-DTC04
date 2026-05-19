@@ -81,7 +81,7 @@ async function addStock(req, res) {
 async function removeStock(req, res) {
   const { itemId, itemName, quantity } = req.body;
   const businessId = req.session.userId;
-  console.log(itemId);
+
   //Find stock document and item document tied to the current business for the item being removed
   try {
     const stock = await Stock.findOne({ business: businessId });
@@ -96,6 +96,7 @@ async function removeStock(req, res) {
 
     const newQuantity = item.quantity - quantity;
 
+    //Remove item document and update business stock synchronously
     if (newQuantity < 1) {
       // Remove the item from the parent business's Item document
       const itemDocumentPromise = await Item.findByIdAndDelete({ _id: itemId });
