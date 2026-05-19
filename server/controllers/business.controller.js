@@ -4,9 +4,9 @@ import Item from "../models/item.js";
 
 async function registerBusiness(req, res) {
   try {
-    const { username, password, address } = req.body;
+    const { username, password, address, email, coords } = req.body;
 
-    if (!username || !password || !address) {
+    if (!username || !password || !address || !email) {
       return res
         .status(400)
         .send("Username, password and address are required");
@@ -20,7 +20,13 @@ async function registerBusiness(req, res) {
       return res.status(409).send("Username already registered");
     }
 
-    const user = await Business.create({ username, password, address });
+    const user = await Business.create({
+      username,
+      password,
+      address,
+      email,
+      coords,
+    });
     req.session.userId = user._id;
     req.session.userType = user.role;
 
@@ -85,4 +91,61 @@ async function removeStock(req, res) {
   res.status(204).json({ success: true });
 }
 
-export { registerBusiness, addStock, removeStock };
+async function getStoreItems(req, res) {
+  const { storeId } = req.params;
+
+  try {
+    const items = await Item.find({ business: storeId });
+
+    if (!items || items.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No items found for this store", success: false });
+    }
+
+    res.status(200).json({ success: true, items });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Error fetching store items", success: false });
+  }
+}
+
+async function getAllBusinesses(req, res) {
+  try {
+    const businesses = await Business.find({});
+    res.status(200).json({ success: true, businesses });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Error fetching businesses", success: false });
+  }
+}
+
+async function getBusinessById(req, res) {
+  try {
+    const business = await Business.findById(req.params.businessId);
+    if (!business) {
+      return res
+        .status(404)
+        .json({ message: "Business not found", success: false });
+    }
+    res.status(200).json({ success: true, business });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Error fetching business", success: false });
+  }
+}
+
+export {
+  registerBusiness,
+  removeStock,
+  addStock,
+  getStoreItems,
+  getAllBusinesses,
+  getBusinessById,
+};

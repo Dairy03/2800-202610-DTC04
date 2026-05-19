@@ -10,7 +10,7 @@ renderTopNavbar() {
       <div class="flex flex-nowrap justify-between items-center p-2">
         <img src="./images/profile-sprite.png" class="h-9 invisible"/>
         <h1 class="font-extrabold">Still Fresh</h1>
-        <a href="" class="inline-block">
+        <a href="profile.html" class="inline-block">
           <img src="./images/profile-sprite.png" class="h-9" alt="Recipes" />
         </a>
       </div>
