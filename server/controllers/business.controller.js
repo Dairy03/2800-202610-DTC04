@@ -77,15 +77,43 @@ async function addStock(req, res) {
   }
 }
 
+//This function is performed for one itemId at a time and expects req.body to be only 1 object
 async function removeStock(req, res) {
   const { itemId, itemName, quantity } = req.body;
   const businessId = req.session.userId;
 
+  //Find stock document and item document tied to the current business for the item being removed
   try {
     const stock = await Stock.findOne({ business: businessId });
-    console.log(stock._id);
+    const item = await Item.findOne({ business: businessId });
+
+    //If no stock/item document found return error message.
+    if (!stock || !item)
+      return res.status(404).json({
+        success: false,
+        message: `Cannot find stock or item document matching ${businessId}.`,
+      });
+
+    const newQuantity = item.quantity - quantity;
+
+    const postRemovalItemState = await Item.findByIdAndUpdate(
+      itemId,
+      {
+        $set: { quantity: newQuantity },
+      },
+      { new: true },
+    );
+
+    // if (newQuantity < 1) {
+    //   const removeFromStock = await Stock.findByIdAndDelete(stock_.id);
+    // }
+
+    console.log(postRemovalItemState);
   } catch (error) {
     console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: `Internal server error: ${error}` });
   }
 
   res.status(204).json({ success: true });
