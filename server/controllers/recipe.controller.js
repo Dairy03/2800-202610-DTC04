@@ -57,8 +57,12 @@ Today's date is ${new Date().toISOString().split("T")[0]}. Prioritize items expi
     });
 
     const parsed = JSON.parse(response.choices[0].message.content);
+    const enrichedRecipes = await enrichRecipesWithPrices(
+      parsed.recipes,
+      items,
+    );
 
-    res.status(200).json(parsed);
+    res.status(200).json({ recipes: enrichedRecipes });
   } catch (error) {
     console.error("Recipe generation error:", error);
 
@@ -72,4 +76,34 @@ Today's date is ${new Date().toISOString().split("T")[0]}. Prioritize items expi
       .status(500)
       .json({ message: "Error generating recipes", success: false });
   }
+}
+
+async function enrichRecipesWithPrices(recipes, items) {
+  const priceMap = new Map();
+
+  items.forEach((item) => {
+    const idStr = item._id.toString();
+    priceMap.set(idStr, item.ref_price);
+  });
+
+  const enriched = recipes.map((recipe) => ({
+    ...recipe,
+    ingredients: recipe.ingredients.map((ingredient) => {
+      if (ingredient.item_id) {
+        const idStr = ingredient.item_id.toString();
+        if (priceMap.has(idStr)) {
+          return {
+            ...ingredient,
+            ref_price: priceMap.get(idStr),
+          };
+        }
+      }
+      return {
+        ...ingredient,
+        ref_price: null,
+      };
+    }),
+  }));
+
+  return enriched;
 }
