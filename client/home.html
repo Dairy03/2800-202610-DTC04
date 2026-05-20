@@ -59,67 +59,91 @@
         tutorialStore.getState().start();
       }
 
-      const items = [
-        {
-          name: "Sourdough Bread",
-          img: "./images/my-deals-sprite.png",
-          distance: "1.1km",
-          before: 12,
-          after: 7,
-          expires: "2026-05-08",
-        },
-        {
-          name: "Sourdough Bread",
-          img: "./images/my-deals-sprite.png",
-          distance: "1.1km",
-          before: 12,
-          after: 7,
-          expires: "2026-05-08",
-        },
-        {
-          name: "Sourdough Bread",
-          img: "./images/my-deals-sprite.png",
-          distance: "1.1km",
-          before: 12,
-          after: 7,
-          expires: "2026-05-08",
-        },
-        {
-          name: "Sourdough Bread",
-          img: "./images/my-deals-sprite.png",
-          distance: "1.1km",
-          before: 12,
-          after: 7,
-          expires: "2026-05-08",
-        },
-        {
-          name: "Sourdough Bread",
-          img: "./images/my-deals-sprite.png",
-          distance: "1.1km",
-          before: 12,
-          after: 7,
-          expires: "2026-05-08",
-        },
-        {
-          name: "Sourdough Bread",
-          img: "./images/my-deals-sprite.png",
-          distance: "1.1km",
-          before: 12,
-          after: 7,
-          expires: "2026-05-08",
-        },
-        {
-          name: "Sourdough Bread",
-          img: "./images/my-deals-sprite.png",
-          distance: "1.1km",
-          before: 12,
-          after: 7,
-          expires: "2026-05-08",
-        },
-      ];
+      import axios from "axios";
 
+      const PORT = 3000;
+      const URL = `http://localhost:${PORT}`;
+
+      axios.defaults.withCredentials = true;
+
+      async function getItems() {
+          try{
+              const result = await axios.get(`http://localhost:3000/items/`)
+              console.log(result.data.items)
+              return result.data.items
+          } catch(error) {
+              console.log(error)
+          }
+          }
+
+      // document.getElementById('claim-deal-btn').addEventListener(claimDeal(itemID, itemQuantity))
+      const items = await getItems()
+
+
+      // const items = [
+      //   {
+      //     name: "Sourdough Bread",
+      //     img: "./images/my-deals-sprite.png",
+      //     distance: "1.1km",
+      //     before: 12,
+      //     after: 7,
+      //     expires: "2026-05-08",
+      //   },
+      //   {
+      //     name: "Sourdough Bread",
+      //     img: "./images/my-deals-sprite.png",
+      //     distance: "1.1km",
+      //     before: 12,
+      //     after: 7,
+      //     expires: "2026-05-08",
+      //   },
+      //   {
+      //     name: "Sourdough Bread",
+      //     img: "./images/my-deals-sprite.png",
+      //     distance: "1.1km",
+      //     before: 12,
+      //     after: 7,
+      //     expires: "2026-05-08",
+      //   },
+      //   {
+      //     name: "Sourdough Bread",
+      //     img: "./images/my-deals-sprite.png",
+      //     distance: "1.1km",
+      //     before: 12,
+      //     after: 7,
+      //     expires: "2026-05-08",
+      //   },
+      //   {
+      //     name: "Sourdough Bread",
+      //     img: "./images/my-deals-sprite.png",
+      //     distance: "1.1km",
+      //     before: 12,
+      //     after: 7,
+      //     expires: "2026-05-08",
+      //   },
+      //   {
+      //     name: "Sourdough Bread",
+      //     img: "./images/my-deals-sprite.png",
+      //     distance: "1.1km",
+      //     before: 12,
+      //     after: 7,
+      //     expires: "2026-05-08",
+      //   },
+      //   {
+      //     name: "Sourdough Bread",
+      //     img: "./images/my-deals-sprite.png",
+      //     distance: "1.1km",
+      //     before: 12,
+      //     after: 7,
+      //     expires: "2026-05-08",
+      //   },
+      // ];
+      console.log(items)
       new DiscountList("#discounter", items).render();
     </script>
     <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/home.js">
+      console.log(items)
+    </script>
   </body>
 </html>

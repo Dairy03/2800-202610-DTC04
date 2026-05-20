@@ -16,6 +16,9 @@ const itemQuantity = 1
     }
     }
 
-document.getElementById('claim-deal-btn').addEventListener(claimDeal(itemID, itemQuantity))
+document.getElementById('claim-deal-btn').addEventListener("click", async () => {
+    await claimDeal(itemID, itemQuantity)
+    window.location.href = "./item-confirm-page.html";
+})
 // claimDeal(itemID, itemQuantity)
 

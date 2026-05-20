@@ -5,7 +5,7 @@ export class DiscountCard {
 
     #daysUnitlExpiry() {
         const now = new Date() ;
-        const expiry = new Date(this.item.expires) ;
+        const expiry = new Date(this.item.expiry) ;
         return Math.round((expiry - now) / (1000 * 60 * 60 * 24)) ; //convert milliseconds into days and rounds to the nearest whole number
     }
 
@@ -16,17 +16,28 @@ export class DiscountCard {
         return { label: `Exp ${days}d`, cls: 'bg-green-100 text-green-800'} ;
     }
 
+    #getDiscount() {
+        const days = Math.max(
+            0,
+            Math.round((new Date(this.item.expiry) - new Date()) / (1000 * 60 * 60 * 24)),
+        );
+        return days <= 1 ? 0.5 : days <= 2 ? 0.35 : days <= 4 ? 0.2 : 0.1;
+    }
+
     //maybe discount pctage?
 
     render() {
         const { name, 
                 img,
                 distance,
-                before,
-                after } = this.item;
+                // before,
+                // after 
+                ref_price
+            } = this.item;
+        const after = this.#getDiscount() * ref_price
         const days = this.#daysUnitlExpiry();
         const badge = this.#expiryBadge(days);
-        const saving = (before - after).toFixed(2);
+        const saving = (ref_price - after).toFixed(2);
 
         const card = document.createElement('div') ;
         card.className = 'relative flex items-center gap-3 bg-white border-2 border-gray-200 rounded-2xl p-2 w-full max-h-32 hover:border-green-600 transition-colors duration-150' ;
@@ -51,7 +62,7 @@ export class DiscountCard {
                 </p>
                 <div class="flex flex-row gap-1 items-end">
                     <span class="text-base font-semibold text-gray-900">$${after.toFixed(2)}</span>
-                    <span class="text-xs text-gray-400 line-through">$${before.toFixed(2)}</span>
+                    <span class="text-xs text-gray-400 line-through">$${ref_price.toFixed(2)}</span>
                     <span class="text-xs font-medium text-green-700">Save $${saving}</span>
                 </div>
             </div>
