@@ -32,9 +32,73 @@ function showMap() {
   });
 
   map.addControl(new maplibregl.NavigationControl(), "top-right");
+  const geolocate = new maplibregl.GeolocateControl({
+    positionOptions: { enableHighAccuracy: true },
+    trackUserLocation: true,
+    showUserHeading: true,
+  });
+  map.addControl(geolocate, "top-right");
 
   map.once("load", () => {
     showBusinesses();
+    addUserPin(map)
+  });
+}
+
+async function addUserPin(map) {
+  if (!("geolocation" in navigator)) {
+    console.warn("Geolocation is not available in this browser");
+    return;
+  }
+
+  // Use the safe geolocation function that returns a Promise
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        // Add a GeoJSON sourceF
+        map.addSource("userLngLat", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: { type: "Point", coordinates: appState.userLngLat },
+                properties: { description: "Your location" },
+              },
+            ],
+          },
+        });
+
+        // Add a simple circle layer
+        map.addLayer({
+          id: "userLngLat",
+          type: "circle",
+          source: "userLngLat",
+          paint: {
+            "circle-color": "#1E90FF",
+            "circle-radius": 6,
+            "circle-stroke-width": 2,
+            "circle-stroke-color": "#ffffff",
+          },
+        });
+
+        // Optional: add a tooltip on hover or click
+        map.on("click", "userLngLat", (e) => {
+          const [lng, lat] = e.features[0].geometry.coordinates;
+          new maplibregl.Popup()
+            .setLngLat([lng, lat])
+            .setHTML("You are here")
+            .addTo(map);
+        });
+        resolve();
+      },
+      (err) => {
+        console.error("Geolocation error", err);
+        reject(err);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 },
+    );
   });
 }
 
