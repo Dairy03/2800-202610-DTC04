@@ -1,5 +1,14 @@
 import Groq from "groq-sdk";
 
+// Calculate discount based on days until expiry
+function getDiscount(expiryDate) {
+  const days = Math.max(
+    0,
+    Math.round((new Date(expiryDate) - new Date()) / (1000 * 60 * 60 * 24)),
+  );
+  return days <= 1 ? 0.5 : days <= 2 ? 0.35 : days <= 4 ? 0.2 : 0.1;
+}
+
 export async function getRecipes(req, res) {
   const { source, storeId, items } = req.body;
   const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -83,7 +92,14 @@ async function enrichRecipesWithPrices(recipes, items) {
 
   items.forEach((item) => {
     const idStr = item._id.toString();
-    priceMap.set(idStr, item.ref_price);
+    const discount = getDiscount(item.expiry);
+    const discountedPrice = +(item.ref_price * (1 - discount)).toFixed(2);
+
+    priceMap.set(idStr, {
+      ref_price: item.ref_price,
+      discounted_price: discountedPrice,
+      expiry: item.expiry,
+    });
   });
 
   const enriched = recipes.map((recipe) => ({
@@ -92,15 +108,20 @@ async function enrichRecipesWithPrices(recipes, items) {
       if (ingredient.item_id) {
         const idStr = ingredient.item_id.toString();
         if (priceMap.has(idStr)) {
+          const prices = priceMap.get(idStr);
           return {
             ...ingredient,
-            ref_price: priceMap.get(idStr),
+            ref_price: prices.ref_price,
+            discounted_price: prices.discounted_price,
+            expiry: prices.expiry,
           };
         }
       }
       return {
         ...ingredient,
         ref_price: null,
+        discounted_price: null,
+        expiry: null,
       };
     }),
   }));
