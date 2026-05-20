@@ -22,6 +22,7 @@ const els = {
 function show(el) {
   el.classList.remove("hidden");
 }
+
 function hide(el) {
   el.classList.add("hidden");
 }
@@ -30,8 +31,9 @@ function computeCost(recipe) {
   let total = 0;
   for (const ing of recipe.ingredients || []) {
     if (!ing.item_id) continue;
-    // ref_price is included in the ingredient data from the AI response
-    if (ing.ref_price) total += ing.ref_price;
+    // Use discounted price if available, otherwise fall back to full price
+    const price = ing.discounted_price ?? ing.ref_price;
+    if (price) total += price;
   }
   return total.toFixed(2);
 }
@@ -74,12 +76,14 @@ function init() {
     show(els.error);
     return;
   }
+
   const recipe = findCachedRecipe(recipeId);
   if (!recipe) {
     hide(els.loading);
     show(els.error);
     return;
   }
+
   render(recipe);
 }
 
