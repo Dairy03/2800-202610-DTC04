@@ -13,16 +13,18 @@ const itemQuantity = 1
 
 async function claimDeal(itemID, itemQuantity) {
     try{
-        const result = await axios.post(`http://localhost:3000/deal/accept/${itemID}/${itemQuantity}`)
+        // const result = await axios.post(`http://localhost:3000/deal/accept/${itemID}/${itemQuantity}`)
+        const result = await axios.patch(`http://localhost:3000/deal/update/${itemID}/1`)
         console.log(result)
     } catch(error) {
-        console.log(error)
+        const result = await axios.post(`http://localhost:3000/deal/accept/${itemID}/${itemQuantity}`)
+        console.log(result)
     }
 }
 
 async function removeDeal(itemID) {
     try{
-        const result = await axios.delete(`http://localhost:3000/deal/remove/${itemID}`)
+        const result = await axios.patch(`http://localhost:3000/deal/update/${itemID}/-1`)
         console.log(result)
     } catch(error) {
         console.log(error)
