@@ -46,27 +46,26 @@ async function getItemsByParams(req, res) {
 
       // fp = fresh produce
       if (filterSet.has("fp"))
-        filterConditions.push({ ref_price: { $lte: 20 } });
+        filterConditions.push({ group: "fp" });
 
       // ms = meat and seafood
       if (filterSet.has("ms"))
-        filterConditions.push({
-          expiry: { $lte: new Date(Date.now() + 3 * 86400000) },
-        });
+        filterConditions.push({ group: "ms" });
 
       // de = dairy and eggs
       if (filterSet.has("de"))
-        filterConditions.push({ ref_price: { $lte: 10 } });
+        filterConditions.push({ group: "de" });
 
       // bk = bakery
       if (filterSet.has("bk"))
-        filterConditions.push({ quantity: { $gte: 50 } });
+        filterConditions.push({ group: "bk" });
 
       // ss = sweets and snacks
-      if (filterSet.has("ss")) filterConditions.push({ quantity: { $gt: 0 } });
+      if (filterSet.has("ss")) 
+        filterConditions.push({ group: "ss" });
 
       if (filterConditions.length > 0) {
-        pipeline.push({ $match: { $and: filterConditions } });
+        pipeline.push({ $match: { $or: filterConditions } });
       }
     }
 
