@@ -44,7 +44,7 @@ export class DiscountCard {
 
             <div class="">
                 <img
-                    src="${img}"
+                    src="${`https://placehold.co/72x72/2BA84A/ffffff?text=${encodeURIComponent(name[0].toUpperCase())}`}"
                     alt="${name}"
                     loading="lazy"
                     class="w-18 h-18 rounded-lg object-cover shrink-0 bg-green-400"
