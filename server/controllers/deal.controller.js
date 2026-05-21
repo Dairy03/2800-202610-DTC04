@@ -98,6 +98,7 @@ async function getCart(req, res) {
       ref_price: entry.itemId.ref_price,
       quantity: entry.quantity,
       expiry: entry.itemId.expiry,
+      weight_kg: entry.itemId.weight_kg,
     }));
 
     res.status(200).json({ success: true, cart });
