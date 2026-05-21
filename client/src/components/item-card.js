@@ -25,7 +25,6 @@ export class DiscountCard {
     }
 
     //maybe discount pctage?
-
     render() {
         const { name, 
                 img,
@@ -73,7 +72,7 @@ export class DiscountCard {
         ` ;
         
         const acard = document.createElement('a') ;
-        acard.href = "item-page.html"
+        acard.href = `./item-page.html?id=${this.item._id}`;
         acard.append(card)
         return acard;
     }
