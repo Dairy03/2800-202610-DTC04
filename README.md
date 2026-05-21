@@ -6,5 +6,9 @@ Team Members:
 - Chris Banno
 - Jake Surry
 - Darien Lowe
+
+## Installation tips
+map install: npm i maplibre-gl
+
 ## More details to come
 TBA
