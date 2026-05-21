@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Still Fresh</title>
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <script type="module" src="/src/components/site-top-navbar.js"></script>
+    <link rel="stylesheet" href="./src/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/tabler-icons.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[#f5f5f3] min-h-screen flex items-center justify-center p-8">
+
+    <!-- Nav bar stuff goes here -->
+
+    <div class="flex flex-col items-center gap-4 w-full max-w-2xl">
+
+      <div class="flex items-center gap-2 w-full">
+
+        <div class="relative flex-1">
+          <input
+            id="sb"
+            type="text"
+            placeholder="What are you looking for?"
+            autocomplete="off"
+            class="w-full h-12 pl-[18px] pr-11 text-sm font-light text-gray-900 bg-white border border-gray-300 rounded-full outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-blue-200 placeholder:text-gray-300"
+          />
+          <i class="ti ti-search absolute right-4 top-1/2 -translate-y-1/2 text-base text-gray-300 pointer-events-none" aria-hidden="true"></i>
+        </div>
+
+        <button
+          id="filter-btn"
+          onclick="togglePanel('filter')"
+          aria-expanded="false"
+          aria-label="Filter"
+          class="pill-btn h-12 px-4 flex items-center gap-1.5 text-[13px] text-gray-500 bg-white border border-gray-300 rounded-full cursor-pointer whitespace-nowrap shrink-0 transition hover:bg-[#f5f5f3] hover:text-gray-900"
+        >
+          <i class="ti ti-adjustments-horizontal text-[15px] text-gray-400" aria-hidden="true"></i>
+          Filter
+          <span id="filter-badge" class="hidden items-center justify-center w-4 h-4 rounded-full bg-blue-500 text-white text-[10px] font-medium ml-0.5">0</span>
+          <i id="filter-chev" class="ti ti-chevron-down text-[15px] text-gray-400 transition-transform duration-200" aria-hidden="true"></i>
+        </button>
+
+        <button
+          id="sort-btn"
+          onclick="togglePanel('sort')"
+          aria-expanded="false"
+          aria-label="Sort"
+          class="pill-btn h-12 px-4 flex items-center gap-1.5 text-[13px] text-gray-500 bg-white border border-gray-300 rounded-full cursor-pointer whitespace-nowrap shrink-0 transition hover:bg-[#f5f5f3] hover:text-gray-900"
+        >
+          <i class="ti ti-arrows-sort text-[15px] text-gray-400" aria-hidden="true"></i>
+          <span id="sort-label">Sort</span>
+          <i id="sort-chev" class="ti ti-chevron-down text-[15px] text-gray-400 transition-transform duration-200" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div id="filter-panel" class="hidden w-full">
+        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden -mt-1">
+
+          <div class="p-4">
+            <p class="text-[11px] font-medium tracking-[0.08em] uppercase text-gray-400 mb-2">Category</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="chip px-3 py-1 rounded-full text-[13px] text-gray-500 bg-gray-100 border border-gray-200 cursor-pointer transition hover:border-gray-300 hover:text-gray-900" onclick="toggleChip(this,'cat')">Food</span>
+              <span class="chip px-3 py-1 rounded-full text-[13px] text-gray-500 bg-gray-100 border border-gray-200 cursor-pointer transition hover:border-gray-300 hover:text-gray-900" onclick="toggleChip(this,'cat')">Expiry</span>
+              <span class="chip px-3 py-1 rounded-full text-[13px] text-gray-500 bg-gray-100 border border-gray-200 cursor-pointer transition hover:border-gray-300 hover:text-gray-900" onclick="toggleChip(this,'cat')">Placeholder</span>
+              <span class="chip px-3 py-1 rounded-full text-[13px] text-gray-500 bg-gray-100 border border-gray-200 cursor-pointer transition hover:border-gray-300 hover:text-gray-900" onclick="toggleChip(this,'cat')">Placeholder</span>
+              <span class="chip px-3 py-1 rounded-full text-[13px] text-gray-500 bg-gray-100 border border-gray-200 cursor-pointer transition hover:border-gray-300 hover:text-gray-900" onclick="toggleChip(this,'cat')">Placeholder</span>
+            </div>
+          </div>
+
+          <div class="flex justify-end gap-2 px-4 py-3 border-t border-gray-100">
+            <button onclick="clearFilters()" class="pill-btn h-9 px-4 text-[13px] text-gray-500 bg-white border border-gray-300 rounded-full cursor-pointer transition hover:bg-gray-50">Clear</button>
+            <button onclick="applyFilters()" class="pill-btn h-9 px-4 text-[13px] text-white bg-gray-900 border border-gray-900 rounded-full cursor-pointer transition hover:bg-gray-700">Apply filters</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="sort-panel" class="hidden w-full">
+        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden -mt-1">
+          <div id="s-rel" onclick="selectSort(this,'Relevance')"     class="sort-row flex items-center justify-between px-4 py-2.5 cursor-pointer text-sm font-medium text-gray-900 hover:bg-gray-50 transition">Relevance     <i id="ic-rel" class="ti ti-check text-base" aria-hidden="true"></i></div>
+          <div id="s-new" onclick="selectSort(this,'Newest first')"  class="sort-row flex items-center justify-between px-4 py-2.5 cursor-pointer text-sm text-gray-500 hover:bg-gray-50 transition">Newest first  <i id="ic-new" class="ti ti-check text-base opacity-0" aria-hidden="true"></i></div>
+          <div id="s-old" onclick="selectSort(this,'Oldest first')"  class="sort-row flex items-center justify-between px-4 py-2.5 cursor-pointer text-sm text-gray-500 hover:bg-gray-50 transition">Oldest first  <i id="ic-old" class="ti ti-check text-base opacity-0" aria-hidden="true"></i></div>
+          <div id="s-az"  onclick="selectSort(this,'A → Z')"         class="sort-row flex items-center justify-between px-4 py-2.5 cursor-pointer text-sm text-gray-500 hover:bg-gray-50 transition">A → Z         <i id="ic-az"  class="ti ti-check text-base opacity-0" aria-hidden="true"></i></div>
+          <div id="s-za"  onclick="selectSort(this,'Z → A')"         class="sort-row flex items-center justify-between px-4 py-2.5 cursor-pointer text-sm text-gray-500 hover:bg-gray-50 transition">Z → A         <i id="ic-za"  class="ti ti-check text-base opacity-0" aria-hidden="true"></i></div>
+        </div>
+      </div>
+
+    </div>
+
+    <script>
+      let openPanel = null;
+      const ids = {
+        filter: ['filter-btn', 'filter-panel', 'filter-chev'],
+        sort:   ['sort-btn',   'sort-panel',   'sort-chev']
+      };
+
+      function togglePanel(name) {
+        if (openPanel && openPanel !== name) {
+          const [b, p, c] = ids[openPanel];
+          document.getElementById(p).classList.add('hidden');
+          document.getElementById(b).classList.remove('!bg-gray-900', '!text-white', '!border-gray-900');
+          document.getElementById(b).setAttribute('aria-expanded', 'false');
+          document.getElementById(c).style.transform = '';
+          openPanel = null;
+        }
+        const [btn, panel, chev] = ids[name];
+        const showing = !document.getElementById(panel).classList.contains('hidden');
+        document.getElementById(panel).classList.toggle('hidden', showing);
+        if (!showing) {
+          document.getElementById(btn).classList.add('!bg-gray-900', '!text-white', '!border-gray-900');
+        } else {
+          document.getElementById(btn).classList.remove('!bg-gray-900', '!text-white', '!border-gray-900');
+        }
+        document.getElementById(btn).setAttribute('aria-expanded', String(!showing));
+        document.getElementById(chev).style.transform = showing ? '' : 'rotate(180deg)';
+        openPanel = showing ? null : name;
+      }
+
+      function toggleChip(el, group) {
+        if (group !== 'date') {
+          el.classList.toggle('!bg-gray-900');
+          el.classList.toggle('!text-white');
+          el.classList.toggle('!border-gray-900');
+        } else {
+          el.closest('div').querySelectorAll('.chip').forEach(c => {
+            c.classList.remove('!bg-gray-900', '!text-white', '!border-gray-900');
+          });
+          el.classList.add('!bg-gray-900', '!text-white', '!border-gray-900');
+        }
+        updateBadge();
+      }
+
+      function updateBadge() {
+        const count = document.querySelectorAll('#filter-panel .chip.\\!bg-gray-900').length;
+        const b = document.getElementById('filter-badge');
+        b.classList.toggle('hidden', count === 0);
+        b.classList.toggle('inline-flex', count > 0);
+        b.textContent = count;
+      }
+
+      function clearFilters() {
+        document.querySelectorAll('#filter-panel .chip').forEach(c => {
+          c.classList.remove('!bg-gray-900', '!text-white', '!border-gray-900');
+        });
+        updateBadge();
+      }
+
+      function applyFilters() { togglePanel('filter'); }
+
+      const sortRows = ['s-rel', 's-new', 's-old', 's-az', 's-za'];
+      function selectSort(el, label) {
+        sortRows.forEach(id => {
+          const row = document.getElementById(id);
+          row.classList.remove('font-medium', 'text-gray-900');
+          row.classList.add('text-gray-500');
+          row.querySelector('i').style.opacity = '0';
+        });
+        el.classList.add('font-medium', 'text-gray-900');
+        el.classList.remove('text-gray-500');
+        el.querySelector('i').style.opacity = '1';
+        document.getElementById('sort-label').textContent = label;
+        setTimeout(() => togglePanel('sort'), 120);
+      }
+
+      document.getElementById('sb').addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+          const v = document.getElementById('sb').value.trim();
+          if (v) console.log('Search:', v);
+        }
+      });
+
+      document.addEventListener('click', e => {
+        if (openPanel && !e.target.closest('#filter-panel') && !e.target.closest('#sort-panel') && !e.target.closest('.pill-btn')) {
+          const [b, p, c] = ids[openPanel];
+          document.getElementById(p).classList.add('hidden');
+          document.getElementById(b).classList.remove('!bg-gray-900', '!text-white', '!border-gray-900');
+          document.getElementById(b).setAttribute('aria-expanded', 'false');
+          document.getElementById(c).style.transform = '';
+          openPanel = null;
+        }
+      });
+    </script>
+
+  </body>
+</html>
