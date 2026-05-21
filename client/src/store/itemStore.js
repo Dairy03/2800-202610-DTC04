@@ -6,7 +6,7 @@ const URL = `http://localhost`;
 
 const BASE_URL = `${URL}:${PORT}/items`;
 
-const itemStore = createStore((set) => ({
+export const itemStore = createStore((set) => ({
   items: [],
   loading: false,
   error: null,
@@ -69,5 +69,3 @@ const itemStore = createStore((set) => ({
       error: null,
     }),
 }));
-
-export default itemStore;
