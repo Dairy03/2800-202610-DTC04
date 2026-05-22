@@ -1,5 +1,5 @@
 import { RecipeList } from "./components/recipe-card.js";
-import { fetchRecipes, checkRateLimit } from "/recipe-api.js";
+import { fetchRecipes, checkRateLimit } from "./recipe-api.js";
 const URL = import.meta.env.VITE_API_URL
 
 
