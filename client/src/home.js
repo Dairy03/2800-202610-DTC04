@@ -12,6 +12,7 @@ authStore.subscribe((state) => {
 
     if (user.tutorial_toggle) {
       tutorialStore.getState().start();
+      // state.updateUser({ tutorial_toggle: false });
     }
 
     if (!state.userCoords) {
