@@ -8,6 +8,7 @@ axios.defaults.withCredentials = true;
 
 export const authStore = createStore((set) => ({
   user: null,
+  userCoords: null,
   isAuthenticated: false,
   error: null,
   isLoading: false,
@@ -84,6 +85,26 @@ export const authStore = createStore((set) => ({
     } catch {
       set({ isAuthenticated: false });
     }
+  },
+
+  getLocation: () => {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error("Geolocation not supported"));
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const coords = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+          };
+          set({ userCoords: coords });
+          resolve(coords);
+        },
+        (err) => reject(err),
+      );
+    });
   },
 
   clearError: async () => set({ error: null }),

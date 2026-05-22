@@ -14,6 +14,10 @@ authStore.subscribe((state) => {
       tutorialStore.getState().start();
     }
 
+    if (!state.userCoords) {
+      state.getLocation();
+    }
+
     itemStore.getState().fetchItems();
   } else {
     window.location.href = "/login-page.html";
