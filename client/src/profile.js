@@ -15,7 +15,8 @@ const STAT_CONFIGS = {
       label: "Total waste prevented",
       key: "wastePrevented",
       format: (v) =>
-        `<div id="co2-container">${(v || 0).toFixed(2)}kg CO₂</div>` ?? 0,
+        `<div id="co2-container"><button id="c02-button">${(v || 0).toFixed(2)}kg CO₂</button></div>` ??
+        0,
     },
     {
       label: "Join date",
@@ -80,9 +81,9 @@ function triggerCarbonAnimation() {
 function checkAndAnimateCarbon(currentSaved) {
   const lastSaved = localStorage.getItem("lastCarbonSaved");
 
-  // if (lastSaved && parseFloat(lastSaved) < currentSaved) {
-  //   triggerCarbonAnimation();
-  // }
+  if (lastSaved && parseFloat(lastSaved) > 5) {
+    triggerCarbonAnimation();
+  }
 
   localStorage.setItem("lastCarbonSaved", currentSaved);
 }
