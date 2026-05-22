@@ -3,13 +3,28 @@ import User from "../models/user.js";
 
 async function acceptDeal(req, res) {
   const { itemId, quantity } = req.params;
+  const parsedQuantity = Number(quantity);
   const userId = req.session.userId;
   try {
+    const item = await Item.findById(itemId);
+
+    if (!item) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Item not found" });
+    }
+
     await User.findByIdAndUpdate(userId, {
-      $push: {
-        cart: { itemId: itemId, quantity: quantity },
+      $push: { cart: { itemId, parsedQuantity } },
+      $inc: {
+        dealsClaimed: 1, // number of deals claimed
+        totalClaimed: parsedQuantity, // total items claimed
+        pendingDeals: 1, // deals not yet completed
+        wastePrevented: item.weight_kg * parsedQuantity, // kg of food saved
+        totalSaved: item.ref_price * parsedQuantity, // money saved
       },
     });
+
     console.log(`${userId} has claimed ${quantity} of an item.`);
     res
       .status(200)
@@ -20,6 +35,7 @@ async function acceptDeal(req, res) {
   }
 }
 
+//Function to update cart by an amount more than 1
 async function updateCart(req, res) {
   const { itemId, quantity } = req.params;
   const changeAmount = Number(quantity);
@@ -43,7 +59,7 @@ async function updateCart(req, res) {
       });
     }
 
-    //Update Cart Entry
+    //Update Cart Entry by new quantity
     await User.findOneAndUpdate(
       { _id: userId, "cart.itemId": itemId },
       {
@@ -67,9 +83,33 @@ async function removeDeal(req, res) {
   const userId = req.session.userId;
 
   try {
+    //Get item document, and user's cart for player stat reduction
+    const item = await Item.findById(itemId);
+    const user = await User.findOne({ _id: userId, "cart.itemId": itemId });
+    const cartEntry = user.cart.find(
+      (entry) => entry.itemId.toString() === itemId,
+    );
+
+    if (!item || !cartEntry) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Item or cart entry not found" });
+    }
+
+    const parsedQuantity = Number(cartEntry.quantity);
+
+    //Remove the item's stats from user's stats
     await User.findByIdAndUpdate(userId, {
-      $pull: { cart: { itemId: itemId } },
+      $pull: { cart: { itemId } },
+      $inc: {
+        dealsClaimed: -1,
+        totalClaimed: -cartEntry.parsedQuantity,
+        pendingDeals: -1,
+        wastePrevented: -(item.weight_kg * cartEntry.parsedQuantity),
+        totalSaved: -(item.ref_price * cartEntry.parsedQuantity),
+      },
     });
+
     res
       .status(200)
       .json({ success: true, message: `Removed ${itemId} from cart.` });
@@ -98,6 +138,7 @@ async function getCart(req, res) {
       ref_price: entry.itemId.ref_price,
       quantity: entry.quantity,
       expiry: entry.itemId.expiry,
+      weight_kg: entry.itemId.weight_kg,
     }));
 
     res.status(200).json({ success: true, cart });
