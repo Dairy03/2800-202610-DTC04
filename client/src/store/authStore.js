@@ -2,7 +2,8 @@ import { createStore } from "zustand/vanilla";
 import axios from "axios";
 
 const PORT = 3000;
-const URL = `http://localhost:${PORT}`;
+// const URL = `http://localhost:${PORT}`;
+const URL = import.meta.env.VITE_API_URL
 
 axios.defaults.withCredentials = true;
 

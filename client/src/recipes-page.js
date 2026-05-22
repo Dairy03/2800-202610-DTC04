@@ -1,10 +1,12 @@
 import { RecipeList } from "./components/recipe-card.js";
 import { fetchRecipes, checkRateLimit } from "./recipe-api.js";
+const URL = import.meta.env.VITE_API_URL
+
 
 // ---------- Real data fetchers ----------
 async function fetchUserCart() {
   try {
-    const response = await fetch("http://localhost:3000/deal/cart", {
+    const response = await fetch(`${URL}/deal/cart`, {
       credentials: "include",
     });
     const data = await response.json();
@@ -17,7 +19,7 @@ async function fetchUserCart() {
 
 async function fetchStores() {
   try {
-    const response = await fetch("http://localhost:3000/business/all", {
+    const response = await fetch(`${URL}/business/all`, {
       credentials: "include",
     });
     const data = await response.json();
@@ -31,7 +33,7 @@ async function fetchStores() {
 async function fetchStoreItems(storeId) {
   try {
     const response = await fetch(
-      `http://localhost:3000/business/${storeId}/items`,
+      `${URL}/business/${storeId}/items`,
       { credentials: "include" },
     );
     const data = await response.json();

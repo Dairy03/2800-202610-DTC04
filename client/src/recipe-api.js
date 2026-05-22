@@ -41,7 +41,9 @@
 import { MOCK_ITEMS, getItemById } from "./mock-data.js";
 
 // Configure this for your environment.
-const URL = "http://localhost:3000"; // e.g. "https://api.stillfresh.example.com"
+// const URL = "http://localhost:3000"; // e.g. "https://api.stillfresh.example.com"
+const URL = import.meta.env.VITE_API_URL
+
 const ENDPOINT = `${URL}/recipe/`;
 
 // Set to true to bypass the network and use mock recipes for local dev.

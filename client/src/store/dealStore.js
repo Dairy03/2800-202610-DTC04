@@ -5,7 +5,9 @@ const itemID = params.get("id");
 console.log(itemID);
 
 const PORT = 3000;
-const URL = `http://localhost:${PORT}`;
+// const URL = `http://localhost:${PORT}`;
+const URL = import.meta.env.VITE_API_URL
+
 
 axios.defaults.withCredentials = true;
 // const itemID = '65f1a2b3c4d5e6f7a8b9c0d1'
