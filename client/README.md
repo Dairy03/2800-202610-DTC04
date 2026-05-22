@@ -90,3 +90,8 @@ The system prompt should instruct it to (a) prefer items closest to expiry, (b) 
 The provided schema has only `ref_price` (reference price). The discount/sale price isn't in the schema, so for the ingredients page I'm mocking the "after" price as a percentage off `ref_price` based on days until expiry. When you have a real sale price field, plug it into `toDiscountCardShape` in `src/ingredients-page.js`.
 
 Also noticed `business: { type: Types.ObjectId, ref: "Item" }` in your schema — the `ref` looks like it should probably be `"Business"`, not `"Item"`. Worth a check on your end.
+
+## AI disclaimer
+
+We used AI for numerous portions of this webstite. Below is a comprehensive list of what we used AI to build:
+- The seed script for 
