@@ -7,7 +7,7 @@ const PORT = 3000;
 const URL = import.meta.env.VITE_API_URL
 
 
-const BASE_URL = `${URL}:${PORT}/items`;
+const BASE_URL = `${URL}/items`;
 
 export const itemStore = createStore((set) => ({
   items: [],
