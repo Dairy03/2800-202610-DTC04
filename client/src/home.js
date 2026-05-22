@@ -7,6 +7,7 @@ authStore.subscribe((state) => {
   console.log(state);
   if (state.isCheckingAuth) {
     // loader
+    return;
   } else if (state.isAuthenticated) {
     const user = state.user;
 
