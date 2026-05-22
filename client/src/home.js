@@ -1,7 +1,7 @@
-import { DiscountList } from "/components/item-card.js";
-import { tutorialStore } from "/store/tutorialStore.js";
-import { authStore } from "/store/authStore.js";
-import { itemStore } from "/store/itemStore.js";
+import { DiscountList } from "./components/item-card.js";
+import { tutorialStore } from "./store/tutorialStore.js";
+import { authStore } from "./store/authStore.js";
+import { itemStore } from "./store/itemStore.js";
 
 authStore.subscribe((state) => {
   console.log(state);

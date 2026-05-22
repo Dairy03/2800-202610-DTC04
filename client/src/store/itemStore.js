@@ -1,5 +1,5 @@
 import { createStore } from "zustand/vanilla";
-import { authStore } from "/authStore";
+import { authStore } from "./authStore";
 import axios from "axios";
 
 const PORT = 3000;

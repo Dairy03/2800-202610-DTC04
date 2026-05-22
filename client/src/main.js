@@ -1,5 +1,5 @@
-import { tutorialStore } from "/store/tutorialStore.js";
-import { authStore } from "/store/authStore.js";
+import { tutorialStore } from "./store/tutorialStore.js";
+import { authStore } from "./store/authStore.js";
 
 await authStore.getState().checkAuth();
 

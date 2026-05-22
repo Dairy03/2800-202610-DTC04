@@ -1,4 +1,4 @@
-import { authStore } from "/store/authStore";
+import { authStore } from "./store/authStore";
 
 async function loginRequest(submitEvent) {
   submitEvent.preventDefault();

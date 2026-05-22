@@ -38,7 +38,7 @@
 // because tool_use / structured JSON output is reliable. The prompt should
 // instruct it to prefer items closer to expiry.
 
-import { MOCK_ITEMS, getItemById } from "/mock-data.js";
+import { MOCK_ITEMS, getItemById } from "./mock-data.js";
 
 // Configure this for your environment.
 // const URL = "http://localhost:3000"; // e.g. "https://api.stillfresh.example.com"

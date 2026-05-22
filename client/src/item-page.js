@@ -1,4 +1,4 @@
-import { carbonSaved } from "/utils";
+import { carbonSaved } from "./utils";
 
 const item_name = document.getElementById("item-name");
 const item_distance = document.getElementById("item-distance");

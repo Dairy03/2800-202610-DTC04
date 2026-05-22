@@ -1,4 +1,4 @@
-import { authStore } from "/store/authStore";
+import { authStore } from "./store/authStore";
 
 // Form submission logic
 async function formRequest(e) {
