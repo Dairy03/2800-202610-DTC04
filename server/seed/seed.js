@@ -16,6 +16,7 @@ console.log(process.env.GEOAPIUFY_API_KEY);
 
 const businesses = [
   {
+    name: "Save On Foods",
     username: "saveonfoods_main",
     password: "password123",
     email: "contact@saveonfoods.ca",
@@ -24,6 +25,7 @@ const businesses = [
     close: 22,
   },
   {
+    name: "No Frills",
     username: "nofrills_commercial",
     password: "password123",
     email: "contact@nofrills.ca",
@@ -32,6 +34,7 @@ const businesses = [
     close: 21,
   },
   {
+    name: "TNT Kingsway",
     username: "tnt_kingsway",
     password: "password123",
     email: "contact@tnt.ca",
@@ -40,6 +43,7 @@ const businesses = [
     close: 21,
   },
   {
+    name: "Persia Foods",
     username: "persia_foods",
     password: "password123",
     email: "contact@persiafoods.ca",
@@ -48,6 +52,7 @@ const businesses = [
     close: 20,
   },
   {
+    name: "Famous Foods",
     username: "famous_foods",
     password: "password123",
     email: "contact@famousfoods.ca",

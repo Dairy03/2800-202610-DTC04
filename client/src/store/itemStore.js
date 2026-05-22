@@ -1,4 +1,5 @@
 import { createStore } from "zustand/vanilla";
+import { authStore } from "./authStore";
 import axios from "axios";
 
 const PORT = 3000;
@@ -20,11 +21,17 @@ export const itemStore = createStore((set) => ({
     set({ loading: true, error: null });
 
     try {
+      const { userCoords } = authStore.getState();
+
       const params = {};
       if (search) params.search = search;
       if (filters) params.filters = filters;
       if (order) params.order = order;
       if (business) params.business = business;
+      if (userCoords) {
+        params.lat = userCoords.lat;
+        params.lng = userCoords.lng;
+      }
 
       const { data } = await axios.get(`${BASE_URL}`, { params });
 

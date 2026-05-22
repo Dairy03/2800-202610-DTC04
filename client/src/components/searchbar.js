@@ -4,6 +4,73 @@ class SearchBar extends HTMLElement {
     this.renderSearchBar();
   }
 
+  connectedCallback() {
+    this.attachSortLogic();
+    this.attachFilterLogic();
+    this.attachSearchLogic();
+  }
+
+  attachSortLogic() {
+    let sortOpen = false;
+    const sortPanel = this.querySelector('#sort-panel');
+    const sortBtn = this.querySelector('#sort-btn');
+    const sortRows = ['s-food', 's-expiry', 's-distance'];
+
+    sortBtn.addEventListener('click', () => {
+      sortOpen = !sortOpen;
+      sortPanel.classList.toggle('hidden', !sortOpen);
+    });
+
+    sortRows.forEach(id => {
+      this.querySelector(`#${id}`).addEventListener('click', () => {
+        sortRows.forEach(r => {
+          const row = this.querySelector(`#${r}`);
+          row.classList.remove('font-medium', 'text-gray-900');
+          row.classList.add('text-gray-500');
+          row.querySelector('i').style.opacity = '0';
+        });
+        const el = this.querySelector(`#${id}`);
+        el.classList.add('font-medium', 'text-gray-900');
+        el.classList.remove('text-gray-500');
+        el.querySelector('i').style.opacity = '1';
+
+        const sortKey = id.replace('s-', '');
+        this.handleSort(sortKey);
+
+        setTimeout(() => {
+          sortOpen = false;
+          sortPanel.classList.add('hidden');
+        }, 120);
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (sortOpen && !e.target.closest('#sort-panel') && !e.target.closest('#sort-btn')) {
+        sortOpen = false;
+        sortPanel.classList.add('hidden');
+      }
+    });
+  }
+
+  attachSearchLogic() {
+    const input = this.querySelector('#sb');
+    let debounceTimer;
+
+    input.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer - setTimeout(() => {
+            this.handleSearch(input.value.trim());
+        }, 300);
+    });
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            clearTimeout(debounceTimer);
+            this.handleSearch(input.value.trim());
+        }
+    });
+  }
+
 renderSearchBar() {
   this.innerHTML = `
     <div class="flex flex-col gap-3 w-full max-w-xl mx-auto">
