@@ -3,6 +3,7 @@ import User from "../models/user.js";
 
 async function acceptDeal(req, res) {
   const { itemId, quantity } = req.params;
+  const parsedQuantity = Number(quantity);
   const userId = req.session.userId;
   try {
     const item = await Item.findById(itemId);
@@ -14,13 +15,13 @@ async function acceptDeal(req, res) {
     }
 
     await User.findByIdAndUpdate(userId, {
-      $push: { cart: { itemId, quantity } },
+      $push: { cart: { itemId, parsedQuantity } },
       $inc: {
         dealsClaimed: 1, // number of deals claimed
-        totalClaimed: quantity, // total items claimed
+        totalClaimed: parsedQuantity, // total items claimed
         pendingDeals: 1, // deals not yet completed
-        wastePrevented: item.weight_kg * quantity, // kg of food saved
-        totalSaved: item.ref_price * quantity, // money saved
+        wastePrevented: item.weight_kg * parsedQuantity, // kg of food saved
+        totalSaved: item.ref_price * parsedQuantity, // money saved
       },
     });
 
@@ -95,15 +96,17 @@ async function removeDeal(req, res) {
         .json({ success: false, message: "Item or cart entry not found" });
     }
 
+    const parsedQuantity = Number(cartEntry.quantity);
+
     //Remove the item's stats from user's stats
     await User.findByIdAndUpdate(userId, {
       $pull: { cart: { itemId } },
       $inc: {
         dealsClaimed: -1,
-        totalClaimed: -cartEntry.quantity,
+        totalClaimed: -cartEntry.parsedQuantity,
         pendingDeals: -1,
-        wastePrevented: -(item.weight_kg * cartEntry.quantity),
-        totalSaved: -(item.ref_price * cartEntry.quantity),
+        wastePrevented: -(item.weight_kg * cartEntry.parsedQuantity),
+        totalSaved: -(item.ref_price * cartEntry.parsedQuantity),
       },
     });
 

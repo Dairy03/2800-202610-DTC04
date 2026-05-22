@@ -99,5 +99,5 @@ item_expiration.innerHTML = `${calc_expiration(items)}`;
 redeem_by.innerHTML = `${items.expiry.substring(0, 10)}`;
 item_discount.innerHTML = `${calc_discount(items) * 100}`;
 item_location.innerHTML = `${items.location}`;
-item_carbon_saved.innerHTML = `${carbonSaved(items)}kg CO2`;
+item_carbon_saved.innerHTML = `${carbonSaved(items)}kg CO₂`;
 item_quantity_left.innerHTML = `${items.quantity}`;
