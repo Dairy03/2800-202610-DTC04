@@ -6,7 +6,10 @@ function logout(req, res) {
       console.error("Logout error:", err);
       return res.status(500).send("Server error during logout");
     }
-    res.clearCookie("connect.sid");
+    res.clearCookie("connect.sid", {
+      secure: true,
+      sameSite: "none",
+    });
     res.send("Logged out");
   });
 }
@@ -72,7 +75,10 @@ async function unregister(req, res) {
 
     await req.session.destroy((err) => {
       if (err) console.error("Session destroy error:", err);
-      res.clearCookie("connect.sid");
+      res.clearCookie("connect.sid", {
+        secure: true,
+        sameSite: "none",
+      });
       res.send(`Account deleted successfully (id: ${user._id})`);
     });
   } catch (err) {

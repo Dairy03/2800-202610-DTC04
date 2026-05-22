@@ -3,6 +3,8 @@ import { DiscountList } from "./components/discount-card.js";
 
 const params = new URLSearchParams(window.location.search);
 const recipeId = params.get("id");
+const URL = import.meta.env.VITE_API_URL
+
 
 const els = {
   loading: document.getElementById("loading-state"),
@@ -51,7 +53,7 @@ function getDiscount(expiryDate) {
 // Fetch real item data from backend by ID
 async function fetchItemById(itemId) {
   try {
-    const response = await fetch(`http://localhost:3000/items/${itemId}`, {
+    const response = await fetch(`${URL}}/items/${itemId}`, {
       credentials: "include",
     });
     const data = await response.json();
@@ -66,7 +68,7 @@ async function fetchItemById(itemId) {
 async function fetchBusinessById(businessId) {
   try {
     const response = await fetch(
-      `http://localhost:3000/business/${businessId}`,
+      `${URL}/business/${businessId}`,
       {
         credentials: "include",
       },

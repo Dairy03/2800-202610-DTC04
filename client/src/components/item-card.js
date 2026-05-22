@@ -92,7 +92,7 @@ export class DiscountCard {
         `;
 
     const acard = document.createElement("a");
-    acard.href = `./item-page.html?id=${this.item._id}`;
+    acard.href = `/item-page.html?id=${this.item._id}`;
     acard.append(card);
     return acard;
   }

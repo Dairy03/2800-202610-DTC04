@@ -1,4 +1,5 @@
-const API = "http://localhost:3000";
+// const API = "http://localhost:3000";
+const API = import.meta.env.VITE_API_URL;
 
 //stat config per role
 const STAT_CONFIGS = {
@@ -13,7 +14,9 @@ const STAT_CONFIGS = {
     {
       label: "Total waste prevented",
       key: "wastePrevented",
-      format: (v) => `${(v || 0).toFixed(2)}kg CO₂` ?? 0,
+      format: (v) =>
+        `<div id="co2-container"><button id="c02-button">${(v || 0).toFixed(2)}kg CO₂</button></div>` ??
+        0,
     },
     {
       label: "Join date",
@@ -63,6 +66,24 @@ function dateFromId(id) {
   return new Date(timestamp);
 }
 
+// Check if carbon savings increased and trigger animation
+function triggerCarbonAnimation() {
+  const co2Container = document.getElementById("co2-container");
+  if (!co2Container) return;
+
+  co2Container.classList.add("shake");
+
+  setTimeout(() => {
+    co2Container.classList.remove("shake");
+  }, 1500);
+}
+
+function checkAndAnimateCarbon(currentSaved) {
+  if (currentSaved > 1) {
+    triggerCarbonAnimation();
+  }
+}
+
 function renderStats(user) {
   const role = user.role === "business" ? "business" : "user";
   const configs = STAT_CONFIGS[role];
@@ -78,6 +99,10 @@ function renderStats(user) {
         `;
     container.appendChild(row);
   });
+
+  if (role === "user" && user.wastePrevented !== undefined) {
+    checkAndAnimateCarbon(user.wastePrevented);
+  }
 }
 
 async function loadProfile() {
@@ -119,7 +144,7 @@ async function onTutorialToggle(enabled) {
 
 async function signOut() {
   await fetch(`${API}/auth/logout`, { method: "POST" });
-  window.location.href = "./login-page.html";
+  window.location.href = "/login-page.html";
 }
 
 window.onTutorialToggle = onTutorialToggle;

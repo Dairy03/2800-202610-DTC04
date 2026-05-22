@@ -5,7 +5,9 @@ const itemID = params.get("id");
 console.log(itemID);
 
 const PORT = 3000;
-const URL = `http://localhost:${PORT}`;
+// const URL = `http://localhost:${PORT}`;
+const URL = import.meta.env.VITE_API_URL
+
 
 axios.defaults.withCredentials = true;
 // const itemID = '65f1a2b3c4d5e6f7a8b9c0d1'
@@ -14,17 +16,17 @@ const itemQuantity = 1
 async function claimDeal(itemID, itemQuantity) {
     try{
         // const result = await axios.post(`http://localhost:3000/deal/accept/${itemID}/${itemQuantity}`)
-        const result = await axios.patch(`http://localhost:3000/deal/update/${itemID}/1`)
+        const result = await axios.patch(`${URL}/deal/update/${itemID}/1`)
         console.log(result)
     } catch(error) {
-        const result = await axios.post(`http://localhost:3000/deal/accept/${itemID}/${itemQuantity}`)
+        const result = await axios.post(`${URL}/deal/accept/${itemID}/${itemQuantity}`)
         console.log(result)
     }
 }
 
 async function removeDeal(itemID) {
     try{
-        const result = await axios.patch(`http://localhost:3000/deal/update/${itemID}/-1`)
+        const result = await axios.patch(`${URL}/deal/update/${itemID}/-1`)
         console.log(result)
     } catch(error) {
         console.log(error)
@@ -37,7 +39,7 @@ if(window.location.href.includes('/item-page.html')){
     document.getElementById('claim-deal-btn').addEventListener("click", async () => {
         try {
             await claimDeal(itemID, itemQuantity)
-            window.location.href = `./item-confirm-page.html?id=${itemID}`;
+            window.location.href = `/item-confirm-page.html?id=${itemID}`;
         } catch(err) {
             console.log(err)
         }
@@ -49,7 +51,7 @@ if(window.location.href.includes('/item-confirm-page.html')){
     document.getElementById('cancel-deal-btn').addEventListener("click", async () => {
         try {
             await removeDeal(itemID)
-            window.location.href = `./profile.html`;
+            window.location.href = `/profile.html`;
         } catch(err) {
             console.log(err)
         }

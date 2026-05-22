@@ -34,11 +34,13 @@ console.log(itemId);
 
 import axios from "axios";
 const PORT = 3000;
-const URL = `http://localhost:${PORT}`;
+// const URL = `http://localhost:${PORT}`;
+const URL = import.meta.env.VITE_API_URL
+
 axios.defaults.withCredentials = true;
 async function getItems() {
   try {
-    const result = await axios.get(`http://localhost:3000/items/${itemId}`);
+    const result = await axios.get(`${URL}/items/${itemId}`);
     console.log(result.data.item);
     return result.data.item;
   } catch (error) {
@@ -61,7 +63,7 @@ const items = await getItems();
 // document.getElementById('claim-deal-btn').addEventListener("click", async () => {
 //     try {
 //       await claimDeal(itemId, itemQuantity)
-//       window.location.href = "./item-confirm-page.html";
+//       window.location.href = "/item-confirm-page.html";
 //     } catch(err) {
 //       console.log(err)
 //     }
