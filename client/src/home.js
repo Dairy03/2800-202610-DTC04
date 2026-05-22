@@ -4,9 +4,8 @@ import { authStore } from "./store/authStore.js";
 import { itemStore } from "./store/itemStore.js";
 
 authStore.subscribe((state) => {
-  console.log(state);
+  console.log('isCheckingAuth:', state.isCheckingAuth, 'isAuthenticated:', state.isAuthenticated);
   if (state.isCheckingAuth) {
-    // loader
     return;
   } else if (state.isAuthenticated) {
     const user = state.user;
@@ -22,6 +21,7 @@ authStore.subscribe((state) => {
 
     itemStore.getState().fetchItems();
   } else {
+    console.log('redirecting to login because not authenticated');
     window.location.href = "/login-page.html";
   }
 });

@@ -62,19 +62,17 @@ export const authStore = createStore((set) => ({
     }
   },
 
-  checkAuth: async () => {
-    set({ isCheckingAuth: true, error: null });
-    try {
-      const response = await axios.get(`${URL}/auth/me`);
-      set({
-        user: response.data.user,
-        isAuthenticated: true,
-        isCheckingAuth: false,
-      });
-    } catch {
-      set({ isCheckingAuth: false, isAuthenticated: false });
-    }
-  },
+checkAuth: async () => {
+  set({ isCheckingAuth: true, error: null });
+  try {
+    const response = await axios.get(`${URL}/auth/me`);
+    console.log('checkAuth response:', response.data);
+    set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false });
+  } catch (err) {
+    console.log('checkAuth failed:', err.response?.status, err.message);
+    set({ isCheckingAuth: false, isAuthenticated: false });
+  }
+},
 
   updateUser: async (updates) => {
     try {
