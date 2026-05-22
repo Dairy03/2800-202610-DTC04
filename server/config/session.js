@@ -10,6 +10,7 @@ function configureSession() {
       secure: true,
       httpOnly: true,
       sameSite: "none",
+      partitioned: true,
     },
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URL,
