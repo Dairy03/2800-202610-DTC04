@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 setServers(["8.8.8.8", "8.8.4.4"]);
 
+app.set("trust proxy", 1);
 app.use(cors({ origin: [`http://localhost:5173`, 'http://localhost:3000', 'https://mellifluous-malasada-5a72c4.netlify.app'], credentials: true }));
 
 app.use(express.json());

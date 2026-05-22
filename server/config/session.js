@@ -7,8 +7,9 @@ function configureSession() {
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
-      maxAge: null,
+      secure: true,
+      httpOnly: true,
+      sameSite: "none",
     },
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URL,
