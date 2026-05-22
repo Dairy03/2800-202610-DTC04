@@ -1,4 +1,5 @@
 import Item from "../models/item.js";
+import Business from "../models/business.js";
 
 async function getItemById(req, res) {
   try {
@@ -17,10 +18,37 @@ async function getItemById(req, res) {
 
 async function getItemsByParams(req, res) {
   try {
-    const { search, filters, order, business } = req.query;
+    const { search, filters, order, business, lat, lng } = req.query;
 
-    // --- Build the aggregation pipeline ---
     const pipeline = [];
+
+    // --- If we have user coords, lookup business distances ---
+    let distanceMap = {};
+    if (lat && lng) {
+      const nearbyBusinesses = await Business.aggregate([
+        {
+          $geoNear: {
+            near: {
+              type: "Point",
+              coordinates: [parseFloat(lng), parseFloat(lat)],
+            },
+            distanceField: "distance",
+            spherical: true,
+            maxDistance: 50000,
+          },
+        },
+        { $project: { _id: 1, distance: 1 } },
+      ]);
+
+      nearbyBusinesses.forEach((b) => {
+        distanceMap[b._id.toString()] = b.distance;
+      });
+
+      const businessIds = nearbyBusinesses.map((b) => b._id);
+      pipeline.push({
+        $match: { business: { $in: businessIds } },
+      });
+    }
 
     // --- Restrict by business if provided
     if (business) {
@@ -31,69 +59,81 @@ async function getItemsByParams(req, res) {
 
     // --- Fuzzy search on name ---
     if (search) {
-      // Escape regex special chars, then allow flexible matching
       const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       pipeline.push({
         $match: { name: { $regex: escaped, $options: "i" } },
       });
     }
 
-    // --- Parse filters (e.g. "fp-ms-de") ---
+    // --- Parse filters ---
     if (filters) {
       const filterSet = new Set(filters.split("-"));
-
       const filterConditions = [];
 
-      // fp = fresh produce
-      if (filterSet.has("fp"))
-        filterConditions.push({ group: "fp" });
-
-      // ms = meat and seafood
-      if (filterSet.has("ms"))
-        filterConditions.push({ group: "ms" });
-
-      // de = dairy and eggs
-      if (filterSet.has("de"))
-        filterConditions.push({ group: "de" });
-
-      // bk = bakery
-      if (filterSet.has("bk"))
-        filterConditions.push({ group: "bk" });
-
-      // ss = sweets and snacks
-      if (filterSet.has("ss")) 
-        filterConditions.push({ group: "ss" });
+      if (filterSet.has("fp")) filterConditions.push({ group: "fp" });
+      if (filterSet.has("ms")) filterConditions.push({ group: "ms" });
+      if (filterSet.has("de")) filterConditions.push({ group: "de" });
+      if (filterSet.has("bk")) filterConditions.push({ group: "bk" });
+      if (filterSet.has("ss")) filterConditions.push({ group: "ss" });
 
       if (filterConditions.length > 0) {
         pipeline.push({ $match: { $or: filterConditions } });
       }
     }
 
-    // --- Ordering ---
-    const sortStage = {};
-    switch (order) {
-      case "price":
-        sortStage.ref_price = 1;
-        break;
-      case "expiry":
-        sortStage.expiry = 1;
-        break;
-      case "distance":
-        // placeholder
-        break;
-      default:
-        sortStage.expiry = 1;
-    }
-    if (Object.keys(sortStage).length > 0) {
+    // --- Lookup business name ---
+    pipeline.push({
+      $lookup: {
+        from: "businesses",
+        localField: "business",
+        foreignField: "_id",
+        as: "businessInfo",
+      },
+    });
+    pipeline.push({
+      $addFields: {
+        businessName: { $arrayElemAt: ["$businessInfo.name", 0] },
+      },
+    });
+    pipeline.push({
+      $project: { businessInfo: 0 },
+    });
+
+    // --- Ordering (non-distance sorts happen in pipeline) ---
+    if (order !== "distance") {
+      const sortStage = {};
+      switch (order) {
+        case "price":
+          sortStage.ref_price = 1;
+          break;
+        case "expiry":
+          sortStage.expiry = 1;
+          break;
+        default:
+          sortStage.expiry = 1;
+      }
       pipeline.push({ $sort: sortStage });
     }
 
-    // --- Return items ---
-    const items = await Item.aggregate(pipeline);
+    let items = await Item.aggregate(pipeline);
+
+    // --- Attach distance (in meters) to every item ---
+    if (lat && lng) {
+      items = items.map((item) => ({
+        ...item,
+        distance: distanceMap[item.business.toString()] ?? null,
+      }));
+
+      if (order === "distance") {
+        items.sort(
+          (a, b) => (a.distance ?? Infinity) - (b.distance ?? Infinity),
+        );
+      }
+    }
 
     return res
       .status(200)
-      .json({ sucess: false, items, message: "Items found succesfully" });
+      .json({ success: true, items, message: "Items found successfully" });
   } catch (err) {
     console.error("getItemsByParams error:", err);
     return res
