@@ -75,17 +75,13 @@ function triggerCarbonAnimation() {
 
   setTimeout(() => {
     co2Container.classList.remove("shake");
-  }, 500);
+  }, 1500);
 }
 
 function checkAndAnimateCarbon(currentSaved) {
-  const lastSaved = localStorage.getItem("lastCarbonSaved");
-
-  if (lastSaved && parseFloat(lastSaved) > 5) {
+  if (currentSaved > 1) {
     triggerCarbonAnimation();
   }
-
-  localStorage.setItem("lastCarbonSaved", currentSaved);
 }
 
 function renderStats(user) {
