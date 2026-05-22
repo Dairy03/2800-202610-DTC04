@@ -1,4 +1,4 @@
-import { findCachedRecipe } from "./recipe-api.js";
+import { findCachedRecipe } from "/recipe-api.js";
 
 const params = new URLSearchParams(window.location.search);
 const recipeId = params.get("id");

@@ -1,4 +1,4 @@
-import { carbonSaved } from "./utils";
+import { carbonSaved } from "/utils";
 
 const item_name = document.getElementById("item-name");
 const item_distance = document.getElementById("item-distance");
@@ -63,7 +63,7 @@ const items = await getItems();
 // document.getElementById('claim-deal-btn').addEventListener("click", async () => {
 //     try {
 //       await claimDeal(itemId, itemQuantity)
-//       window.location.href = "./item-confirm-page.html";
+//       window.location.href = "/item-confirm-page.html";
 //     } catch(err) {
 //       console.log(err)
 //     }

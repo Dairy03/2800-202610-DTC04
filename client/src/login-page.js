@@ -1,4 +1,4 @@
-import { authStore } from "./store/authStore";
+import { authStore } from "/store/authStore";
 
 async function loginRequest(submitEvent) {
   submitEvent.preventDefault();
@@ -11,9 +11,9 @@ async function loginRequest(submitEvent) {
   } catch (error) {
     console.log(error);
     console.log(authStore.getState().error);
-    return (window.location.href = "./login-page.html");
+    return (window.location.href = "/login-page.html");
   }
-  window.location.href = "./index.html";
+  window.location.href = "/index.html";
 }
 
 document.getElementById("login-form").addEventListener("submit", loginRequest);

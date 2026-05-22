@@ -1,4 +1,4 @@
-import { itemStore } from "../store/itemStore.js";
+import { itemStore } from "/store/itemStore.js";
 
 const FILTER_MAP = {
   "All": "",

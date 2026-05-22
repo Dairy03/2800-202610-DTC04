@@ -1,5 +1,5 @@
-import { findCachedRecipe } from "./recipe-api.js";
-import { DiscountList } from "./components/discount-card.js";
+import { findCachedRecipe } from "/recipe-api.js";
+import { DiscountList } from "/components/discount-card.js";
 
 const params = new URLSearchParams(window.location.search);
 const recipeId = params.get("id");

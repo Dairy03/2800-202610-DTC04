@@ -39,7 +39,7 @@ if(window.location.href.includes('/item-page.html')){
     document.getElementById('claim-deal-btn').addEventListener("click", async () => {
         try {
             await claimDeal(itemID, itemQuantity)
-            window.location.href = `./item-confirm-page.html?id=${itemID}`;
+            window.location.href = `/item-confirm-page.html?id=${itemID}`;
         } catch(err) {
             console.log(err)
         }
@@ -51,7 +51,7 @@ if(window.location.href.includes('/item-confirm-page.html')){
     document.getElementById('cancel-deal-btn').addEventListener("click", async () => {
         try {
             await removeDeal(itemID)
-            window.location.href = `./profile.html`;
+            window.location.href = `/profile.html`;
         } catch(err) {
             console.log(err)
         }

@@ -5,7 +5,7 @@
 // password
 // login-btn
 
-import { authStore } from "./store/authStore";
+import { authStore } from "/store/authStore";
 
 document.getElementById("login-form").addEventListener("submit", async (e) => {
   e.preventDefault();

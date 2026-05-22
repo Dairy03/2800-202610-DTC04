@@ -121,7 +121,7 @@ async function onTutorialToggle(enabled) {
 
 async function signOut() {
   await fetch(`${API}/auth/logout`, { method: "POST" });
-  window.location.href = "./login-page.html";
+  window.location.href = "/login-page.html";
 }
 
 window.onTutorialToggle = onTutorialToggle;
