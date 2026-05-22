@@ -38,6 +38,7 @@ class SearchBar extends HTMLElement {
     });
   }
 
+  // the sort filter will function according to the logic below 
   attachSortLogic() {
     let sortOpen = false;
     const sortPanel = this.querySelector("#sort-panel");
@@ -121,7 +122,7 @@ class SearchBar extends HTMLElement {
             chip.classList.remove("bg-white", "text-gray-700", "border-gray-200");
           }
 
-          // If nothing selected, reselect "All"
+          // if nothing selected, it reselects to "All"
           if (this.selectedFilters.size === 0) {
             allChip.dataset.selected = "true";
             allChip.classList.add("bg-gray-500", "text-white", "border-gray-500");
@@ -134,10 +135,11 @@ class SearchBar extends HTMLElement {
     });
   }
 
+  // listens to the search input
   attachSearchLogic() {
     const input = this.querySelector("#sb");
     let debounceTimer;
-
+    // waits 300ms after typing stops
     input.addEventListener("input", () => {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
@@ -155,6 +157,7 @@ class SearchBar extends HTMLElement {
     });
   }
 
+  // this is what renders the search bar for it show on the home page 
   renderSearchBar() {
     this.innerHTML = `
       <div class="flex flex-col gap-3 w-full max-w-xl mx-auto p-4">

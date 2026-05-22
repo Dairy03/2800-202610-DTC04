@@ -4,6 +4,7 @@ class SiteNavbar extends HTMLElement {
     this.renderNavbar();
   }
 
+// renders the nav bar according to the HTML below
 renderNavbar() {
   this.innerHTML = `
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-[#EEEEEE]" id="bottom-nav">

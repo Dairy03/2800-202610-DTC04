@@ -7,12 +7,14 @@ export class DiscountCard {
     this.item = item;
   }
 
+  // calculates how many days the item expires
   #daysUnitlExpiry() {
     const now = new Date();
     const expiry = new Date(this.item.expires);
     return Math.round((expiry - now) / (1000 * 60 * 60 * 24));
   }
 
+  // expiry badge changes color based on days until expiry
   #expiryBadge(days) {
     if (days <= 0) return { label: "Expires today", cls: "bg-red-100 text-red-800" };
     if (days === 1) return { label: "Exp 1d", cls: "bg-red-100 text-red-800" };
@@ -20,6 +22,7 @@ export class DiscountCard {
     return { label: `Exp ${days}d`, cls: "bg-green-100 text-green-800" };
   }
 
+  // builds and renders the discount cards
   render() {
     const { name, img, distance, before, after } = this.item;
     const days = this.#daysUnitlExpiry();
@@ -73,6 +76,7 @@ export class DiscountList {
     this.items = items;
   }
 
+  // clears container and renders all discount cards
   render() {
     this.container.innerHTML = "";
     this.container.className = "flex flex-col gap-3 px-2 w-full max-w-md mx-auto";

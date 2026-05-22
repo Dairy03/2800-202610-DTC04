@@ -4,6 +4,7 @@ class SiteTopNavbar extends HTMLElement {
     this.renderTopNavbar();
   }
 
+// renders top navbar according to the HTML code below
 renderTopNavbar() {
   this.innerHTML = `
     <nav class="fixed top-0 left-0 right-0 z-50 bg-[#FFFBF4]" id="top-nav">
