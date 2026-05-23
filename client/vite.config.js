@@ -10,7 +10,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: resolve(__dirname, 'index.html'),
-        about: resolve(__dirname, 'about.html'),
         ingredients: resolve(__dirname, 'ingredients.html'),
         instructions: resolve(__dirname, 'instructions.html'),
         itemConfirm: resolve(__dirname, 'item-confirm-page.html'),

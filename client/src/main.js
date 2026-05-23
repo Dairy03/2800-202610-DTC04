@@ -1,6 +1,7 @@
 import { tutorialStore } from "./store/tutorialStore.js";
 import { authStore } from "./store/authStore.js";
 
+// verifies if user is authenticated before anything happens
 await authStore.getState().checkAuth();
 
 const user = authStore.getState().user;

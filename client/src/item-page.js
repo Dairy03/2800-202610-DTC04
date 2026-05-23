@@ -1,5 +1,6 @@
 import { carbonSaved } from "./utils";
 
+// grabs all dom elements from upfront 
 const item_name = document.getElementById("item-name");
 const item_distance = document.getElementById("item-distance");
 const item_price_after = document.getElementById("item-price-after");
@@ -38,6 +39,8 @@ const PORT = 3000;
 const URL = import.meta.env.VITE_API_URL
 
 axios.defaults.withCredentials = true;
+
+// fetches item data from backend by id
 async function getItems() {
   try {
     const result = await axios.get(`${URL}/items/${itemId}`);
@@ -69,6 +72,7 @@ const items = await getItems();
 //     }
 // })
 
+// calculates how many days until the item expires
 function calc_expiration(data) {
   const now = new Date();
   const expiry = new Date(data.expiry);
@@ -81,6 +85,7 @@ function calc_expiration(data) {
 //     return Math.round((1-(new_price/old_price))*100)
 // }
 
+// calculates the discount. the closer the expiry date, the cheaper the item
 function calc_discount(data) {
   const days = Math.max(
     0,
