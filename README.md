@@ -216,7 +216,7 @@ Sign up and obtain keys from:
 - [Geoapify](https://www.geoapify.com) — free tier available
 - [Groq](https://console.groq.com) — free tier available
 - [MapTiler](https://www.maptiler.com) — free tier available
-- MongoDB connection string (Atlas or local)
+- MongoDB connection string (Atlas or local) CONTACT TEAM IF YOU NEED ONE
 
 ## Installation Steps
 
