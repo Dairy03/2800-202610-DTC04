@@ -6,6 +6,7 @@ const appState = {
   userLngLat: null,
 };
 
+// placeholder business data
 const dummyBusinesses = [
   {
     id: 1,
@@ -21,6 +22,7 @@ const dummyBusinesses = [
 
 let map;
 
+// initializes the map and attaches controls
 function showMap() {
   map = new maplibregl.Map({
     container: "map",
@@ -45,6 +47,7 @@ function showMap() {
   });
 }
 
+// adds blue circle pin at user's current location
 async function addUserPin(map) {
   if (!("geolocation" in navigator)) {
     console.warn("Geolocation is not available in this browser");
@@ -102,6 +105,7 @@ async function addUserPin(map) {
   });
 }
 
+// places red markers on the map for each business 
 function showBusinesses() {
   for (const business of dummyBusinesses) {
     // 1. Create the marker standard instance (no .setPopup here)
@@ -124,6 +128,7 @@ function showBusinesses() {
   }
 }
 
+// shows a modal overlay with business details
 function openBusinessModal(business) {
   const existingModal = document.getElementById("business-modal-overlay");
   if (existingModal) existingModal.remove();
