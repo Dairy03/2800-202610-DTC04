@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Still Fresh - Home</title>
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <script type="module" src="/src/components/site-top-navbar.js"></script>
+    <script type="module" src="/src/components/searchbar.js"></script>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body class="bg-[#FFFBF4]">
+    <div id="app"></div>
+    <!--NavBar-->
+    <site-top-navbar
+      data-tutorial-step="0"
+      data-tutorial-title="Profile"
+      data-tutorial-tip="This is where you edit your profile!"
+      data-tutorial-child="0,0,2"
+    ></site-top-navbar>
+    <search-bar></search-bar>
+
+
+    <!-- <button
+      id="start-tutorial-btn"
+      class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-600 transition"
+      data-tutorial-step="0"
+      data-tutorial-title="Start Here"
+      data-tutorial-tip="This button launches the tutorial. You can restart it anytime."
+    >
+      Start Tutorial
+    </button> -->
+
+    <div
+      id="discounter"
+      data-tutorial-step="1"
+      data-tutorial-title="Discounts"
+      data-tutorial-tip="This is where you find fresh deals!"
+      data-tutorial-child="1"
+    ></div>
+
+    <!-- <div class="min-h-screen bg-[#FFFBF4] flex items-center justify-center">
+    </div> -->
+
+    <!--Footer-->
+    <site-navbar
+      data-tutorial-step="2"
+      data-tutorial-title="Navbar"
+      data-tutorial-tip="This is where you navigate the page!"
+      data-tutorial-child="0"
+    ></site-navbar>
+    <script type="module">
+
+    </script>
+    <script type="module" src="/src/home.js"></script>
+    </script>
+  </body>
+</html>

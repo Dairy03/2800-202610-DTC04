@@ -1,9 +1,12 @@
 import { findCachedRecipe } from "./recipe-api.js";
 import { DiscountList } from "./components/discount-card.js";
 
+// get recipe id from url query parameters
 const params = new URLSearchParams(window.location.search);
 const recipeId = params.get("id");
+const URL = import.meta.env.VITE_API_URL
 
+// grabs all dom elements 
 const els = {
   loading: document.getElementById("loading-state"),
   content: document.getElementById("ingredients-content"),
@@ -19,6 +22,7 @@ const els = {
   backLink: document.getElementById("back-link"),
 };
 
+// show/hide helpers
 function show(el) {
   el.classList.remove("hidden");
 }
@@ -26,10 +30,12 @@ function hide(el) {
   el.classList.add("hidden");
 }
 
+// capitalizes first letter of each word
 function capitalize(s) {
   return s.replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+// converts readable operation to mongo operation
 function escapeHtml(s) {
   return String(s)
     .replaceAll("&", "&amp;")
@@ -51,7 +57,7 @@ function getDiscount(expiryDate) {
 // Fetch real item data from backend by ID
 async function fetchItemById(itemId) {
   try {
-    const response = await fetch(`http://localhost:3000/items/${itemId}`, {
+    const response = await fetch(`${URL}}/items/${itemId}`, {
       credentials: "include",
     });
     const data = await response.json();
@@ -66,7 +72,7 @@ async function fetchItemById(itemId) {
 async function fetchBusinessById(businessId) {
   try {
     const response = await fetch(
-      `http://localhost:3000/business/${businessId}`,
+      `${URL}/business/${businessId}`,
       {
         credentials: "include",
       },
@@ -79,6 +85,7 @@ async function fetchBusinessById(businessId) {
   }
 }
 
+// shapes raw items and store data into the format DiscountCard expects
 function toDiscountCardShape(item, store, quantityLabel) {
   const discount = getDiscount(item.expiry);
   const before = item.ref_price;
@@ -102,6 +109,7 @@ function computeCost(available) {
   return available.reduce((total, card) => total + card.after, 0).toFixed(2);
 }
 
+// populates page with recipe data and fetch each ingredient's item and store 
 async function render(recipe) {
   els.name.textContent = recipe.name;
   els.serves.textContent = `Serves ${recipe.serves}`;
@@ -150,6 +158,7 @@ async function render(recipe) {
   show(els.content);
 }
 
+// validates recipe and kicks off render
 async function init() {
   if (!recipeId) {
     hide(els.loading);

@@ -1,5 +1,6 @@
 import { authStore } from "./store/authStore";
 
+// handles login form submission
 async function loginRequest(submitEvent) {
   submitEvent.preventDefault();
   const { email, password } = Object.fromEntries(
@@ -11,9 +12,9 @@ async function loginRequest(submitEvent) {
   } catch (error) {
     console.log(error);
     console.log(authStore.getState().error);
-    return (window.location.href = "./login-page.html");
+    return (window.location.href = "/login-page.html");
   }
-  window.location.href = "./home.html";
+  window.location.href = "/index.html";
 }
 
 document.getElementById("login-form").addEventListener("submit", loginRequest);

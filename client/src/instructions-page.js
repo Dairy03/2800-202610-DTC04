@@ -1,8 +1,10 @@
 import { findCachedRecipe } from "./recipe-api.js";
 
+// get recipe id from url query params
 const params = new URLSearchParams(window.location.search);
 const recipeId = params.get("id");
 
+// grabs all dom elements upfront
 const els = {
   loading: document.getElementById("loading-state"),
   content: document.getElementById("instructions-content"),
@@ -13,9 +15,11 @@ const els = {
   backLink: document.getElementById("back-link"),
 };
 
+// show/hide helpers 
 function show(el) { el.classList.remove("hidden"); }
 function hide(el) { el.classList.add("hidden"); }
 
+// converts readable operation to mongo operation
 function escapeHtml(s) {
   return String(s)
     .replaceAll("&", "&amp;")
@@ -25,6 +29,7 @@ function escapeHtml(s) {
     .replaceAll("'", "&#39;");
 }
 
+// populates page with recipe name, steps, and nav links
 function render(recipe) {
   els.name.textContent = recipe.name;
   els.backLink.href = `recipe.html?id=${encodeURIComponent(recipe.id)}`;
@@ -46,6 +51,7 @@ function render(recipe) {
   show(els.content);
 }
 
+// validates recipe and kicks off render
 function init() {
   if (!recipeId) {
     hide(els.loading);

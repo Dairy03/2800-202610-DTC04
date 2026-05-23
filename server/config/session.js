@@ -7,7 +7,10 @@ function configureSession() {
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      partitioned: process.env.NODE_ENV === "production" ? true : false,
       maxAge: null,
     },
     store: MongoStore.create({

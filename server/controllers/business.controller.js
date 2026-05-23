@@ -4,9 +4,9 @@ import Item from "../models/item.js";
 
 async function registerBusiness(req, res) {
   try {
-    const { username, password, address } = req.body;
+    const { username, password, address, email, coords } = req.body;
 
-    if (!username || !password || !address) {
+    if (!username || !password || !address || !email) {
       return res
         .status(400)
         .send("Username, password and address are required");
@@ -20,7 +20,13 @@ async function registerBusiness(req, res) {
       return res.status(409).send("Username already registered");
     }
 
-    const user = await Business.create({ username, password, address });
+    const user = await Business.create({
+      username,
+      password,
+      address,
+      email,
+      coords,
+    });
     req.session.userId = user._id;
     req.session.userType = user.role;
 
@@ -68,6 +74,70 @@ async function addStock(req, res) {
     res
       .status(500)
       .json({ success: false, message: "Error adding item(s) to stock." });
+  }
+}
+
+//This function is performed for one itemId at a time and expects req.body to be only 1 object
+async function removeStock(req, res) {
+  const { itemId, itemName, quantity } = req.body;
+  const businessId = req.session.userId;
+
+  //Find stock document and item document tied to the current business for the item being removed
+  try {
+    const stock = await Stock.findOne({ business: businessId });
+    const item = await Item.findOne({ business: businessId });
+
+    //If no stock/item document found return error message.
+    if (!stock || !item)
+      return res.status(404).json({
+        success: false,
+        message: `Cannot find stock or item document matching ${businessId}.`,
+      });
+
+    const newQuantity = item.quantity - quantity;
+
+    //Remove item document and update business stock synchronously
+    if (newQuantity < 1) {
+      // Remove the item from the parent business's Item document
+      const itemDocumentPromise = await Item.findByIdAndDelete({ _id: itemId });
+      // Remove the item from the parent business's Stock document
+      const stockDocumentPromise = await Stock.findByIdAndUpdate(
+        { _id: stock._id },
+        {
+          $unset: { [`items.${itemName}`]: "" },
+        },
+      );
+
+      //Use synchronous promise calling for efficiency
+      const updateMongo = await Promise.all([
+        itemDocumentPromise,
+        stockDocumentPromise,
+      ]);
+
+      res.status(200).json({
+        success: true,
+        message: `${itemName} has been removed due to 0 stock.`,
+      });
+    } else {
+      //Update the item's specific Item model document for quantity change
+      const updatedItemState = await Item.findByIdAndUpdate(
+        itemId,
+        {
+          $set: { quantity: newQuantity },
+        },
+        { new: true },
+      );
+
+      res.status(204).json({
+        success: true,
+        message: `Updated ${itemName} quantity to ${newQuantity}`,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: `Internal server error: ${error}` });
   }
 }
 
@@ -123,6 +193,7 @@ async function getBusinessById(req, res) {
 
 export {
   registerBusiness,
+  removeStock,
   addStock,
   getStoreItems,
   getAllBusinesses,
