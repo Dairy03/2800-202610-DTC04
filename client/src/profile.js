@@ -15,7 +15,7 @@ const STAT_CONFIGS = {
       label: "Total waste prevented",
       key: "wastePrevented",
       format: (v) =>
-        `<div id="co2-container"><button id="c02-button">${(v || 0).toFixed(2)}kg CO₂</button></div>` ??
+        `<div id="co2-container"><button id="c02-button" class="hover:cursor-pointer">${(v || 0).toFixed(2)}kg CO₂</button></div>` ??
         0,
     },
     {
@@ -72,10 +72,6 @@ function triggerCarbonAnimation() {
   if (!co2Container) return;
 
   co2Container.classList.add("shake");
-
-  setTimeout(() => {
-    co2Container.classList.remove("shake");
-  }, 1500);
 }
 
 function checkAndAnimateCarbon(currentSaved) {

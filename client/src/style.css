@@ -19,5 +19,5 @@
 }
 
 .shake {
-  animation: shake 0.5s 1s ease-in-out infinite;
+  animation: shake 0.5s ease-in-out infinite;
 }
