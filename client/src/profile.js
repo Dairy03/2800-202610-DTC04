@@ -1,3 +1,5 @@
+import { showCO2Popup, hideCO2Popup } from "./components/info-popup.js";
+
 // const API = "http://localhost:3000";
 const API = import.meta.env.VITE_API_URL;
 
@@ -67,16 +69,19 @@ function dateFromId(id) {
 }
 
 // Check if carbon savings increased and trigger animation
-function triggerCarbonAnimation() {
+function triggerCarbonAnimation(co2) {
   const co2Container = document.getElementById("co2-container");
   if (!co2Container) return;
 
   co2Container.classList.add("shake");
+  document.getElementById("c02-button").addEventListener('click', (e) => {
+    showCO2Popup(co2)
+  })
 }
 
-function checkAndAnimateCarbon(currentSaved) {
-  if (currentSaved > 1) {
-    triggerCarbonAnimation();
+function checkAndAnimateCarbon(currentSaved, co2) {
+  if (currentSaved > 10) {
+    triggerCarbonAnimation(co2);
   }
 }
 
@@ -84,9 +89,10 @@ function renderStats(user) {
   const role = user.role === "business" ? "business" : "user";
   const configs = STAT_CONFIGS[role];
   const container = document.getElementById("stats-container");
-
+  let co2;
   container.innerHTML = "";
   configs.forEach(({ label, key, format, mono }) => {
+    if (label == "Total waste prevented") co2 = user[key]
     const row = document.createElement("div");
     row.className = "flex items-center justify-between py-4";
     row.innerHTML = `
@@ -97,7 +103,7 @@ function renderStats(user) {
   });
 
   if (role === "user" && user.wastePrevented !== undefined) {
-    checkAndAnimateCarbon(user.wastePrevented);
+    checkAndAnimateCarbon(user.wastePrevented, co2);
   }
 }
 
@@ -125,7 +131,7 @@ async function loadProfile() {
 
     renderStats(user);
   } catch (err) {
-    console.error("Failed to load Profile.");
+    console.error("Failed to load Profile.", err);
   }
 }
 
