@@ -1,5 +1,6 @@
 import { findCachedRecipe } from "./recipe-api.js";
 
+// get recipe id from url query params
 const params = new URLSearchParams(window.location.search);
 const recipeId = params.get("id");
 
