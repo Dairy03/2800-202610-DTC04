@@ -1,5 +1,6 @@
 import { authStore } from "./store/authStore";
 
+// handles login form submission
 async function loginRequest(submitEvent) {
   submitEvent.preventDefault();
   const { email, password } = Object.fromEntries(
