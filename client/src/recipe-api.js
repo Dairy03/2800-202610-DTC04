@@ -41,7 +41,9 @@
 import { MOCK_ITEMS, getItemById } from "./mock-data.js";
 
 // Configure this for your environment.
-const URL = "http://localhost:3000"; // e.g. "https://api.stillfresh.example.com"
+// const URL = "http://localhost:3000"; // e.g. "https://api.stillfresh.example.com"
+const URL = import.meta.env.VITE_API_URL
+
 const ENDPOINT = `${URL}/recipe/`;
 
 // Set to true to bypass the network and use mock recipes for local dev.
@@ -52,6 +54,7 @@ const USE_MOCK = false;
 const CACHE_TTL_MS = 60 * 60 * 1000;
 const CACHE_KEY = "still_fresh_recipe_cache";
 
+//loads cache
 function loadCache() {
   try {
     const raw = sessionStorage.getItem(CACHE_KEY);
@@ -61,6 +64,7 @@ function loadCache() {
   }
 }
 
+// saves cache
 function saveCache(cache) {
   try {
     sessionStorage.setItem(CACHE_KEY, JSON.stringify(cache));
@@ -69,6 +73,7 @@ function saveCache(cache) {
   }
 }
 
+// builds unique cache key from source
 function cacheKey({ source, storeId, items }) {
   const ids = items
     .map((i) => i._id)
@@ -85,6 +90,7 @@ const RL_COOLDOWN_MS = 30 * 1000;
 const RL_HOURLY_MAX = 10;
 const RL_WINDOW_MS = 60 * 60 * 1000;
 
+// loads rate limit state 
 function loadRateLimit() {
   try {
     const raw = localStorage.getItem(RL_KEY);
@@ -94,6 +100,7 @@ function loadRateLimit() {
   }
 }
 
+// saves rate limit state
 function saveRateLimit(rl) {
   try {
     localStorage.setItem(RL_KEY, JSON.stringify(rl));
@@ -102,6 +109,7 @@ function saveRateLimit(rl) {
   }
 }
 
+// check if refresh is allowed based on cooldown and hourly limit 
 export function checkRateLimit() {
   const rl = loadRateLimit();
   const now = Date.now();

@@ -6,6 +6,7 @@ export class RecipeCard {
     this.recipe = recipe;
   }
 
+  // returns the colour of the badge that corresponds to the difficulty
   #difficultyBadge() {
     const d = this.recipe.difficulty || "Easy";
     const map = {
@@ -16,6 +17,7 @@ export class RecipeCard {
     return `<span class="text-xs font-medium px-2.5 py-1 rounded-full ${map[d] || map.Easy}">${d.toLowerCase()}</span>`;
   }
 
+  // builds and returns cards as a linked element
   render() {
     const { id, name, time_minutes, step_count, image_url } = this.recipe;
 
@@ -23,6 +25,7 @@ export class RecipeCard {
     card.className =
       "relative flex items-center gap-3 bg-white border-2 border-gray-200 rounded-2xl p-2 w-full hover:border-green-600 transition-colors duration-150";
 
+    // image will show if available, otherwise, it will show a placeholder
     const imageHtml = image_url
       ? `<img src="${image_url}" alt="${escapeHtml(name)}" loading="lazy" class="w-20 h-20 rounded-lg object-cover shrink-0 bg-gray-400" />`
       : `<div class="w-20 h-20 rounded-lg shrink-0 bg-gray-400 flex items-center justify-center text-white text-[10px] font-bold text-center px-1">RECIPE<br/>IMAGE</div>`;
@@ -43,6 +46,7 @@ export class RecipeCard {
       <div class="absolute bottom-3 right-3">${this.#difficultyBadge()}</div>
     `;
 
+    // card wraps in anchor tag linking to the recipe page
     const link = document.createElement("a");
     link.href = `recipe.html?id=${encodeURIComponent(id)}`;
     link.className = "block";
@@ -60,6 +64,7 @@ export class RecipeList {
     this.recipes = recipes;
   }
 
+  // clears cards and renders all recipe cards, and shows emepty state if none are present
   render() {
     this.container.innerHTML = "";
     this.container.className = "flex flex-col gap-3 w-full";
@@ -76,6 +81,7 @@ export class RecipeList {
   }
 }
 
+// protects against cross-site scripting
 function escapeHtml(s) {
   return String(s)
     .replaceAll("&", "&amp;")

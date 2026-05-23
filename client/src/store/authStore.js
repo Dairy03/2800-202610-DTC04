@@ -2,12 +2,14 @@ import { createStore } from "zustand/vanilla";
 import axios from "axios";
 
 const PORT = 3000;
-const URL = `http://localhost:${PORT}`;
+// const URL = `http://localhost:${PORT}`;
+const URL = import.meta.env.VITE_API_URL || `http://localhost:${PORT}`;
 
 axios.defaults.withCredentials = true;
 
 export const authStore = createStore((set) => ({
   user: null,
+  userCoords: null,
   isAuthenticated: false,
   error: null,
   isLoading: false,
@@ -64,12 +66,14 @@ export const authStore = createStore((set) => ({
     set({ isCheckingAuth: true, error: null });
     try {
       const response = await axios.get(`${URL}/auth/me`);
+      console.log("checkAuth response:", response.data);
       set({
         user: response.data.user,
         isAuthenticated: true,
         isCheckingAuth: false,
       });
-    } catch {
+    } catch (err) {
+      console.log("checkAuth failed:", err.response?.status, err.message);
       set({ isCheckingAuth: false, isAuthenticated: false });
     }
   },
@@ -84,6 +88,26 @@ export const authStore = createStore((set) => ({
     } catch {
       set({ isAuthenticated: false });
     }
+  },
+
+  getLocation: () => {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error("Geolocation not supported"));
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const coords = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+          };
+          set({ userCoords: coords });
+          resolve(coords);
+        },
+        (err) => reject(err),
+      );
+    });
   },
 
   clearError: async () => set({ error: null }),
